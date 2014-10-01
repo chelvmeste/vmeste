@@ -52,7 +52,7 @@ return array(
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'ru',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -124,6 +124,7 @@ return array(
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
         'Cartalyst\Sentry\SentryServiceProvider',
         'Mrjuliuss\Syntara\SyntaraServiceProvider',
+        'Stolz\Assets\ManagerServiceProvider',
 
 	),
 

@@ -9,10 +9,19 @@ class BaseController extends Controller {
 	 */
 	protected function setupLayout()
 	{
-		if ( ! is_null($this->layout))
-		{
-			$this->layout = View::make($this->layout);
-		}
+        $this->layout = View::make('layouts.app.layout');
+        $this->layout->title = 'Вместе';
+
+        Assets::addCss(array(
+            'bootstrap.css',
+            'main.css',
+        ));
+
+        Assets::addJs(array(
+            'jquery-1.11.1.js',
+            'bootstrap.js',
+        ));
+
 	}
 
 }

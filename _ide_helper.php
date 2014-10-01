@@ -1,7 +1,7 @@
 <?php
 /**
  * An helper file for Laravel 4, to provide autocomplete information to your IDE
- * Generated for Laravel 4.2.9 on 2014-09-28.
+ * Generated for Laravel 4.2.9 on 2014-10-01.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -12260,6 +12260,708 @@ namespace {
          */
         public static function getNames(){
             return \Illuminate\View\Factory::getNames();
+        }
+        
+    }
+
+
+    class Sentry extends \Cartalyst\Sentry\Facades\Laravel\Sentry{
+        
+        /**
+         * Registers a user by giving the required credentials
+         * and an optional flag for whether to activate the user.
+         *
+         * @param array $credentials
+         * @param bool $activate
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @static 
+         */
+        public static function register($credentials, $activate = false){
+            return \Cartalyst\Sentry\Sentry::register($credentials, $activate);
+        }
+        
+        /**
+         * Attempts to authenticate the given user
+         * according to the passed credentials.
+         *
+         * @param array $credentials
+         * @param bool $remember
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \Cartalyst\Sentry\Throttling\UserBannedException
+         * @throws \Cartalyst\Sentry\Throttling\UserSuspendedException
+         * @throws \Cartalyst\Sentry\Users\LoginRequiredException
+         * @throws \Cartalyst\Sentry\Users\PasswordRequiredException
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function authenticate($credentials, $remember = false){
+            return \Cartalyst\Sentry\Sentry::authenticate($credentials, $remember);
+        }
+        
+        /**
+         * Alias for authenticating with the remember flag checked.
+         *
+         * @param array $credentials
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @static 
+         */
+        public static function authenticateAndRemember($credentials){
+            return \Cartalyst\Sentry\Sentry::authenticateAndRemember($credentials);
+        }
+        
+        /**
+         * Check to see if the user is logged in and activated, and hasn't been banned or suspended.
+         *
+         * @return bool 
+         * @static 
+         */
+        public static function check(){
+            return \Cartalyst\Sentry\Sentry::check();
+        }
+        
+        /**
+         * Logs in the given user and sets properties
+         * in the session.
+         *
+         * @param \Cartalyst\Sentry\Users\UserInterface $user
+         * @param bool $remember
+         * @return void 
+         * @throws \Cartalyst\Sentry\Users\UserNotActivatedException
+         * @static 
+         */
+        public static function login($user, $remember = false){
+            \Cartalyst\Sentry\Sentry::login($user, $remember);
+        }
+        
+        /**
+         * Alias for logging in and remembering.
+         *
+         * @param \Cartalyst\Sentry\Users\UserInterface $user
+         * @static 
+         */
+        public static function loginAndRemember($user){
+            return \Cartalyst\Sentry\Sentry::loginAndRemember($user);
+        }
+        
+        /**
+         * Logs the current user out.
+         *
+         * @return void 
+         * @static 
+         */
+        public static function logout(){
+            \Cartalyst\Sentry\Sentry::logout();
+        }
+        
+        /**
+         * Sets the user to be used by Sentry.
+         *
+         * @param \Cartalyst\Sentry\Users\UserInterface
+         * @return void 
+         * @static 
+         */
+        public static function setUser($user){
+            \Cartalyst\Sentry\Sentry::setUser($user);
+        }
+        
+        /**
+         * Returns the current user being used by Sentry, if any.
+         *
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @static 
+         */
+        public static function getUser(){
+            return \Cartalyst\Sentry\Sentry::getUser();
+        }
+        
+        /**
+         * Sets the session driver for Sentry.
+         *
+         * @param \Cartalyst\Sentry\Sessions\SessionInterface $session
+         * @return void 
+         * @static 
+         */
+        public static function setSession($session){
+            \Cartalyst\Sentry\Sentry::setSession($session);
+        }
+        
+        /**
+         * Gets the session driver for Sentry.
+         *
+         * @return \Cartalyst\Sentry\Sessions\SessionInterface 
+         * @static 
+         */
+        public static function getSession(){
+            return \Cartalyst\Sentry\Sentry::getSession();
+        }
+        
+        /**
+         * Sets the cookie driver for Sentry.
+         *
+         * @param \Cartalyst\Sentry\Cookies\CookieInterface $cookie
+         * @return void 
+         * @static 
+         */
+        public static function setCookie($cookie){
+            \Cartalyst\Sentry\Sentry::setCookie($cookie);
+        }
+        
+        /**
+         * Gets the cookie driver for Sentry.
+         *
+         * @return \Cartalyst\Sentry\Cookies\CookieInterface 
+         * @static 
+         */
+        public static function getCookie(){
+            return \Cartalyst\Sentry\Sentry::getCookie();
+        }
+        
+        /**
+         * Sets the group provider for Sentry.
+         *
+         * @param \Cartalyst\Sentry\Groups\ProviderInterface
+         * @return void 
+         * @static 
+         */
+        public static function setGroupProvider($groupProvider){
+            \Cartalyst\Sentry\Sentry::setGroupProvider($groupProvider);
+        }
+        
+        /**
+         * Gets the group provider for Sentry.
+         *
+         * @return \Cartalyst\Sentry\Groups\ProviderInterface 
+         * @static 
+         */
+        public static function getGroupProvider(){
+            return \Cartalyst\Sentry\Sentry::getGroupProvider();
+        }
+        
+        /**
+         * Sets the user provider for Sentry.
+         *
+         * @param \Cartalyst\Sentry\Users\ProviderInterface
+         * @return void 
+         * @static 
+         */
+        public static function setUserProvider($userProvider){
+            \Cartalyst\Sentry\Sentry::setUserProvider($userProvider);
+        }
+        
+        /**
+         * Gets the user provider for Sentry.
+         *
+         * @return \Cartalyst\Sentry\Users\ProviderInterface 
+         * @static 
+         */
+        public static function getUserProvider(){
+            return \Cartalyst\Sentry\Sentry::getUserProvider();
+        }
+        
+        /**
+         * Sets the throttle provider for Sentry.
+         *
+         * @param \Cartalyst\Sentry\Throttling\ProviderInterface
+         * @return void 
+         * @static 
+         */
+        public static function setThrottleProvider($throttleProvider){
+            \Cartalyst\Sentry\Sentry::setThrottleProvider($throttleProvider);
+        }
+        
+        /**
+         * Gets the throttle provider for Sentry.
+         *
+         * @return \Cartalyst\Sentry\Throttling\ProviderInterface 
+         * @static 
+         */
+        public static function getThrottleProvider(){
+            return \Cartalyst\Sentry\Sentry::getThrottleProvider();
+        }
+        
+        /**
+         * Sets the IP address Sentry is bound to.
+         *
+         * @param string $ipAddress
+         * @return void 
+         * @static 
+         */
+        public static function setIpAddress($ipAddress){
+            \Cartalyst\Sentry\Sentry::setIpAddress($ipAddress);
+        }
+        
+        /**
+         * Gets the IP address Sentry is bound to.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function getIpAddress(){
+            return \Cartalyst\Sentry\Sentry::getIpAddress();
+        }
+        
+        /**
+         * Find the group by ID.
+         *
+         * @param int $id
+         * @return \Cartalyst\Sentry\Groups\GroupInterface $group
+         * @throws \Cartalyst\Sentry\Groups\GroupNotFoundException
+         * @static 
+         */
+        public static function findGroupById($id){
+            return \Cartalyst\Sentry\Sentry::findGroupById($id);
+        }
+        
+        /**
+         * Find the group by name.
+         *
+         * @param string $name
+         * @return \Cartalyst\Sentry\Groups\GroupInterface $group
+         * @throws \Cartalyst\Sentry\Groups\GroupNotFoundException
+         * @static 
+         */
+        public static function findGroupByName($name){
+            return \Cartalyst\Sentry\Sentry::findGroupByName($name);
+        }
+        
+        /**
+         * Returns all groups.
+         *
+         * @return array $groups
+         * @static 
+         */
+        public static function findAllGroups(){
+            return \Cartalyst\Sentry\Sentry::findAllGroups();
+        }
+        
+        /**
+         * Creates a group.
+         *
+         * @param array $attributes
+         * @return \Cartalyst\Sentry\Groups\GroupInterface 
+         * @static 
+         */
+        public static function createGroup($attributes){
+            return \Cartalyst\Sentry\Sentry::createGroup($attributes);
+        }
+        
+        /**
+         * Finds a user by the given user ID.
+         *
+         * @param mixed $id
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function findUserById($id){
+            return \Cartalyst\Sentry\Sentry::findUserById($id);
+        }
+        
+        /**
+         * Finds a user by the login value.
+         *
+         * @param string $login
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function findUserByLogin($login){
+            return \Cartalyst\Sentry\Sentry::findUserByLogin($login);
+        }
+        
+        /**
+         * Finds a user by the given credentials.
+         *
+         * @param array $credentials
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function findUserByCredentials($credentials){
+            return \Cartalyst\Sentry\Sentry::findUserByCredentials($credentials);
+        }
+        
+        /**
+         * Finds a user by the given activation code.
+         *
+         * @param string $code
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \RuntimeException
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function findUserByActivationCode($code){
+            return \Cartalyst\Sentry\Sentry::findUserByActivationCode($code);
+        }
+        
+        /**
+         * Finds a user by the given reset password code.
+         *
+         * @param string $code
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @throws \RuntimeException
+         * @throws \Cartalyst\Sentry\Users\UserNotFoundException
+         * @static 
+         */
+        public static function findUserByResetPasswordCode($code){
+            return \Cartalyst\Sentry\Sentry::findUserByResetPasswordCode($code);
+        }
+        
+        /**
+         * Returns an all users.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function findAllUsers(){
+            return \Cartalyst\Sentry\Sentry::findAllUsers();
+        }
+        
+        /**
+         * Returns all users who belong to
+         * a group.
+         *
+         * @param \Cartalyst\Sentry\Groups\GroupInterface $group
+         * @return array 
+         * @static 
+         */
+        public static function findAllUsersInGroup($group){
+            return \Cartalyst\Sentry\Sentry::findAllUsersInGroup($group);
+        }
+        
+        /**
+         * Returns all users with access to
+         * a permission(s).
+         *
+         * @param string|array $permissions
+         * @return array 
+         * @static 
+         */
+        public static function findAllUsersWithAccess($permissions){
+            return \Cartalyst\Sentry\Sentry::findAllUsersWithAccess($permissions);
+        }
+        
+        /**
+         * Returns all users with access to
+         * any given permission(s).
+         *
+         * @param array $permissions
+         * @return array 
+         * @static 
+         */
+        public static function findAllUsersWithAnyAccess($permissions){
+            return \Cartalyst\Sentry\Sentry::findAllUsersWithAnyAccess($permissions);
+        }
+        
+        /**
+         * Creates a user.
+         *
+         * @param array $credentials
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @static 
+         */
+        public static function createUser($credentials){
+            return \Cartalyst\Sentry\Sentry::createUser($credentials);
+        }
+        
+        /**
+         * Returns an empty user object.
+         *
+         * @return \Cartalyst\Sentry\Users\UserInterface 
+         * @static 
+         */
+        public static function getEmptyUser(){
+            return \Cartalyst\Sentry\Sentry::getEmptyUser();
+        }
+        
+        /**
+         * Finds a throttler by the given user ID.
+         *
+         * @param mixed $id
+         * @param string $ipAddress
+         * @return \Cartalyst\Sentry\Throttling\ThrottleInterface 
+         * @static 
+         */
+        public static function findThrottlerByUserId($id, $ipAddress = null){
+            return \Cartalyst\Sentry\Sentry::findThrottlerByUserId($id, $ipAddress);
+        }
+        
+        /**
+         * Finds a throttling interface by the given user login.
+         *
+         * @param string $login
+         * @param string $ipAddress
+         * @return \Cartalyst\Sentry\Throttling\ThrottleInterface 
+         * @static 
+         */
+        public static function findThrottlerByUserLogin($login, $ipAddress = null){
+            return \Cartalyst\Sentry\Sentry::findThrottlerByUserLogin($login, $ipAddress);
+        }
+        
+    }
+
+
+    class Assets extends \Stolz\Assets\Facades\Assets{
+        
+        /**
+         * Set up configuration options.
+         * 
+         * All the class properties except 'js' and 'css' are accepted here.
+         * Also, an extra option 'autoload' may be passed containing an array of
+         * assets and/or collections that will be automatically added on startup.
+         *
+         * @param array $options Configurable options.
+         * @return \Stolz\Assets\Manager 
+         * @throws Exception
+         * @static 
+         */
+        public static function config($config){
+            return \Stolz\Assets\Manager::config($config);
+        }
+        
+        /**
+         * Add an asset or a collection of assets.
+         * 
+         * It automatically detects the asset type (JavaScript, CSS or collection).
+         * You may add more than one asset passing an array as argument.
+         *
+         * @param mixed $asset
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function add($asset){
+            return \Stolz\Assets\Manager::add($asset);
+        }
+        
+        /**
+         * Add a CSS asset.
+         * 
+         * It checks for duplicates.
+         * You may add more than one asset passing an array as argument.
+         *
+         * @param mixed $asset
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function addCss($asset){
+            return \Stolz\Assets\Manager::addCss($asset);
+        }
+        
+        /**
+         * Add a JavaScript asset.
+         * 
+         * It checks for duplicates.
+         * You may add more than one asset passing an array as argument.
+         *
+         * @param mixed $asset
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function addJs($asset){
+            return \Stolz\Assets\Manager::addJs($asset);
+        }
+        
+        /**
+         * Build the CSS link tags.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function css(){
+            return \Stolz\Assets\Manager::css();
+        }
+        
+        /**
+         * Build the JavaScript script tags.
+         *
+         * @return string 
+         * @static 
+         */
+        public static function js(){
+            return \Stolz\Assets\Manager::js();
+        }
+        
+        /**
+         * Add/replace collection.
+         *
+         * @param string $collectionName
+         * @param array $assets
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function registerCollection($collectionName, $assets){
+            return \Stolz\Assets\Manager::registerCollection($collectionName, $assets);
+        }
+        
+        /**
+         * Reset all assets.
+         *
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function reset(){
+            return \Stolz\Assets\Manager::reset();
+        }
+        
+        /**
+         * Reset CSS assets.
+         *
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function resetCss(){
+            return \Stolz\Assets\Manager::resetCss();
+        }
+        
+        /**
+         * Reset JavaScript assets.
+         *
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function resetJs(){
+            return \Stolz\Assets\Manager::resetJs();
+        }
+        
+        /**
+         * Get all CSS assets already added.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getCss(){
+            return \Stolz\Assets\Manager::getCss();
+        }
+        
+        /**
+         * Get all JavaScript assets already added.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function getJs(){
+            return \Stolz\Assets\Manager::getJs();
+        }
+        
+        /**
+         * Add all assets matching $pattern within $directory.
+         *
+         * @param string $directory Relative to $this->public_dir
+         * @param string $pattern (regex)
+         * @return \Stolz\Assets\Manager 
+         * @throws Exception
+         * @static 
+         */
+        public static function addDir($directory, $pattern = '/.\.(css|js)$/i'){
+            return \Stolz\Assets\Manager::addDir($directory, $pattern);
+        }
+        
+        /**
+         * Add all CSS assets within $directory (relative to public dir).
+         *
+         * @param string $directory Relative to $this->public_dir
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function addDirCss($directory){
+            return \Stolz\Assets\Manager::addDirCss($directory);
+        }
+        
+        /**
+         * Add all JavaScript assets within $directory.
+         *
+         * @param string $directory Relative to $this->public_dir
+         * @return \Stolz\Assets\Manager 
+         * @static 
+         */
+        public static function addDirJs($directory){
+            return \Stolz\Assets\Manager::addDirJs($directory);
+        }
+        
+    }
+
+
+    class Breadcrumbs extends \MrJuliuss\Syntara\Facades\Breadcrumbs{
+        
+        /**
+         * Create breadcrumb
+         *
+         * @param array $items breadcrumb items
+         * @return string 
+         * @static 
+         */
+        public static function create($items){
+            return \MrJuliuss\Syntara\Helpers\Breadcrumbs::create($items);
+        }
+        
+        /**
+         * Render the current item
+         *
+         * @param array $item part of the breadcrumb
+         * @param boolean $active current breadcrumb is active
+         * @return string 
+         * @static 
+         */
+        public static function renderItem($item, $active){
+            return \MrJuliuss\Syntara\Helpers\Breadcrumbs::renderItem($item, $active);
+        }
+        
+    }
+
+
+    class PermissionProvider extends \MrJuliuss\Syntara\Facades\PermissionProvider{
+        
+        /**
+         * Create permission
+         *
+         * @param array $attributes
+         * @return \MrJuliuss\Syntara\Models\Permissions\Permission permission object
+         * @static 
+         */
+        public static function createPermission($attributes){
+            return \MrJuliuss\Syntara\Models\Permissions\PermissionProvider::createPermission($attributes);
+        }
+        
+        /**
+         * Create a new instance of the model.
+         *
+         * @return \Illuminate\Database\Eloquent\Model 
+         * @static 
+         */
+        public static function createModel(){
+            return \MrJuliuss\Syntara\Models\Permissions\PermissionProvider::createModel();
+        }
+        
+        /**
+         * Returns an all permissions.
+         *
+         * @return array 
+         * @static 
+         */
+        public static function findAll(){
+            return \MrJuliuss\Syntara\Models\Permissions\PermissionProvider::findAll();
+        }
+        
+        /**
+         * Find a permission by the given permission id
+         *
+         * @param int $id
+         * @return \MrJuliuss\Syntara\Models\Permissions\Permission 
+         * @static 
+         */
+        public static function findById($id){
+            return \MrJuliuss\Syntara\Models\Permissions\PermissionProvider::findById($id);
+        }
+        
+        /**
+         * Find a permission by the given permission value
+         *
+         * @param string $value
+         * @return \MrJuliuss\Syntara\Models\Permissions\Permission 
+         * @static 
+         */
+        public static function findByValue($value){
+            return \MrJuliuss\Syntara\Models\Permissions\PermissionProvider::findByValue($value);
         }
         
     }

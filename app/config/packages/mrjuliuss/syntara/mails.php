@@ -5,18 +5,18 @@ return array(
     /**
      * contact name
      */
-    'contact' => 'Syntara',
+    'contact' => 'Проект "Вместе"',
 
     /**
      * Admin mail
      * use for mails
      */
-    'email' => 'mail@localhost',
+    'email' => 'no-reply@mail.com',
 
     /**
      * View for user activation email
      */
     'user-activation-view' => 'syntara::mail.user-activation',
 
-    'user-activation-object' => 'Account activation'
+    'user-activation-object' => 'Активация аккаунта'
 );

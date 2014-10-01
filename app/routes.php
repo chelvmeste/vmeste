@@ -1,6 +1,16 @@
 <?php
 
 /*
+ * Syntara admin interface - views extending
+ */
+
+View::composer('syntara::layouts.dashboard.master', function($view)
+{
+    $view->with('siteName', 'Проект "Вместе"');
+    $view->nest('navPages', 'admin.left-nav');
+});
+
+/*
 |--------------------------------------------------------------------------
 | Application Routes
 |--------------------------------------------------------------------------
@@ -11,7 +21,45 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', array(
+    'as' => 'home',
+    'uses' => 'HomeController@getIndex',
+));
+
+Route::get('register',array(
+    'as' => 'register',
+    'uses' => 'UserController@getRegister',
+));
+Route::get('login',array(
+    'as' => 'login',
+    'uses' => 'UserController@getLogin',
+));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

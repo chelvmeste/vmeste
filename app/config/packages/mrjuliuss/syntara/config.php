@@ -16,7 +16,7 @@ return array(
      * User activation :
      * Values : auto (default), email
      */
-    'user-activation' => 'auto',
+    'user-activation' => 'email',
 
     /**
      * Number of item to show
