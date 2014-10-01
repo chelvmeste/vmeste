@@ -8,4 +8,3 @@ composer.lock
 Thumbs.db
 .idea
 _ide_helper.php
-app/config/local
