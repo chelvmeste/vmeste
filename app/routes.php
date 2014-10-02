@@ -1,14 +1,5 @@
 <?php
 
-/*
- * Syntara admin interface - views extending
- */
-
-View::composer('syntara::layouts.dashboard.master', function($view)
-{
-    $view->with('siteName', 'Проект "Вместе"');
-    $view->nest('navPages', 'admin.left-nav');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -22,18 +13,32 @@ View::composer('syntara::layouts.dashboard.master', function($view)
 */
 
 Route::get('/', array(
-    'as' => 'home',
+    'as' => 'homeGet',
     'uses' => 'HomeController@getIndex',
 ));
 
-Route::get('register',array(
-    'as' => 'register',
-    'uses' => 'UserController@getRegister',
-));
-Route::get('login',array(
-    'as' => 'login',
-    'uses' => 'UserController@getLogin',
-));
+
+Route::group(array('before' => 'guest'), function() {
+    Route::get('register', array(
+        'as' => 'registerGet',
+        'uses' => 'UserController@getRegister',
+    ));
+    Route::get('login', array(
+        'as' => 'loginGet',
+        'uses' => 'UserController@getLogin',
+    ));
+    Route::post('login',array(
+        'as' => 'loginPost',
+        'uses' => 'UserController@postLogin',
+    ));
+});
+
+Route::group(array('before' => 'auth'), function() {
+    Route::get('logout', array(
+        'as' => 'logoutGet',
+        'uses' => 'UserController@getLogout',
+    ));
+});
 
 
 
@@ -45,7 +50,15 @@ Route::get('login',array(
 
 
 
+/*
+ * Syntara admin interface - views extending
+ */
 
+View::composer('syntara::layouts.dashboard.master', function($view)
+{
+    $view->with('siteName', 'Проект "Вместе"');
+    $view->nest('navPages', 'admin.left-nav');
+});
 
 
 

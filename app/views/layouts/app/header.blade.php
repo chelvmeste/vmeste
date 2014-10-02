@@ -7,13 +7,32 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="{{ URL::route('homeGet') }}">{{ trans('global.header.title') }}</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#"><i class="glyphicon glyphicon-home"></i> Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li class="active"><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {{--<li><a href="#">Link</a></li>--}}
+                @if (Sentry::check())
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Sentry::getUser()->username }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ URL::route('logoutGet') }}">{{ trans('global.header.logout') }}</a></li>
+                    </ul>
+                </li>
+                @else
+                    <li><a href="{{ URL::route('loginGet') }}">{{ trans('global.header.login') }}</a></li>
+                    <li><a href="{{ URL::route('registerGet') }}">{{ trans('global.header.register') }}</a></li>
+                @endif
             </ul>
         </div>
     </div>
