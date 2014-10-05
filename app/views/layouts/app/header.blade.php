@@ -22,6 +22,9 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Sentry::getUser()->username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ URL::route('editProfileGet') }}">{{ trans('global.header.profile') }}</a></li>
+                        @if(Sentry::getUser()->isSuperUser())
+                            <li><a href="{{ URL::route('indexDashboard') }}">{{ trans('global.header.admin') }}</a></li>
+                        @endif
                         <li class="divider"></li>
                         <li><a href="{{ URL::route('logoutGet') }}">{{ trans('global.header.logout') }}</a></li>
                     </ul>

@@ -7,5 +7,6 @@ return array(
         'register' => 'Регистрация',
         'logout' => 'Выйти',
         'profile' => 'Профиль',
+        'admin' => 'Админка',
     ),
 );
