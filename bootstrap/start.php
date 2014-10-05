@@ -27,6 +27,7 @@ $app = new Illuminate\Foundation\Application;
 $env = $app->detectEnvironment(array(
 
 	'vagrant' => array('packer-virtualbox-iso'),
+	'staging' => array('vm88342.local'), // staging flops server
 
 ));
 
