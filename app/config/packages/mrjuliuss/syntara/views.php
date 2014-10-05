@@ -3,7 +3,7 @@
 return array(
     // layouts
     'master' => 'syntara::layouts.dashboard.master',
-    'header' => 'syntara::layouts.dashboard.header',
+    'header' => 'admin.header',
     'permissions-select' => 'syntara::layouts.dashboard.permissions-select',
 
     // dashboard

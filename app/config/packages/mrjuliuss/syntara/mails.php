@@ -16,7 +16,7 @@ return array(
     /**
      * View for user activation email
      */
-    'user-activation-view' => 'syntara::mail.user-activation',
+    'user-activation-view' => 'emails.auth.user-activation',
 
     'user-activation-object' => 'Активация аккаунта'
 );

@@ -23,5 +23,6 @@ return array(
         'showPermission' => 'permissions-management',
         'putPermission' => 'permissions-management',
         'addUserPermission' => 'permissions-management',
-        'addGroupPermission' => 'permissions-management'
+        'addGroupPermission' => 'permissions-management',
+        'indexDashboard' => 'dashboard-access',
 );

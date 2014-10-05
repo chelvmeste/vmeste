@@ -17,14 +17,11 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                {{--<li><a href="#">Link</a></li>--}}
                 @if (Sentry::check())
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Sentry::getUser()->username }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="{{ URL::route('editProfileGet') }}">{{ trans('global.header.profile') }}</a></li>
                         <li class="divider"></li>
                         <li><a href="{{ URL::route('logoutGet') }}">{{ trans('global.header.logout') }}</a></li>
                     </ul>

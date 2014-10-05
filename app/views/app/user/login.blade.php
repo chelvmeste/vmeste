@@ -5,6 +5,9 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
 
+                <h3>{{ trans('user.login.title') }}</h3>
+                <hr />
+
                     @if (count($errors) > 0)
                         <div class="alert alert-danger" role="alert">
                             @foreach ($errors->all() as $error)
@@ -33,7 +36,7 @@
                 <p class="text-center" style="margin-top: 30px;">
                     <a href="{{ URL::route('registerGet') }}">{{ trans('user.login.register') }}</a>
                     |
-                    <a href="{{ URL::route('registerGet') }}">{{ trans('user.login.remind_password') }}</a>
+                    <a href="{{ URL::route('remindGet') }}">{{ trans('user.login.remind_password') }}</a>
                 </p>
 
             </div>

@@ -6,5 +6,6 @@ return array(
         'login' => 'Вход',
         'register' => 'Регистрация',
         'logout' => 'Выйти',
+        'profile' => 'Профиль',
     ),
 );
