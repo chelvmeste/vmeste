@@ -1,5 +1,6 @@
 <?php
 
+
 return array(
     'header' => array(
         'title' => 'Вместе',
