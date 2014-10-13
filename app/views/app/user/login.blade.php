@@ -34,8 +34,8 @@
                 </form>
 
                 <p class="text-center" style="margin-top: 30px;">
-                    <a href="{{ URL::route('registerGet') }}">{{ trans('user.login.register') }}</a>
-                    |
+                    {{--<a href="{{ URL::route('registerGet') }}">{{ trans('user.login.register') }}</a>
+                    |--}}
                     <a href="{{ URL::route('remindGet') }}">{{ trans('user.login.remind_password') }}</a>
                 </p>
 

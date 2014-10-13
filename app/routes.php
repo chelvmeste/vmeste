@@ -24,18 +24,18 @@ Route::get(Config::get('syntara::config.uri'), array(
 ));
 
 Route::group(array('before' => 'guest'), function() {
-    Route::get('register', array(
-        'as' => 'registerGet',
-        'uses' => 'UserController@getRegister',
-    ));
+//    Route::get('register', array(
+//        'as' => 'registerGet',
+//        'uses' => 'UserController@getRegister',
+//    ));
     Route::get('register-complete', array(
         'as' => 'registerComplete',
         'uses' => 'UserController@getRegisterComplete',
     ));
-    Route::post('register', array(
-        'as' => 'registerPost',
-        'uses' => 'UserController@postRegister',
-    ));
+//    Route::post('register', array(
+//        'as' => 'registerPost',
+//        'uses' => 'UserController@postRegister',
+//    ));
     Route::get('login', array(
         'as' => 'loginGet',
         'uses' => 'UserController@getLogin',

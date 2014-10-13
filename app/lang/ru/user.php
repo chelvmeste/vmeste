@@ -21,6 +21,7 @@ return array(
         'register' => 'Зарегистрироваться',
         'remind_password' => 'Восстановить пароль',
         'remember' => 'Запомнить меня',
+        'invalid_password' => 'Неверный пароль',
     ),
     'activate' => array(
         'title' => 'Активация аккаунта',

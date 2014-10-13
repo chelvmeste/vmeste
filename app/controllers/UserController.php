@@ -5,67 +5,68 @@
     class UserController extends BaseController
     {
 
-        public function getRegister()
-        {
-
-            $this->layout = View::make('app.user.register');
-            $this->layout->title = trans('user.register.title');
-
-        }
-
-        public function postRegister()
-        {
-
-            try {
-
-                $validator = Validator::make(Input::all(),array(
-                    'first_name' => 'required|min:3|max:255|alpha_dash',
-                    'last_name' => 'required|min:3|max:255|alpha_dash',
-                    'username' => 'required|min:3|max:255|alpha_dash|unique:users',
-                    'email' => 'required|email|unique:users',
-                    'password' => 'required|min:6|max:255|confirmed',
-                ));
-
-                if ($validator->fails()) {
-
-                    return Redirect::back()->withInput()->withErrors($validator);
-
-                }
-
-                $user = Sentry::getUserProvider()->create(array(
-                    'email'    => Input::get('email'),
-                    'password' => Input::get('password'),
-                    'username' => Input::get('username'),
-                    'last_name' => (string)Input::get('last_name'),
-                    'first_name' => (string)Input::get('first_name')
-                ));
-
-                $activationCode = $user->getActivationCode();
-
-                $data = array(
-                    'code' => $activationCode,
-                    'username' => $user->username
-                );
-
-                // send email
-                Mail::queue(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
-                    $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'))
-                        ->subject(Config::get('syntara::mails.user-activation-object'));
-                    $message->to($user->getLogin());
-                });
-
-                return Redirect::route('registerComplete');
-
-            } catch (Exception $e) {
-                return Redirect::back()->withErrors([$e->getMessage()]);
-            }
-
-        }
+//        public function getRegister()
+//        {
+//
+//            $this->layout = View::make('app.user.register');
+//            $this->layout->title = trans('user.register.title');
+//
+//        }
+//
+//        public function postRegister()
+//        {
+//
+//            try {
+//
+//                $validator = Validator::make(Input::all(),array(
+//                    'first_name' => 'required|min:3|max:255|alpha_dash',
+//                    'last_name' => 'required|min:3|max:255|alpha_dash',
+//                    'username' => 'required|min:3|max:255|alpha_dash|unique:users',
+//                    'email' => 'required|email|unique:users',
+//                    'password' => 'required|min:6|max:255|confirmed',
+//                ));
+//
+//                if ($validator->fails()) {
+//
+//                    return Redirect::back()->withInput()->withErrors($validator);
+//
+//                }
+//
+//                $user = Sentry::getUserProvider()->create(array(
+//                    'email'    => Input::get('email'),
+//                    'password' => Input::get('password'),
+//                    'username' => Input::get('username'),
+//                    'last_name' => (string)Input::get('last_name'),
+//                    'first_name' => (string)Input::get('first_name')
+//                ));
+//
+//                $activationCode = $user->getActivationCode();
+//
+//                $data = array(
+//                    'code' => $activationCode,
+//                    'username' => $user->username
+//                );
+//
+//                // send email
+//                Mail::queue(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
+//                    $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'))
+//                        ->subject(Config::get('syntara::mails.user-activation-object'));
+//                    $message->to($user->getLogin());
+//                });
+//
+//                return Redirect::route('registerComplete');
+//
+//            } catch (Exception $e) {
+//                return Redirect::back()->withErrors([$e->getMessage()]);
+//            }
+//
+//        }
 
         public function getRegisterComplete()
         {
 
-            if (URL::previous() != URL::route('registerGet')) {
+//            if (URL::previous() != URL::route('registerGet')) {
+            if (URL::previous() != URL::route('loginGet')) {
                 Redirect::route('homeGet');
             }
 
@@ -88,11 +89,9 @@
             try
             {
 
-                $loginAttribute = Config::get('cartalyst/sentry::users.login_attribute');
-
                 $validator = Validator::make(Input::all(),array(
-                    $loginAttribute => 'required',
-                    'password' => 'required'
+                    'email' => 'required|email',
+                    'password' => 'required|min:6|max:255'
                 ));
 
                 if($validator->fails())
@@ -102,7 +101,7 @@
 
 
                 $credentials = array(
-                    $loginAttribute => Input::get($loginAttribute),
+                    'email' => Input::get('email'),
                     'password' => Input::get('password'),
                 );
 
@@ -112,9 +111,34 @@
 
             } catch(\Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 return Redirect::back()->withErrors([trans('syntara::all.messages.banned')]);
-            } catch (\RuntimeException $e) {
-                return Redirect::back()->withErrors([trans('syntara::all.messages.login-failed')]);
+            } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
+                return Redirect::back()->withErrors([trans('user.login.invalid_password')]);
+            } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+
+                $user = Sentry::getUserProvider()->create($credentials);
+
+                $activationCode = $user->getActivationCode();
+
+                $data = array(
+                    'code' => $activationCode,
+                    'email' => Input::get('email'),
+                    'password' => Input::get('password'),
+                );
+
+                // send email
+                Mail::queue(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
+                    $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'))
+                        ->subject(Config::get('syntara::mails.user-activation-object'));
+                    $message->to($user->getLogin());
+                });
+
+                return Redirect::route('registerComplete');
+
             }
+
+//            } catch (\RuntimeException $e) {
+//                return Redirect::back()->withErrors([trans('syntara::all.messages.login-failed')]);
+//            }
 
         }
 

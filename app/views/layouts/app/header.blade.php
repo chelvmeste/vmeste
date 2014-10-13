@@ -19,7 +19,7 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (Sentry::check())
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ Sentry::getUser()->username }} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ !empty(Sentry::getUser()->username) ? Sentry::getUser()->username : Sentry::getUser()->email }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="{{ URL::route('editProfileGet') }}">{{ trans('global.header.profile') }}</a></li>
                         @if(Sentry::getUser()->isSuperUser())
@@ -31,7 +31,7 @@
                 </li>
                 @else
                     <li><a href="{{ URL::route('loginGet') }}">{{ trans('global.header.login') }}</a></li>
-                    <li><a href="{{ URL::route('registerGet') }}">{{ trans('global.header.register') }}</a></li>
+                    {{--<li><a href="{{ URL::route('registerGet') }}">{{ trans('global.header.register') }}</a></li>--}}
                 @endif
             </ul>
         </div>
