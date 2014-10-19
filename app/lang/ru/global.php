@@ -10,4 +10,8 @@ return array(
         'profile' => 'Профиль',
         'admin' => 'Админка',
     ),
+    'genders' => array(
+        'male' => 'Мужской',
+        'female' => 'Женский',
+    ),
 );

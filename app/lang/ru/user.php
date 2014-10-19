@@ -50,5 +50,11 @@ return array(
         'last_name' => 'Фамилия',
         'submit' => 'Сохранить',
         'success' => 'Профиль успешно обновлен',
+        'gender' => 'Пол',
+        'vk_id' => 'Вконтакте',
+        'vk_id_prepopulate' => 'vk.com /',
+        'phone' => 'Номер телефона',
+        'phone_prepopulate' => '+',
+        'birthdate' => 'Дата рождения',
     ),
 );

@@ -185,8 +185,21 @@
 
             $user = Sentry::getUser();
 
+            if ($user->birthdate !== '0000-00-00') {
+                $day = Date::parse($user->birthdate)->format('j');
+                $month = Date::parse($user->birthdate)->format('n');
+                $year = Date::parse($user->birthdate)->format('Y');
+            } else {
+                $day = 0;
+                $month = 0;
+                $year = 0;
+            }
+
             $this->layout = View::make('app.user.edit-profile',array(
                 'user' => $user,
+                'day' => $day,
+                'month' => $month,
+                'year' => $year,
             ));
             $this->layout->title = trans('user.edit-profile.title');
 
@@ -206,13 +219,19 @@
                 $rules = array(
                     'first_name' => 'required|min:3|max:255|alpha_dash',
                     'last_name' => 'required|min:3|max:255|alpha_dash',
-                    'username' => 'required|min:3|max:255|alpha_dash|unique:users,username,'.$user->id,
+//                    'username' => 'required|min:3|max:255|alpha_dash|unique:users,username,'.$user->id,
                     'email' => 'required|email|unique:users,email,'.$user->id,
+                    'gender' => 'in:male,female',
+                    'phone' => 'digits_between:7,16',
+                    'vk_id' => 'alpha_dash',
+                    'birthdate.day' => 'date_format:j',
+                    'birthdate.month' => 'date_format:n',
+                    'birthdate.year' => 'date_format:Y',
                 );
 
-                if (Input::get('password')) {
-                    $rules['password'] = 'required|min:6|max:255|confirmed';
-                }
+//                if (Input::get('password')) {
+//                    $rules['password'] = 'required|min:6|max:255|confirmed';
+//                }
 
                 $validator = Validator::make(Input::all(),$rules);
 
@@ -223,11 +242,23 @@
                 }
 
                 $user->email = Input::get('email');
-                $user->username = Input::get('username');
+//                $user->username = Input::get('username');
                 $user->first_name = (string)Input::get('first_name');
                 $user->last_name = (string)Input::get('last_name');
-                if (Input::get('password')) {
-                    $user->password = Input::get('password');
+//                if (Input::get('password')) {
+//                    $user->password = Input::get('password');
+//                }
+                if (Input::exists('vk_id')) {
+                    $user->vk_id = Input::get('vk_id');
+                }
+                if (Input::exists('phone')) {
+                    $user->phone = Input::get('phone');
+                }
+                if (Input::exists('birthdate')) {
+                    $user->birthdate = Date::create(Input::get('birthdate.year'),Input::get('birthdate.month'),Input::get('birthdate.day'));
+                }
+                if (Input::exists('gender')) {
+                    $user->gender = Input::get('gender');
                 }
                 $user->save();
 
