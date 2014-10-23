@@ -107,7 +107,7 @@
 
                 Sentry::authenticate($credentials, (bool)Input::get('remember'));
 
-                return Redirect::route('homeGet');
+                return Redirect::intended('homeGet');
 
             } catch(\Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 return Redirect::back()->withErrors([trans('syntara::all.messages.banned')]);
@@ -185,21 +185,19 @@
 
             $user = Sentry::getUser();
 
-            if ($user->birthdate !== '0000-00-00') {
-                $day = Date::parse($user->birthdate)->format('j');
-                $month = Date::parse($user->birthdate)->format('n');
-                $year = Date::parse($user->birthdate)->format('Y');
-            } else {
-                $day = 0;
-                $month = 0;
-                $year = 0;
-            }
+            Assets::addCss(array(
+                'bootstrap-datetimepicker.min.css'
+            ));
+
+            Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'bootstrap-datetimepicker.min.js',
+                'user.edit-profile.js'
+            ));
 
             $this->layout = View::make('app.user.edit-profile',array(
                 'user' => $user,
-                'day' => $day,
-                'month' => $month,
-                'year' => $year,
             ));
             $this->layout->title = trans('user.edit-profile.title');
 
@@ -224,9 +222,7 @@
                     'gender' => 'in:male,female',
                     'phone' => 'digits_between:7,16',
                     'vk_id' => 'alpha_dash',
-                    'birthdate.day' => 'date_format:j',
-                    'birthdate.month' => 'date_format:n',
-                    'birthdate.year' => 'date_format:Y',
+                    'birthdate' => 'date_format:Y-m-d',
                 );
 
 //                if (Input::get('password')) {
@@ -255,7 +251,7 @@
                     $user->phone = Input::get('phone');
                 }
                 if (Input::exists('birthdate')) {
-                    $user->birthdate = Date::create(Input::get('birthdate.year'),Input::get('birthdate.month'),Input::get('birthdate.day'));
+                    $user->birthdate = Input::get('birthdate');
                 }
                 if (Input::exists('gender')) {
                     $user->gender = Input::get('gender');

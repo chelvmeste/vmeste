@@ -79,6 +79,14 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'editProfilePost',
         'uses' => 'UserController@postEditProfile',
     ));
+    Route::get('help-request',array(
+        'as' => 'helpRequestGet',
+        'uses' => 'OfferController@getHelpRequest'
+    ));
+    Route::get('help-offer',array(
+        'as' => 'helpOfferGet',
+        'uses' => 'OfferController@getHelpOffer'
+    ));
 });
 
 
