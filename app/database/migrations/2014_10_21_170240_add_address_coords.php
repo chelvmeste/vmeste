@@ -14,8 +14,8 @@ class AddAddressCoords extends Migration {
 	{
 		Schema::table('users',function(Blueprint $table) {
 
-            $table->decimal('address_longitude',10,8)->after('address');
-            $table->decimal('address_latitude',11,8)->after('address_longitude');
+            $table->decimal('address_longitude',10,8)->after('address')->nullable()->default(NULL);
+            $table->decimal('address_latitude',11,8)->after('address_longitude')->nullable()->default(NULL);
 
         });
 	}

@@ -87,8 +87,22 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'helpOfferGet',
         'uses' => 'OfferController@getHelpOffer'
     ));
+    Route::post('request',array(
+        'as' => 'requestPost',
+        'uses' => 'OfferController@postRequest'
+    ));
+    Route::get('map',array(
+        'as' => 'mapGet',
+        'uses' => 'MapController@getIndex',
+    ));
 });
 
+Route::group(array('before'=>'ajax'), function(){
+    Route::get('getOffers',array(
+        'as' => 'getOffers',
+        'uses' => 'OfferController@getOffers'
+    ));
+});
 
 
 

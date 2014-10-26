@@ -107,7 +107,7 @@
 
                 Sentry::authenticate($credentials, (bool)Input::get('remember'));
 
-                return Redirect::intended('homeGet');
+                return Redirect::intended(URL::route('homeGet'));
 
             } catch(\Cartalyst\Sentry\Throttling\UserBannedException $e) {
                 return Redirect::back()->withErrors([trans('syntara::all.messages.banned')]);
@@ -193,6 +193,8 @@
                 'moment.js',
                 'moment.ru.js',
                 'bootstrap-datetimepicker.min.js',
+                'typeahead.bundle.js',
+//                'geocoder.js',
                 'user.edit-profile.js'
             ));
 
@@ -255,6 +257,11 @@
                 }
                 if (Input::exists('gender')) {
                     $user->gender = Input::get('gender');
+                }
+                if (Input::exists('address') && Input::exists('address_longitude') && Input::exists('address_latitude')) {
+                    $user->address = Input::get('address');
+                    $user->address_longitude = Input::get('address_longitude');
+                    $user->address_latitude = Input::get('address_latitude');
                 }
                 $user->save();
 

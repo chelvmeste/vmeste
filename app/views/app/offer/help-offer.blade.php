@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
 
-                <h3>{{ trans('user.edit-profile.title') }}</h3>
+                <h3>{{ trans('offer.help-offer.title') }}</h3>
                 <hr />
 
                     @if (count($errors) > 0)
@@ -20,7 +20,7 @@
                         <div class="alert alert-success">{{ Session::get('success') }}</div>
                     @endif
 
-                    <form role="form" method="POST" action="{{ URL::route('editProfilePost') }}">
+                    <form role="form" method="POST" action="{{ URL::route('requestPost') }}">
                         <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
                             <label for="first_name">{{ trans('user.edit-profile.first_name') }}:</label>
                             {{ Form::text('first_name', $user->first_name, array('class' => 'form-control','id'=>'first_name')) }}
@@ -29,22 +29,10 @@
                             <label for="last_name">{{ trans('user.edit-profile.last_name') }}:</label>
                             {{ Form::text('last_name', $user->last_name, array('class' => 'form-control','id'=>'last_name')) }}
                         </div>
-                        {{--<div class="form-group {{ $errors->has('username') ? 'has-error' : '' }}">
-                            <label for="username">{{ trans('user.edit-profile.username') }}:</label>
-                            {{ Form::text('username', $user->username, array('class' => 'form-control','id'=>'username')) }}
-                        </div>--}}
                         <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                             <label for="email">{{ trans('user.edit-profile.email') }}:</label>
                             {{ Form::text('email', $user->email, array('class' => 'form-control','id'=>'email')) }}
                         </div>
-                        {{--<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-                            <label for="password">{{ trans('user.edit-profile.password') }}:</label>
-                            {{ Form::password('password', array('class' => 'form-control','id'=>'password')) }}
-                        </div>
-                        <div class="form-group">
-                            <label for="password_confirmation">{{ trans('user.edit-profile.password_confirm') }}:</label>
-                            {{ Form::password('password_confirmation', array('class' => 'form-control','id'=>'password_confirmation')) }}
-                        </div>--}}
                         <div class="form-group">
                             <label for="gender">{{ trans('user.edit-profile.gender') }}:</label>
                             {{ Form::select('gender',trans('global.genders'),$user->gender,array('class'=>'form-control')) }}
@@ -52,7 +40,7 @@
                         <div class="form-group {{ $errors->has('birthdate') ? 'has-error' : '' }}">
                             <label for="daterimepicker-birthdate">{{ trans('user.edit-profile.birthdate') }}:</label>
                             <div class="input-group date" id="daterimepicker-birthdate">
-                                <input type='text' class="form-control" data-date-format="YYYY-MM-DD" name="birthdate" value="{{ $user->birthdate !== '0000-00-00' ? $user->birthdate : '' }}"/>
+                                <input type='text' class="form-control" data-date-format="YYYY-MM-DD" value="{{ $user->birthdate !== '0000-00-00' ? $user->birthdate : null }}"/>
                             	<span class="input-group-addon">
                             	    <span class="glyphicon glyphicon-calendar"></span>
                             	</span>
@@ -78,6 +66,20 @@
                             {{ Form::hidden('address_latitude',$user->address_latitude, array('id'=>'address_latitude')) }}
                             {{ Form::hidden('address_longitude',$user->address_longitude, array('id'=>'address_longitude')) }}
                         </div>
+                        <div class="form-group {{ $errors->has('time') ? 'has-error' : '' }}">
+                            <label for="timepicker-offer">{{ trans('offer.help-request.time') }}:</label>
+                            <div class="input-group date" id="timepicker-offer">
+                                <input type='text' class="form-control" name="time" value="{{ $offer->time !== '00:00:00' && $offer->time !== NULL ? Date::parse($offer->time)->format('H:i') : null }}"/>
+                            	<span class="input-group-addon">
+                            	    <span class="glyphicon glyphicon-time"></span>
+                            	</span>
+                            </div>
+                        </div>
+                        <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+                            <label for="description">{{ trans('offer.help-request.description') }}:</label>
+                            {{ Form::textarea('description', $offer->description, array('class' => 'form-control','id'=>'description')) }}
+                        </div>
+                        {{ Form::hidden('type',2) }}
                         <button type="submit" class="btn btn-success">{{ trans('user.edit-profile.submit') }}</button>
                     </form>
 

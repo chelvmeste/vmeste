@@ -11,6 +11,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><a href="{{ URL::route('mapGet') }}">{{ trans('global.header.map') }}</a></li>
                 <li><a href="{{ URL::route('helpRequestGet') }}">{{ trans('global.header.help-request') }}</a></li>
                 <li><a href="{{ URL::route('helpOfferGet') }}">{{ trans('global.header.help-offer') }}</a></li>
             </ul>

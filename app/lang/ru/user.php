@@ -56,5 +56,6 @@ return array(
         'phone' => 'Номер телефона',
         'phone_prepopulate' => '+',
         'birthdate' => 'Дата рождения',
+        'address' => 'Адрес',
     ),
 );
