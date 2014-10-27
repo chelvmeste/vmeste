@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,10 +91,6 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'requestPost',
         'uses' => 'OfferController@postRequest'
     ));
-    Route::get('map',array(
-        'as' => 'mapGet',
-        'uses' => 'MapController@getIndex',
-    ));
 });
 
 Route::group(array('before'=>'ajax'), function(){
@@ -103,6 +99,27 @@ Route::group(array('before'=>'ajax'), function(){
         'uses' => 'OfferController@getOffers'
     ));
 });
+
+Route::get('user/{id}', array(
+    'as' => 'profileGet',
+    'uses' => 'UserController@getProfile',
+));
+Route::get('help-requests',array(
+    'as' => 'helpRequestsGet',
+    'uses' => 'OfferController@getHelpRequests'
+));
+Route::get('help-offers',array(
+    'as' => 'helpOffersGet',
+    'uses' => 'OfferController@getHelpOffers'
+));
+Route::get('help-request/{id}',array(
+    'as' => 'helpRequestViewGet',
+    'uses' => 'OfferController@getHelpRequestView'
+));
+Route::get('help-offer/{id}',array(
+    'as' => 'helpOfferViewGet',
+    'uses' => 'OfferController@getHelpOfferView'
+));
 
 
 
@@ -124,7 +141,10 @@ View::composer('syntara::layouts.dashboard.master', function($view)
 });
 
 
-
+App::error(function(ModelNotFoundException $e)
+{
+    return Response::view('not-found',['title' => trans('global.not-found.title')],404);
+});
 
 
 

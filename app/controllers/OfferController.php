@@ -2,9 +2,12 @@
 
 class OfferController extends BaseController {
 
+    /**
+     * Get form for help offer or request create or edit
+     * @require auth
+     */
     public function getHelpRequest()
     {
-
         Assets::addCss(array(
             'bootstrap-datetimepicker.min.css'
         ));
@@ -26,6 +29,11 @@ class OfferController extends BaseController {
         $this->layout->title = trans('offer.help-request.title');
     }
 
+    /**
+     * Create or update new help request or offer
+     * @return $this|\Illuminate\Http\RedirectResponse
+     * @require auth
+     */
     public function postRequest()
     {
         try {
@@ -102,6 +110,9 @@ class OfferController extends BaseController {
         }
     }
 
+    /**
+     * Add help offer
+     */
     public function getHelpOffer()
     {
         Assets::addCss(array(
@@ -125,10 +136,14 @@ class OfferController extends BaseController {
         $this->layout->title = trans('offer.help-offer.title');
     }
 
+    /**
+     * Ajax action to get offers for map
+     * @todo set columns
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getOffers()
     {
 
-        // @todo set columns
         $offers = Offer::with('user')->get();
 
         return Response::json(array(
@@ -137,4 +152,45 @@ class OfferController extends BaseController {
 
     }
 
+    /**
+     * List of help requests
+     */
+    public function getHelpRequests()
+    {
+        $offers = Offer::where('type','=',1)->with('user')->paginate(15);
+        $links = $offers->links();
+        $this->layout = View::make('app.offer.help-requests', array(
+            'offers' => $offers,
+            'links' => $links,
+        ));
+        $this->layout->title = trans('offer.help-requests.title');
+    }
+
+    /**
+     * List of help offers
+     */
+    public function getHelpOffers()
+    {
+        $offers = Offer::where('type','=',2)->with('user')->paginate(15);
+        $links = $offers->links();
+        $this->layout = View::make('app.offer.help-offers', array(
+            'offers' => $offers,
+            'links' => $links,
+        ));
+        $this->layout->title = trans('offer.help-offers.title');
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

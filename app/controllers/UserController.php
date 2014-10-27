@@ -5,66 +5,8 @@
     class UserController extends BaseController
     {
 
-//        public function getRegister()
-//        {
-//
-//            $this->layout = View::make('app.user.register');
-//            $this->layout->title = trans('user.register.title');
-//
-//        }
-//
-//        public function postRegister()
-//        {
-//
-//            try {
-//
-//                $validator = Validator::make(Input::all(),array(
-//                    'first_name' => 'required|min:3|max:255|alpha_dash',
-//                    'last_name' => 'required|min:3|max:255|alpha_dash',
-//                    'username' => 'required|min:3|max:255|alpha_dash|unique:users',
-//                    'email' => 'required|email|unique:users',
-//                    'password' => 'required|min:6|max:255|confirmed',
-//                ));
-//
-//                if ($validator->fails()) {
-//
-//                    return Redirect::back()->withInput()->withErrors($validator);
-//
-//                }
-//
-//                $user = Sentry::getUserProvider()->create(array(
-//                    'email'    => Input::get('email'),
-//                    'password' => Input::get('password'),
-//                    'username' => Input::get('username'),
-//                    'last_name' => (string)Input::get('last_name'),
-//                    'first_name' => (string)Input::get('first_name')
-//                ));
-//
-//                $activationCode = $user->getActivationCode();
-//
-//                $data = array(
-//                    'code' => $activationCode,
-//                    'username' => $user->username
-//                );
-//
-//                // send email
-//                Mail::queue(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
-//                    $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'))
-//                        ->subject(Config::get('syntara::mails.user-activation-object'));
-//                    $message->to($user->getLogin());
-//                });
-//
-//                return Redirect::route('registerComplete');
-//
-//            } catch (Exception $e) {
-//                return Redirect::back()->withErrors([$e->getMessage()]);
-//            }
-//
-//        }
-
         public function getRegisterComplete()
         {
-
 //            if (URL::previous() != URL::route('registerGet')) {
             if (URL::previous() != URL::route('loginGet')) {
                 Redirect::route('homeGet');
@@ -72,23 +14,18 @@
 
             $this->layout = View::make('app.user.register-complete');
             $this->layout->title = trans('user.register.success_title');
-
         }
 
         public function getLogin()
         {
-
             $this->layout = View::make('app.user.login');
             $this->layout->title = trans('user.login.title');
-
         }
 
         public function postLogin()
         {
-
             try
             {
-
                 $validator = Validator::make(Input::all(),array(
                     'email' => 'required|email',
                     'password' => 'required|min:6|max:255'
@@ -98,7 +35,6 @@
                 {
                     return Redirect::back()->withErrors($validator);
                 }
-
 
                 $credentials = array(
                     'email' => Input::get('email'),
@@ -136,27 +72,19 @@
 
             }
 
-//            } catch (\RuntimeException $e) {
-//                return Redirect::back()->withErrors([trans('syntara::all.messages.login-failed')]);
-//            }
-
         }
 
         public function getLogout()
         {
-
             Sentry::logout();
 
             return Redirect::route('homeGet');
-
         }
 
         public function getActivate($activationCode)
         {
-
             try
             {
-
                 $user = Sentry::getUserProvider()->findByActivationCode($activationCode);
 
                 if($user->attemptActivation($activationCode))
@@ -177,12 +105,10 @@
                 'message' => $message,
             ));
             $this->layout->title = trans('user.activate.title');
-
         }
 
         public function getEditProfile()
         {
-
             $user = Sentry::getUser();
 
             Assets::addCss(array(
@@ -202,12 +128,10 @@
                 'user' => $user,
             ));
             $this->layout->title = trans('user.edit-profile.title');
-
         }
 
         public function postEditProfile()
         {
-
             try {
 
                 $user = Sentry::getUser();
@@ -271,6 +195,20 @@
                 return Redirect::back()->withErrors([$e->getMessage()]);
             }
 
+        }
+
+        public function getProfile($id)
+        {
+            $user = User::findOrFail($id);
+            $helpRequest = Offer::where('user_id','=',$id)->where('type','=',1)->first();
+            $helpOffer = Offer::where('user_id','=',$id)->where('type','=',2)->first();
+
+            $this->layout = View::make('app.user.profile', array(
+                'user' => $user,
+                'help_request' => $helpRequest,
+                'help_offer' => $helpOffer,
+            ));
+            $this->layout->title = trans('user.profile.title', ['name' => !empty($user->first_name) ? $user->first_name . ' ' . $user->last_name : '']);
         }
 
     }
