@@ -16,6 +16,7 @@ class OfferController extends BaseController {
             'moment.js',
             'moment.ru.js',
             'bootstrap-datetimepicker.min.js',
+            'typeahead.bundle.js',
             'offer.help-request.js'
         ));
 
@@ -123,6 +124,7 @@ class OfferController extends BaseController {
             'moment.js',
             'moment.ru.js',
             'bootstrap-datetimepicker.min.js',
+            'typeahead.bundle.js',
             'offer.help-offer.js'
         ));
 
