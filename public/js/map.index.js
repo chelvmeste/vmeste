@@ -1,16 +1,49 @@
 $(document).ready(function(){
 
-    ymaps.ready(init);
+    var geoConfig, map;
 
-    function init () {
-        var map = new ymaps.Map('map', {
-                center: [55.76, 37.64],
-                zoom: 10,
-                controls: ['zoomControl','typeSelector']
-            });
+    ymaps.ready(initMap);
+
+    function loadMapConfig(callback) {
+        $.ajax({
+            url: 'ajax/map/settings',
+            type: 'GET',
+            success: function(data) {
+                geoConfig = data;
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            }
+        });
+    }
+
+    function initMap() {
+
+        if (!geoConfig) {
+            loadMapConfig(initMap);
+            return;
+        }
+
+        if (!$('#map').length) {
+            console.log('No map container detected');
+            return;
+        }
+
+        map = new ymaps.Map('map', {
+            center: [geoConfig.center.lon, geoConfig.center.lat],
+            zoom: geoConfig.zoom,
+            controls: ['zoomControl','typeSelector']
+        });
+
+        loadObjects();
+
+    }
+
+    // @todo refactor all this
+    function loadObjects () {
 
         $.ajax({
-            url: '/getOffers',
+            url: 'ajax/offers',
             type: 'GET',
             dataType: 'JSON',
             success: function(data){
@@ -25,7 +58,7 @@ $(document).ready(function(){
                                 preset: 'islands#icon',
                                 iconColor: '#0095b6'
                             }));
-                        map.setCenter([data.offers[i].user.address_latitude, data.offers[i].user.address_longitude]);
+                        //map.setCenter([data.offers[i].user.address_latitude, data.offers[i].user.address_longitude]);
 
                     }
 

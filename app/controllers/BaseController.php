@@ -14,12 +14,15 @@ class BaseController extends Controller {
 
         Assets::addCss(array(
             'bootstrap.css',
+            'nprogress.css',
             'main.css',
         ));
 
         Assets::addJs(array(
             'jquery-1.11.1.js',
             'bootstrap.js',
+            'nprogress.js',
+            'global.js',
         ));
 
 	}

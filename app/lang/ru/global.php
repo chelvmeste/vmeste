@@ -21,7 +21,7 @@ return array(
     'user' => 'Пользователь',
     'date' => 'Дата',
     'description' => 'Описание',
-    'more' => 'Подробней',
+    'more' => 'Подробнее',
     'interests' => 'Интересы',
     'time' => 'Время',
     'not-found' => array(

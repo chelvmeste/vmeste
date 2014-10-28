@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 Route::get('/', array(
     'as' => 'homeGet',
-    'uses' => 'HomeController@getIndex',
+    'uses' => 'MapController@getIndex',
 ));
 
 Route::get(Config::get('syntara::config.uri'), array(
@@ -93,10 +93,14 @@ Route::group(array('before' => 'auth'), function() {
     ));
 });
 
-Route::group(array('before'=>'ajax'), function(){
-    Route::get('getOffers',array(
+Route::group(array('prefix'=>'ajax','before'=>'ajax'), function(){
+    Route::get('offers',array(
         'as' => 'getOffers',
         'uses' => 'OfferController@getOffers'
+    ));
+    Route::get('map/settings', array(
+        'as' => 'getMapSettings',
+        'uses' => 'MapController@getMapSettings'
     ));
 });
 
