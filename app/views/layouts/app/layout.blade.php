@@ -9,7 +9,6 @@
         <title>{{isset($title) ? $title : '' }} - Проект "Вместе"</title>
 
         {{ Assets::css() }}
-        {{ Assets::js() }}
 
     </head>
     <body>
@@ -18,6 +17,9 @@
         <div id="main-container">
             @yield('content')
         </div>
+
+        @include('script-composer')
+        {{ Assets::js() }}
 
     </body>
 </html>

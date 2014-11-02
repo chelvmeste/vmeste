@@ -8,6 +8,7 @@
 
             Assets::addJs(array(
                 '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+                'map.js',
                 'map.index.js'
             ));
 

@@ -141,6 +141,7 @@ class OfferController extends BaseController {
     /**
      * Ajax action to get offers for map
      * @todo set columns
+     * @todo migrate to elasticsearch
      * @return \Illuminate\Http\JsonResponse
      */
     public function getOffers()
@@ -180,6 +181,56 @@ class OfferController extends BaseController {
             'links' => $links,
         ));
         $this->layout->title = trans('offer.help-offers.title');
+    }
+
+    public function getHelpRequestView($id)
+    {
+
+        $offer = Offer::findOrFail($id);
+        $user = $offer->user;
+
+        Assets::addJs(array(
+            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+            'map.js',
+            'offer.help-request-view.js'
+        ));
+
+        $this->scriptComposer['offerData'] = json_encode(array(
+            'lon' => $user->address_longitude,
+            'lat' => $user->address_latitude,
+        ));
+
+        $this->layout = View::make('app.offer.help-request-view', array(
+            'offer' => $offer,
+            'user' => $user,
+        ));
+        $this->layout->title = trans('offer.help-request-view.title');
+
+    }
+
+    public function getHelpOfferView($id)
+    {
+
+        $offer = Offer::findOrFail($id);
+        $user = $offer->user;
+
+        Assets::addJs(array(
+            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+            'map.js',
+            'offer.help-offer-view.js'
+        ));
+
+        $this->scriptComposer['offerData'] = json_encode(array(
+            'lon' => $user->address_longitude,
+            'lat' => $user->address_latitude,
+        ));
+
+        $this->layout = View::make('app.offer.help-offer-view', array(
+            'offer' => $offer,
+            'user' => $user,
+        ));
+        $this->layout->title = trans('offer.help-offer-view.title');
+
     }
 
 }

@@ -23,5 +23,11 @@ return array(
         'title' => 'Список добровольцев',
         'empty' => 'Нет ни одного добровольца, мы можете стать <a href=":link">первым</a>.',
     ),
+    'help-offer-view' => array(
+        'title' => 'Карточка добровольца',
+    ),
+    'help-request-view' => array(
+        'title' => 'Заявка о помощи',
+    ),
 
 );

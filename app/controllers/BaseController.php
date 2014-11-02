@@ -2,6 +2,8 @@
 
 class BaseController extends Controller {
 
+    protected $scriptComposer = array();
+
 	/**
 	 * Setup the layout used by the controller.
 	 *
@@ -11,6 +13,8 @@ class BaseController extends Controller {
 	{
         $this->layout = View::make('layouts.app.layout');
         $this->layout->title = 'Вместе';
+
+        $this->scriptComposer['geoConfig'] = json_encode(Config::get('geo'));
 
         Assets::addCss(array(
             'bootstrap.css',
@@ -24,6 +28,10 @@ class BaseController extends Controller {
             'nprogress.js',
             'global.js',
         ));
+
+        View::composer('script-composer', function($view) {
+            $view->with('scriptComposer', $this->scriptComposer);
+        });
 
 	}
 
