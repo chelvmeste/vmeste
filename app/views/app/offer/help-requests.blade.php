@@ -28,7 +28,7 @@
                         </tbody>
                     </table>
                 @else
-                    <p>{{ trans('offer.help-requests.empty', ['link' => URL::route('helpRequestGet')]) }}</p>
+                    <p>{{ trans('offer.help-requests.empty', ['link' => URL::route('helpRequestNewGet')]) }}</p>
                 @endif
             </div>
         </div>
