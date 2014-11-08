@@ -4,6 +4,8 @@ class BaseController extends Controller {
 
     protected $scriptComposer = array();
 
+    protected $currentUser = null;
+
 	/**
 	 * Setup the layout used by the controller.
 	 *
@@ -11,6 +13,8 @@ class BaseController extends Controller {
 	 */
 	protected function setupLayout()
 	{
+        $this->currentUser = Sentry::getUser();
+
         $this->layout = View::make('layouts.app.layout');
         $this->layout->title = 'Вместе';
 
@@ -32,6 +36,7 @@ class BaseController extends Controller {
         View::composer('script-composer', function($view) {
             $view->with('scriptComposer', $this->scriptComposer);
         });
+        View::share('currentUser',$this->currentUser);
 
 	}
 

@@ -6,7 +6,7 @@ class OfferController extends BaseController {
      * Get form for help offer or request create or edit
      * @require auth
      */
-    public function getHelpRequest()
+    public function getHelpRequestNew()
     {
         Assets::addCss(array(
             'bootstrap-datetimepicker.min.css'
@@ -20,14 +20,83 @@ class OfferController extends BaseController {
             'offer.help-request.js'
         ));
 
-        $user = Sentry::getUser();
-        $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>1));
+        $user = $this->currentUser;
 
-        $this->layout = View::make('app.offer.help-request',array(
+        $this->layout = View::make('app.offer.help-request-new',array(
+            'user' => $user,
+        ));
+        $this->layout->title = trans('offer.help-request.title');
+    }
+
+    /**
+     * Add help offer
+     */
+    public function getHelpOfferNew()
+    {
+
+        $user = $this->currentUser;
+        $offer = Offer::where('user_id','=',$user->getId())->where('type','=',2)->first();
+        if ($offer && $offer->id) {
+            return Redirect::route('helpOfferEditGet',['id'=>$offer->id]);
+        }
+
+        Assets::addCss(array(
+            'bootstrap-datetimepicker.min.css'
+        ));
+
+        Assets::addJs(array(
+            'moment.js',
+            'moment.ru.js',
+            'bootstrap-datetimepicker.min.js',
+            'typeahead.bundle.js',
+            'offer.help-offer.js'
+        ));
+
+        $this->layout = View::make('app.offer.help-offer',array(
+            'user' => $user,
+        ));
+        $this->layout->title = trans('offer.help-offer.title');
+    }
+
+    /**
+     * Edit help offer
+     * @param $id
+     * @require auth
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function getHelpOfferEdit($id)
+    {
+
+        $offer = Offer::findOrFail($id);
+
+        if ($offer->type == 1) {
+            return Redirect::route('getHelpRequestEdit',['id'=>$id]);
+        }
+
+        if ($this->currentUser->getId() !== $offer->user_id && !$this->currentUser->hasPermission('editHelpOffer')) {
+            return Response::view('not-found',['title' => trans('global.not-found.title')],404);
+        }
+
+        $user = Sentry::findUserById($offer->user_id);
+
+        Assets::addCss(array(
+            'bootstrap-datetimepicker.min.css'
+        ));
+
+        Assets::addJs(array(
+            'moment.js',
+            'moment.ru.js',
+            'bootstrap-datetimepicker.min.js',
+            'typeahead.bundle.js',
+            'offer.help-offer.js'
+        ));
+
+        $this->layout = View::make('app.offer.help-offer-edit',array(
             'user' => $user,
             'offer' => $offer,
         ));
-        $this->layout->title = trans('offer.help-request.title');
+        $this->layout->title = trans('offer.help-offer.edit-title');
+
     }
 
     /**
@@ -39,8 +108,16 @@ class OfferController extends BaseController {
     {
         try {
 
-            $user = Sentry::getUser();
-            $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>Input::get('type')));
+            // todo check when add $id as param
+            $user = $this->currentUser;
+
+            if (Input::get('type') == 1) {
+                $offer = new Offer();
+                $offer->user_id = $user->getId();
+                $offer->type = Input::get('type');
+            } else {
+                $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>2));
+            }
 
             if (!$user) {
                 return Redirect::route('loginGet');
@@ -72,70 +149,29 @@ class OfferController extends BaseController {
             $user->email = Input::get('email');
             $user->first_name = (string)Input::get('first_name');
             $user->last_name = (string)Input::get('last_name');
-            if (Input::exists('vk_id'))
-            {
-                $user->vk_id = Input::get('vk_id');
-            }
-            if (Input::exists('phone'))
-            {
-                $user->phone = Input::get('phone');
-            }
-            if (Input::exists('birthdate'))
-            {
-                $user->birthdate = Input::get('birthdate');
-            }
-            if (Input::exists('gender'))
-            {
-                $user->gender = Input::get('gender');
-            }
-            if (Input::exists('address') && Input::exists('address_longitude') && Input::exists('address_latitude'))
-            {
-                $user->address = Input::get('address');
-                $user->address_longitude = Input::get('address_longitude');
-                $user->address_latitude = Input::get('address_latitude');
-            }
+            $user->vk_id = Input::get('vk_id');
+            $user->phone = Input::get('phone');
+            $user->birthdate = Input::get('birthdate');
+            $user->gender = Input::get('gender');
+            $user->address = Input::get('address');
+            $user->address_longitude = Input::get('address_longitude');
+            $user->address_latitude = Input::get('address_latitude');
             $user->save();
 
             $offer->description = Input::get('description');
-            if (Input::exists('date'))
+            if ($offer->type == 1)
             {
                 $offer->date = Input::get('date');
             }
             $offer->time = Input::get('time');
             $offer->save();
 
-            return Redirect::back()->with('success',trans($offer->type == 1 ? 'offer.help-request.success' : 'offer.help-offer.success'));
+//            return Redirect::back()->with('success',trans($offer->type == 1 ? 'offer.help-request.success' : 'offer.help-offer.success'));
+            return Redirect::route($offer->type == 1 ? 'helpRequestViewGet' : 'helpOfferViewGet',['id'=>$offer->id]);
 
         } catch (Exception $e) {
             return Redirect::back()->withErrors([$e->getMessage()]);
         }
-    }
-
-    /**
-     * Add help offer
-     */
-    public function getHelpOffer()
-    {
-        Assets::addCss(array(
-            'bootstrap-datetimepicker.min.css'
-        ));
-
-        Assets::addJs(array(
-            'moment.js',
-            'moment.ru.js',
-            'bootstrap-datetimepicker.min.js',
-            'typeahead.bundle.js',
-            'offer.help-offer.js'
-        ));
-
-        $user = Sentry::getUser();
-        $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>2));
-
-        $this->layout = View::make('app.offer.help-offer',array(
-            'user' => $user,
-            'offer' => $offer,
-        ));
-        $this->layout->title = trans('offer.help-offer.title');
     }
 
     /**
@@ -183,6 +219,11 @@ class OfferController extends BaseController {
         $this->layout->title = trans('offer.help-offers.title');
     }
 
+    /**
+     * Show help request
+     *
+     * @param $id
+     */
     public function getHelpRequestView($id)
     {
 
@@ -195,6 +236,18 @@ class OfferController extends BaseController {
             'offer.help-request-view.js'
         ));
 
+        $showButton = false;
+        $showContactInfo = false;
+        $hasOfferResponse = false;
+        $helpOffer = false;
+        if (Sentry::check())
+        {
+            $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
+            $hasOfferResponse = OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
+            $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
+            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+        }
+
         $this->scriptComposer['offerData'] = json_encode(array(
             'lon' => $user->address_longitude,
             'lat' => $user->address_latitude,
@@ -203,11 +256,20 @@ class OfferController extends BaseController {
         $this->layout = View::make('app.offer.help-request-view', array(
             'offer' => $offer,
             'user' => $user,
+            'showButton' => $showButton,
+            'showContactInfo' => $showContactInfo,
+            'helpOffer' => $helpOffer,
+            'hasOfferResponse' => $hasOfferResponse,
         ));
         $this->layout->title = trans('offer.help-request-view.title');
 
     }
 
+    /**
+     * Show help offer
+     *
+     * @param $id
+     */
     public function getHelpOfferView($id)
     {
 
@@ -220,6 +282,20 @@ class OfferController extends BaseController {
             'offer.help-offer-view.js'
         ));
 
+        $showButton = false;
+        $showContactInfo = false;
+        $hasHelpRequest = false;
+        $hasOfferResponse = false;
+        $helpRequests = false;
+        if (Sentry::check())
+        {
+            $helpRequests = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',1)->get();
+            $hasHelpRequest = count($helpRequests) > 0;
+            $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->count() > 0;
+            $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
+            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+        }
+
         $this->scriptComposer['offerData'] = json_encode(array(
             'lon' => $user->address_longitude,
             'lat' => $user->address_latitude,
@@ -228,9 +304,46 @@ class OfferController extends BaseController {
         $this->layout = View::make('app.offer.help-offer-view', array(
             'offer' => $offer,
             'user' => $user,
+            'showButton' => $showButton,
+            'showContactInfo' => $showContactInfo,
+            'hasHelpRequest' => $hasHelpRequest,
+            'hasOfferResponse' => $hasOfferResponse,
+            'helpRequests' => $helpRequests,
         ));
         $this->layout->title = trans('offer.help-offer-view.title');
 
+    }
+
+    /**
+     * Creates response for offer
+     *
+     * @param $offerId
+     * @param $requestId
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getResponse($offerId, $requestId)
+    {
+        $offer = Offer::findOrFail($offerId);
+        $request = Offer::findOrFail($requestId);
+
+        // может уже откликался
+        $hasOfferResponse = OfferResponse::where('offer_id','=',$offerId)->where('request_id','=',$requestId)->count() > 0;
+
+        if ($hasOfferResponse)
+        {
+            return Redirect::back()->with('error', trans('offer.already-has-response'));
+        }
+
+        OfferResponse::create(array(
+            'offer_id' => $offer->id,
+            'offer_user_id' => $offer->user_id,
+            'request_id' => $request->id,
+            'request_user_id' => $request->user_id,
+            'initiator_user_id' => $this->currentUser->getId(),
+            'status' => 1,
+        ));
+
+        return Redirect::back()->with('success', trans('offer.response-success'));
     }
 
 }

@@ -23,8 +23,6 @@ class Offers extends Migration {
 
             $table->timestamps();
 
-            $table->unique(['user_id','type']);
-
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });

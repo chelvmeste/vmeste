@@ -3,6 +3,9 @@
     class MapController extends BaseController
     {
 
+        /**
+         * Home page with map and search
+         */
         public function getIndex()
         {
 
@@ -12,19 +15,14 @@
                 'map.index.js'
             ));
 
+            // get responses
+            $offerResponses = Sentry::check() ? OfferResponse::where('offer_user_id','=',$this->currentUser->getId())->orWhere('request_user_id','=',$this->currentUser->getId())->get() : array();
 
-            $this->layout = View::make('app.home.index');
+            $this->layout = View::make('app.home.index', array(
+                'offerResponses' => $offerResponses,
+            ));
             $this->layout->title = trans('map.title');
 
-        }
-
-        /**
-         * Ajax action to get ap settings
-         * @return \Illuminate\Http\JsonResponse
-         */
-        public function getMapSettings()
-        {
-            return Response::json(Config::get('geo'));
         }
 
     }

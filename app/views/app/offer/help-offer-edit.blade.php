@@ -69,7 +69,7 @@
                         <div class="form-group {{ $errors->has('time') ? 'has-error' : '' }}">
                             <label for="timepicker-offer">{{ trans('offer.help-request.time') }}:</label>
                             <div class="input-group date" id="timepicker-offer">
-                                <input type='text' class="form-control" name="time" value="{{ Input::old('time') }}"/>
+                                <input type='text' class="form-control" name="time" value="{{ $errors->has('time') ? Input::old('time') : Date::parse($offer->time)->format('H:i') }}"/>
                             	<span class="input-group-addon">
                             	    <span class="glyphicon glyphicon-time"></span>
                             	</span>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">{{ trans('offer.help-request.description') }}:</label>
-                            {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control','id'=>'description')) }}
+                            {{ Form::textarea('description', $errors->has('description') ? Input::old('description') : $offer->description, array('class' => 'form-control','id'=>'description')) }}
                         </div>
                         {{ Form::hidden('type',2) }}
                         <button type="submit" class="btn btn-success">{{ trans('user.edit-profile.submit') }}</button>

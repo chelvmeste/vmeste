@@ -11,8 +11,8 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ URL::route('helpRequestGet') }}">{{ trans('global.header.help-request') }}</a></li>
-                <li><a href="{{ URL::route('helpOfferGet') }}">{{ trans('global.header.help-offer') }}</a></li>
+                <li><a href="{{ URL::route('helpRequestNewGet') }}">{{ trans('global.header.help-request') }}</a></li>
+                <li><a href="{{ URL::route('helpOfferNewGet') }}">{{ trans('global.header.help-offer') }}</a></li>
                 <li><a href="{{ URL::route('helpRequestsGet') }}">{{ trans('global.header.help-requests') }}</a></li>
                 <li><a href="{{ URL::route('helpOffersGet') }}">{{ trans('global.header.help-offers') }}</a></li>
             </ul>

@@ -18,11 +18,11 @@
 
                 <form role="form" method="POST" action="{{ URL::route('loginPost') }}">
                     <div class="form-group">
-                        <label for="email">{{ trans('user.login.email') }}:</label>
+                        <label for="email">{{ trans('user.email') }}:</label>
                         <input type="text" class="form-control" name="email" id="email">
                     </div>
                     <div class="form-group">
-                        <label for="password">{{ trans('user.login.password') }}:</label>
+                        <label for="password">{{ trans('user.password') }}:</label>
                         <input type="password" class="form-control" name="password" id="password">
                     </div>
                     <div class="checkbox">

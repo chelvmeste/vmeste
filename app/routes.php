@@ -79,17 +79,33 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'editProfilePost',
         'uses' => 'UserController@postEditProfile',
     ));
-    Route::get('help-request',array(
-        'as' => 'helpRequestGet',
-        'uses' => 'OfferController@getHelpRequest'
+    Route::get('help-request/new',array(
+        'as' => 'helpRequestNewGet',
+        'uses' => 'OfferController@getHelpRequestNew'
     ));
-    Route::get('help-offer',array(
-        'as' => 'helpOfferGet',
-        'uses' => 'OfferController@getHelpOffer'
+    Route::get('help-offer/new',array(
+        'as' => 'helpOfferNewGet',
+        'uses' => 'OfferController@getHelpOfferNew'
     ));
     Route::post('request',array(
         'as' => 'requestPost',
         'uses' => 'OfferController@postRequest'
+    ));
+    Route::get('help-request/{id}/edit',array(
+        'as' => 'helpRequestEditGet',
+        'uses' => 'OfferController@getHelpRequestEdit'
+    ));
+    Route::get('help-offer/{id}/edit',array(
+        'as' => 'helpOfferEditGet',
+        'uses' => 'OfferController@getHelpOfferEdit'
+    ));
+    Route::get('help-request/{offerId}/{requestId}/response',array(
+        'as' => 'helpRequestResponseGet',
+        'uses' => 'OfferController@getResponse'
+    ));
+    Route::get('help-offer/{offerId}/{requestId}/response',array(
+        'as' => 'helpOfferResponseGet',
+        'uses' => 'OfferController@getResponse'
     ));
 });
 

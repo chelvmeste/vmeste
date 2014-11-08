@@ -19,17 +19,19 @@
                         <td><strong>{{ trans('user.email') }}</strong></td>
                         <td>{{ $user->email }}</td>
                     </tr>
-                    @if(!empty($user->vk_id))
-                        <tr>
-                            <td><strong>{{ trans('user.vk_id') }}</strong></td>
-                            <td><a href="http://vk.com/{{ $user->vk_id }}">{{ $user->vk_id }}</a></td>
-                        </tr>
-                    @endif
-                    @if(!empty($user->phone))
-                        <tr>
-                            <td><strong>{{ trans('user.phone') }}</strong></td>
-                            <td>+{{ $user->phone }}</td>
-                        </tr>
+                    @if(Sentry::check() && Sentry::getUser()->hasAccess(Config::get('syntara::permissions.showUser')))
+                        @if(!empty($user->vk_id))
+                            <tr>
+                                <td><strong>{{ trans('user.vk_id') }}</strong></td>
+                                <td><a href="http://vk.com/{{ $user->vk_id }}">{{ $user->vk_id }}</a></td>
+                            </tr>
+                        @endif
+                        @if(!empty($user->phone))
+                            <tr>
+                                <td><strong>{{ trans('user.phone') }}</strong></td>
+                                <td>+{{ $user->phone }}</td>
+                            </tr>
+                        @endif
                     @endif
                     @if(in_array($user->gender,array('male','female')))
                         <tr>

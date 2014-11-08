@@ -25,4 +25,7 @@ return array(
         'addUserPermission' => 'permissions-management',
         'addGroupPermission' => 'permissions-management',
         'indexDashboard' => 'dashboard-access',
+
+        'editOffer' => 'offers-management',
+        'listOffers' => 'offers-management',
 );
