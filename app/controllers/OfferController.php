@@ -196,7 +196,7 @@ class OfferController extends BaseController {
      */
     public function getHelpRequests()
     {
-        $offers = Offer::where('type','=',1)->with('user')->paginate(15);
+        $offers = Offer::where('type','=',Offer::HELP_REQUEST)->where('date','>',Date::now()->format('Y-m-d'))->with('user')->paginate(15);
         $links = $offers->links();
         $this->layout = View::make('app.offer.help-requests', array(
             'offers' => $offers,
@@ -210,7 +210,7 @@ class OfferController extends BaseController {
      */
     public function getHelpOffers()
     {
-        $offers = Offer::where('type','=',2)->with('user')->paginate(15);
+        $offers = Offer::where('type','=',Offer::HELP_OFFER)->with('user')->paginate(15);
         $links = $offers->links();
         $this->layout = View::make('app.offer.help-offers', array(
             'offers' => $offers,
@@ -340,10 +340,52 @@ class OfferController extends BaseController {
             'request_id' => $request->id,
             'request_user_id' => $request->user_id,
             'initiator_user_id' => $this->currentUser->getId(),
-            'status' => 1,
+            'status' => OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE,
         ));
 
         return Redirect::back()->with('success', trans('offer.response-success'));
+    }
+
+    public function postResponse()
+    {
+
+        $responseId = Input::get('response_id');
+
+        $validator = Validator::make(Input::only('response_text','response_type'), array(
+            'response_text' => 'required|min:1',
+            'response_type' => 'required|in:success,canceled'
+        ));
+
+        if ($validator->fails())
+        {
+            return Response::json(array('message' => trans('offer.response.not_empty_text')), 500);
+        }
+
+        $offerResponse = OfferResponse::find($responseId);
+
+        if (!$offerResponse || empty($offerResponse))
+        {
+            return Response::json(array('message' => trans('offer.response.not_found')), 500);
+        }
+
+        if ($this->currentUser->getId() !== $offerResponse->offer_user_id && $this->currentUser->getId() !== $offerResponse->request_user_id && !$this->currentUser->hasAccess('editResponse'))
+        {
+            return Response::json(array('message' => trans('offer.response.no_access')), 500);
+        }
+
+        if ($this->currentUser->getId() === $offerResponse->offer_user_id)
+        {
+            $offerResponse->offer_response = Input::get('response_text');
+        } else if ($this->currentUser->getId() === $offerResponse->request_user_id)
+        {
+            $offerResponse->request_response = Input::get('response_text');
+        }
+
+        $offerResponse->status = Input::get('response_type') == 'success' ? OfferResponse::OFFER_RESPONSE_STATUS_SUCCESS : OfferResponse::OFFER_RESPONSE_STATUS_CANCELED;
+        $offerResponse->save();
+
+        return Response::json(array());
+
     }
 
 }

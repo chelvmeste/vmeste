@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     @foreach($offerResponses as $response)
-                        <div class="alert alert-success">
+                        <div class="alert alert-success response-alert-{{ $response->id }}">
                             @if ($response->offer_user_id === $currentUser->getId())
                                 @if($response->offer_user_id === $response->initiator_user_id)
                                 {{-- 1 - я хочу помочь кому-то --}}
@@ -27,12 +27,49 @@
                                 @endif
                             @endif
                             <div class="pull-right">
-                                <a href="#" class="btn btn-xs btn-success">{{ trans('offer.response.helped') }}</a>
-                                <a href="#" class="btn btn-xs btn-danger">{{ trans('offer.response.cancel') }}</a>
+                                <a href="#" class="btn btn-xs btn-success response-success" data-response-id="{{ $response->id }}">{{ trans('offer.response.helped') }}</a>
+                                <a href="#" class="btn btn-xs btn-danger response-cancel" data-response-id="{{ $response->id }}">{{ trans('offer.response.cancel') }}</a>
                             </div>
                         </div>
                     @endforeach
                 </div>
+            </div>
+
+            <div class="modal fade" id="response-success-modal" tabindex="-1" role="dialog" aria-labelledby="response-success-modal-label" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="response-success-modal-label">{{ trans('offer.response.response_text') }}</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="errors"></div>
+                    <textarea name="response_text" class="form-control" rows="3"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('global.close') }}</button>
+                    <button type="button" class="btn btn-success send-response-success">{{ trans('offer.response.helped') }}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="response-cancel-modal" tabindex="-1" role="dialog" aria-labelledby="response-cancel-modal-label" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="response-cancel-modal-label">{{ trans('offer.response.response_text') }}</h4>
+                  </div>
+                  <div class="modal-body">
+                    <textarea name="response_text" class="form-control" rows="3"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('global.close') }}</button>
+                    <button type="button" class="btn btn-danger send-response-cancel">{{ trans('offer.response.cancel') }}</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
         @endif

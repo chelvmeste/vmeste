@@ -46,6 +46,10 @@ return array(
         '3-somebody-want-help' => ':username хочет помочь вам с <a href=":requestLink">вашей зявкой</a>. <a href=":offerLink">Посмотреть карточку добровольца :username</a>',
         'helped' => 'Помог!',
         'cancel' => 'Отменить',
+        'response_text' => 'Оставьте сообщение',
+        'not_empty_text' => 'Сообщение не может быть пустым',
+        'not_found' => 'Не найдено',
+        'no_access' => 'Нет доступа',
     ),
 
 );

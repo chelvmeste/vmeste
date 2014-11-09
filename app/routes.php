@@ -119,6 +119,12 @@ Route::group(array('prefix'=>'ajax','before'=>'ajax'), function(){
         'uses' => 'MapController@getMapSettings'
     ));
 });
+Route::group(array('prefix'=>'ajax','before'=>'ajax|before'), function(){
+    Route::post('response', array(
+        'as' => 'postResponse',
+        'uses' => 'OfferController@postResponse'
+    ));
+});
 
 Route::get('user/{id}', array(
     'as' => 'profileGet',

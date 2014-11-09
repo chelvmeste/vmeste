@@ -16,7 +16,7 @@
             ));
 
             // get responses
-            $offerResponses = Sentry::check() ? OfferResponse::where('offer_user_id','=',$this->currentUser->getId())->orWhere('request_user_id','=',$this->currentUser->getId())->get() : array();
+            $offerResponses = Sentry::check() ? OfferResponse::where('offer_user_id','=',$this->currentUser->getId())->orWhere('request_user_id','=',$this->currentUser->getId())->where('status','=',OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE)->get() : array();
 
             $this->layout = View::make('app.home.index', array(
                 'offerResponses' => $offerResponses,

@@ -28,4 +28,5 @@ return array(
 
         'editOffer' => 'offers-management',
         'listOffers' => 'offers-management',
+        'editResponse' => 'responses-management',
 );

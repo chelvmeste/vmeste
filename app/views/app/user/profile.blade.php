@@ -57,12 +57,12 @@
                 @if(Sentry::check() && Sentry::getUser()->getId() === $user->id)
                     <a href="{{ URL::route('editProfileGet') }}" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> {{ trans('user.edit-profile.title') }}</a><br /><br />
                 @endif
-                @if(!empty($help_request))
+                {{--@if(!empty($help_request))
                     <a href="{{ URL::route('helpRequestViewGet', ['id' => $help_request->id]) }}" class="btn btn-info">{{ trans('offer.help-request.view') }}</a><br /><br />
                 @endif
                 @if(!empty($help_offer))
                     <a href="{{ URL::route('helpOfferViewGet', ['id' => $help_offer->id]) }}" class="btn btn-info">{{ trans('offer.help-offer.view') }}</a><br /><br />
-                @endif
+                @endif--}}
             </div>
         </div>
     </div>

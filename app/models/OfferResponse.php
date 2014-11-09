@@ -6,6 +6,10 @@
 
         protected $fillable = ['offer_user_id','offer_id','request_id','request_user_id','initiator_user_id','offer_response','request_response','status'];
 
+        const OFFER_RESPONSE_STATUS_ACTIVE = 1;
+        const OFFER_RESPONSE_STATUS_SUCCESS = 2;
+        const OFFER_RESPONSE_STATUS_CANCELED = 3;
+
         public function offerUser()
         {
             return $this->belongsTo('User','offer_user_id');
