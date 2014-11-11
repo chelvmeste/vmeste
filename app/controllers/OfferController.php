@@ -243,7 +243,7 @@ class OfferController extends BaseController {
         if (Sentry::check())
         {
             $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
-            $hasOfferResponse = OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
+            $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
             $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
             $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
         }
