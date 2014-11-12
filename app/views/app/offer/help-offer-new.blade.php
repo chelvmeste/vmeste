@@ -66,14 +66,37 @@
                             {{ Form::hidden('address_latitude',$errors->has('address') ? Input::old('address_latitude') : $user->address_latitude, array('id'=>'address_latitude')) }}
                             {{ Form::hidden('address_longitude',$errors->has('address') ? Input::old('address_longitude') : $user->address_longitude, array('id'=>'address_longitude')) }}
                         </div>
-                        <div class="form-group {{ $errors->has('time') ? 'has-error' : '' }}">
-                            <label for="timepicker-offer">{{ trans('offer.help-request.time') }}:</label>
-                            <div class="input-group date" id="timepicker-offer">
-                                <input type='text' class="form-control" name="time" value="{{ Input::old('time') }}"/>
-                            	<span class="input-group-addon">
-                            	    <span class="glyphicon glyphicon-time"></span>
-                            	</span>
-                            </div>
+                        <div class="form-group">
+                            <label>{{ trans('offer.help-offer.days') }}:</label>
+                            @for($i = 1; $i <= 7; $i++)
+                                <div class="day-container">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="offer-day-switcher" name="days[{{ $i }}][enabled]" data-day="{{ $i }}" id="day_{{ $i }}" value="1" {{ Input::old('days.'.$i.'.enabled') == 1 ? 'checked' : '' }}>
+                                            {{ trans('global.days.'.$i) }}
+                                        </label>
+                                    </div>
+                                    <div class="form-inline">
+                                        <div class="form-group {{ $errors->has('days.'.$i.'.time_start') ? 'has-error' : '' }}">
+                                            <div class="input-group offer-time offer-time-start" id="time_start_{{ $i }}">
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_start]" value="{{ Input::old('days.'.$i.'.time_start') }}" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        -
+                                        <div class="form-group {{ $errors->has('days.'.$i.'.time_end') ? 'has-error' : '' }}">
+                                            <div class="input-group offer-time offer-time-end" id="time_end_{{ $i }}">
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_end]" value="{{ Input::old('days.'.$i.'.time_end') }}" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
                         </div>
                         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">{{ trans('offer.help-request.description') }}:</label>

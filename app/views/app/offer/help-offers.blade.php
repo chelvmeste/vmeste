@@ -11,7 +11,7 @@
                         <thead>
                             <tr>
                                 <th>{{ trans('global.user') }}</th>
-                                <th>{{ trans('global.time') }}</th>
+                                <th>{{ trans('offer.help-offer-view.days') }}</th>
                                 <th>{{ trans('global.interests') }}</th>
                                 <th width="100"></th>
                             </tr>
@@ -20,7 +20,11 @@
                             @foreach($offers as $offer)
                                 <tr>
                                     <td><a href="{{ URL::route('profileGet', ['id' => $offer->user->id]) }}">{{ $offer->user->first_name }} {{ $offer->user->last_name }}</a></td>
-                                    <td>{{ Date::parse($offer->time)->format('H:i') }}</td>
+                                    <td>
+                                        @foreach($offer->days as $day)
+                                            {{ trans('global.days.'.$day['day']) }}: {{ Date::parse($day['time_start'])->format('H:i') }} - {{ Date::parse($day['time_end'])->format('H:i') }} <br />
+                                        @endforeach
+                                    </td>
                                     <td>{{ $offer->description }}</td>
                                     <td><a href="{{ URL::route('helpOfferViewGet', ['id' => $offer->id]) }}">{{ trans('global.more') }}</a></td>
                                 </tr>

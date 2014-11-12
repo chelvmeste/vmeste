@@ -52,7 +52,7 @@ class OfferController extends BaseController {
             'offer.help-offer.js'
         ));
 
-        $this->layout = View::make('app.offer.help-offer',array(
+        $this->layout = View::make('app.offer.help-offer-new',array(
             'user' => $user,
         ));
         $this->layout->title = trans('offer.help-offer.title');
@@ -78,6 +78,14 @@ class OfferController extends BaseController {
         }
 
         $user = Sentry::findUserById($offer->user_id);
+        $daysSaved = $offer->days;
+        $days = array();
+
+        if (!empty($daysSaved)) {
+            foreach ($daysSaved as $day) {
+                $days[$day['day']] = $day;
+            }
+        }
 
         Assets::addCss(array(
             'bootstrap-datetimepicker.min.css'
@@ -94,6 +102,7 @@ class OfferController extends BaseController {
         $this->layout = View::make('app.offer.help-offer-edit',array(
             'user' => $user,
             'offer' => $offer,
+            'days' => $days,
         ));
         $this->layout->title = trans('offer.help-offer.edit-title');
 
@@ -111,12 +120,12 @@ class OfferController extends BaseController {
             // todo check when add $id as param
             $user = $this->currentUser;
 
-            if (Input::get('type') == 1) {
+            if (Input::get('type') == Offer::HELP_REQUEST) {
                 $offer = new Offer();
                 $offer->user_id = $user->getId();
-                $offer->type = Input::get('type');
+                $offer->type = Offer::HELP_REQUEST;
             } else {
-                $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>2));
+                $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>Offer::HELP_OFFER));
             }
 
             if (!$user) {
@@ -132,11 +141,16 @@ class OfferController extends BaseController {
                 'vk_id' => 'alpha_dash',
                 'birthdate' => 'date_format:Y-m-d',
                 'description' => 'required|min:10',
-                'time' => 'required|date_format:H:i',
             );
-            if ($offer->type === 1)
+            if ($offer->type == Offer::HELP_REQUEST)
             {
+                $rules['time'] = 'required|date_format:H:i';
                 $rules['date'] = 'required|date_format:Y-m-d';
+            } else if ($offer->type == Offer::HELP_OFFER) {
+                for ($i = 1; $i <= 7; $i++) {
+                    $rules['days.'.$i.'.time_start'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                    $rules['days.'.$i.'.time_end'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                }
             }
 
             $validator = Validator::make(Input::all(),$rules);
@@ -159,12 +173,24 @@ class OfferController extends BaseController {
             $user->save();
 
             $offer->description = Input::get('description');
-            if ($offer->type == 1)
+            if ($offer->type == Offer::HELP_REQUEST)
             {
                 $offer->date = Input::get('date');
+                $offer->time = Input::get('time');
             }
-            $offer->time = Input::get('time');
             $offer->save();
+
+            if ($offer->type == Offer::HELP_OFFER) {
+                OfferDays::where('offer_id','=',$offer->id)->delete();
+                foreach (Input::get('days') as $day => $data) {
+                    OfferDays::create(array(
+                        'offer_id' => $offer->id,
+                        'day' => $day,
+                        'time_start' => $data['time_start'],
+                        'time_end' => $data['time_end'],
+                    ));
+                }
+            }
 
 //            return Redirect::back()->with('success',trans($offer->type == 1 ? 'offer.help-request.success' : 'offer.help-offer.success'));
             return Redirect::route($offer->type == 1 ? 'helpRequestViewGet' : 'helpOfferViewGet',['id'=>$offer->id]);
@@ -210,7 +236,7 @@ class OfferController extends BaseController {
      */
     public function getHelpOffers()
     {
-        $offers = Offer::where('type','=',Offer::HELP_OFFER)->with('user')->paginate(15);
+        $offers = Offer::where('type','=',Offer::HELP_OFFER)->with(['user','days'])->paginate(15);
         $links = $offers->links();
         $this->layout = View::make('app.offer.help-offers', array(
             'offers' => $offers,
@@ -275,6 +301,7 @@ class OfferController extends BaseController {
 
         $offer = Offer::findOrFail($id);
         $user = $offer->user;
+        $days = $offer->days;
 
         Assets::addJs(array(
             '//api-maps.yandex.ru/2.1/?lang=ru_RU',
@@ -304,6 +331,7 @@ class OfferController extends BaseController {
         $this->layout = View::make('app.offer.help-offer-view', array(
             'offer' => $offer,
             'user' => $user,
+            'days' => $days,
             'showButton' => $showButton,
             'showContactInfo' => $showContactInfo,
             'hasHelpRequest' => $hasHelpRequest,

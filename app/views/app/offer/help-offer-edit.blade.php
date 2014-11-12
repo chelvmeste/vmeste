@@ -66,14 +66,49 @@
                             {{ Form::hidden('address_latitude',$errors->has('address') ? Input::old('address_latitude') : $user->address_latitude, array('id'=>'address_latitude')) }}
                             {{ Form::hidden('address_longitude',$errors->has('address') ? Input::old('address_longitude') : $user->address_longitude, array('id'=>'address_longitude')) }}
                         </div>
-                        <div class="form-group {{ $errors->has('time') ? 'has-error' : '' }}">
-                            <label for="timepicker-offer">{{ trans('offer.help-request.time') }}:</label>
-                            <div class="input-group date" id="timepicker-offer">
-                                <input type='text' class="form-control" name="time" value="{{ $errors->has('time') ? Input::old('time') : Date::parse($offer->time)->format('H:i') }}"/>
-                            	<span class="input-group-addon">
-                            	    <span class="glyphicon glyphicon-time"></span>
-                            	</span>
+
+                        <div class="form-group">
+                            <label>{{ trans('offer.help-offer.days') }}:</label>
+                            <div class="form-inline">
+                                <label class="radio-inline">
+                                    <input type="radio" name="daysTypes" class="days-type-switcher" data-day-type="work"> {{ trans('global.days.work') }}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="daysTypes" class="days-type-switcher" data-day-type="weekends"> {{ trans('global.days.weekends') }}
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="daysTypes" class="days-type-switcher" data-day-type="anytime"> {{ trans('global.days.anytime') }}
+                                </label>
                             </div>
+                            @for($i = 1; $i <= 7; $i++)
+                                <div class="day-container">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" class="offer-day-switcher{{ $i >= 1 && $i <= 5 ? ' offer-day-work' : '' }}{{ $i >= 6 && $i <= 7 ? ' offer-day-weekends' : '' }}" name="days[{{ $i }}][enabled]" data-day="{{ $i }}" id="day_{{ $i }}" value="1" {{ Input::old('days.'.$i.'.enabled', isset($days[$i]) ? 1 : 0) == 1 ? 'checked' : '' }}>
+                                            {{ trans('global.days.'.$i) }}
+                                        </label>
+                                    </div>
+                                    <div class="form-inline">
+                                        <div class="form-group {{ $errors->has('days.'.$i.'.time_start') ? 'has-error' : '' }}">
+                                            <div class="input-group offer-time offer-time-start" id="time_start_{{ $i }}">
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_start]" value="{{ Input::old('days.'.$i.'.time_start', isset($days[$i]) ? Date::parse($days[$i]['time_start'])->format('H:i') : null) }}" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        -
+                                        <div class="form-group {{ $errors->has('days.'.$i.'.time_end') ? 'has-error' : '' }}">
+                                            <div class="input-group offer-time offer-time-end" id="time_end_{{ $i }}">
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_end]" value="{{ Input::old('days.'.$i.'.time_end', isset($days[$i]) ? Date::parse($days[$i]['time_end'])->format('H:i') : null) }}" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endfor
                         </div>
                         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">{{ trans('offer.help-request.description') }}:</label>

@@ -20,10 +20,17 @@
                             @elseif($response->request_user_id === $currentUser->getId())
                                 @if($response->request_user_id === $response->initiator_user_id)
                                 {{-- 3 - вы попросили о помощи --}}
-                                {{ trans('offer.response.3-you-request-help', ['username' => $response->offerUser->first_name.' '.$response->offerUser->last_name, 'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]), 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
+                                {{ trans('offer.response.3-you-request-help', [
+                                    'address' => $response->offerUser->address,
+                                    'phone' => $response->offerUser->phone,
+                                    'vk_id' => $response->offerUser->vk_id,
+                                    'username' => $response->offerUser->first_name.' '.$response->offerUser->last_name,
+                                    'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]),
+                                    'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])
+                                ]) }}
                                 @else
                                 {{-- 4 - вам хотят помочь --}}
-                                {{ trans('offer.response.3-somebody-want-help', ['username' => $response->offerUser->first_name.' '.$response->offerUser->last_name, 'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]), 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
+                                {{ trans('offer.response.4-somebody-want-help', ['username' => $response->offerUser->first_name.' '.$response->offerUser->last_name, 'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]), 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
                                 @endif
                             @endif
                             <div class="pull-right">

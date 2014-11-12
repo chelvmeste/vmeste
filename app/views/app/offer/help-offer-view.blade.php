@@ -61,10 +61,14 @@
                             <td>{{ $user->address }}</td>
                         </tr>
                     @endif
-                    @if(!empty($offer->time))
+                    @if(!empty($days))
                         <tr>
-                            <td><strong>{{ trans('offer.help-request.time') }}</strong></td>
-                            <td>{{ Date::parse($offer->time)->format('H:i') }}</td>
+                            <td><strong>{{ trans('offer.help-offer-view.days') }}</strong></td>
+                            <td>
+                                @foreach($days as $day)
+                                    {{ trans('global.days.'.$day['day']) }}: {{ Date::parse($day['time_start'])->format('H:i') }} - {{ Date::parse($day['time_end'])->format('H:i') }} <br />
+                                @endforeach
+                            </td>
                         </tr>
                     @endif
                     @if(!empty($offer->description))

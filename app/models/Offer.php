@@ -12,4 +12,9 @@
             return $this->belongsTo('User');
         }
 
+        public function days()
+        {
+            return $this->hasMany('OfferDays');
+        }
+
     }

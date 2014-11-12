@@ -24,6 +24,7 @@ return array(
         'response-button-login' => 'Необходимо войти на сайт чтобы обратиться за помошью',
         'response-button-application' => 'Нужно заполнить заявку о помощи',
         'already-has-response' => 'Вы уже обратились к этому человеку',
+        'days' => 'Дни когда вы свободны',
     ),
     'help-requests' => array(
         'title' => 'Список заявок на оказание помощи',
@@ -35,6 +36,7 @@ return array(
     ),
     'help-offer-view' => array(
         'title' => 'Карточка добровольца',
+        'days' => 'Дни когда свободен',
     ),
     'help-request-view' => array(
         'title' => 'Заявка о помощи',
@@ -42,8 +44,8 @@ return array(
     'response' => array(
         '1-want-help' => 'Вы хотели помочь :username. <a href=":requestLink">Посмотреть заявку</a>',
         '2-somebody-request-help' => ':username обратился к Вам за помощью. <a href=":requestLink">Посмотреть заявку</a>',
-        '3-you-request-help' => 'Вы обратилсь за помощью к :username. <a href=":requestLink">Посмотреть вашу заявку</a>. <a href=":offerLink">Посмотреть карточку :username</a>',
-        '3-somebody-want-help' => ':username хочет помочь вам с <a href=":requestLink">вашей зявкой</a>. <a href=":offerLink">Посмотреть карточку добровольца :username</a>',
+        '3-you-request-help' => 'Вы обратилсь за помощью к :username. <br />Адрес: :address <br />Номер телефона: +:phone<br /><a target="_blank" href="http://vk.com/:vk_id">Страница Вконтакте</a><br /><a href=":requestLink">Посмотреть вашу заявку</a>. <a href=":offerLink">Посмотреть карточку :username</a>',
+        '4-somebody-want-help' => ':username хочет помочь вам с <a href=":requestLink">вашей зявкой</a>. <a href=":offerLink">Посмотреть карточку добровольца :username</a>',
         'helped' => 'Помог!',
         'cancel' => 'Отменить',
         'response_text' => 'Оставьте сообщение',
