@@ -1,23 +1,35 @@
 $(document).ready(function(){
 
-    var map = new Map(geoConfig);
-    map.createMap();
+    ymaps.ready(function() {
 
-    $.ajax({
-        url: 'ajax/offers',
-        type: 'GET',
-        success: function(data){
-            if (data.offers.length > 0) {
+        var map = new Map(geoConfig);
+        map.createMap();
 
-                for (var i = 0; i < data.offers.length; i++) {
+        var search = new Search(map);
+        search.bindEvents();
+        search.loadItems().then(function(){
+            search.buildSideList();
+        });
 
-                    map.addMapObject(data.offers[i].user.address_latitude, data.offers[i].user.address_longitude, data.offers[i].description);
-
-                }
-
-            }
-        }
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     $('.response-success').on('click', function(e) {
 

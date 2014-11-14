@@ -209,10 +209,25 @@ class OfferController extends BaseController {
     public function getOffers()
     {
 
-        $offers = Offer::with('user')->get();
+        $helpRequests = Offer::where('type','=',Offer::HELP_REQUEST)
+            ->where('date','>=',Date::now()->format('Y-m-d'))
+            ->with(array(
+                'user' => function($query) {
+                    $query->select('id','first_name','last_name','address','address_latitude','address_longitude');
+                }
+            ))
+            ->get();
+        $helpOffers = Offer::where('type','=',Offer::HELP_OFFER)
+            ->with(array(
+                'user' => function($query) {
+                    $query->select('id','first_name','last_name','address','address_latitude','address_longitude');
+                },
+                'days'
+            ))->get();
 
         return Response::json(array(
-            'offers' => $offers
+            'help_requests' => $helpRequests,
+            'help_offers' => $helpOffers,
         ));
 
     }

@@ -10,8 +10,13 @@
         {
 
             Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'mustache.js',
+                'template.js',
                 '//api-maps.yandex.ru/2.1/?lang=ru_RU',
                 'map.js',
+                'search.js',
                 'map.index.js'
             ));
 

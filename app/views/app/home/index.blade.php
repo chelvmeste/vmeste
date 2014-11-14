@@ -82,7 +82,10 @@
         @endif
 
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-5" id="side-list">
+
+            </div>
+            <div class="col-lg-7">
                 <div id="map"></div>
             </div>
         </div>

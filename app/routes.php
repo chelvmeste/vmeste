@@ -118,8 +118,12 @@ Route::group(array('prefix'=>'ajax','before'=>'ajax'), function(){
         'as' => 'getMapSettings',
         'uses' => 'MapController@getMapSettings'
     ));
+    Route::post('template', array(
+        'as' => 'getTemplates',
+        'uses' => 'TemplateController@getTemplate'
+    ));
 });
-Route::group(array('prefix'=>'ajax','before'=>'ajax|before'), function(){
+Route::group(array('prefix'=>'ajax','before'=>'ajax|auth'), function(){
     Route::post('response', array(
         'as' => 'postResponse',
         'uses' => 'OfferController@postResponse'
