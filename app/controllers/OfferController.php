@@ -202,8 +202,6 @@ class OfferController extends BaseController {
 
     /**
      * Ajax action to get offers for map
-     * @todo set columns
-     * @todo migrate to elasticsearch
      * @return \Illuminate\Http\JsonResponse
      */
     public function getOffers()
@@ -229,6 +227,76 @@ class OfferController extends BaseController {
             'help_requests' => $helpRequests,
             'help_offers' => $helpOffers,
         ));
+
+    }
+
+    /**
+     * Ajax action to get offer by id
+     * @param $id offer id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getOffer($id)
+    {
+
+        $offer = Offer::findOrFail($id);
+
+        switch ($offer->type) {
+            case Offer::HELP_REQUEST:
+                return $this->getHelpRequestView($offer->id);
+                break;
+            case Offer::HELP_OFFER:
+                return $this->getHelpOfferView($offer->id);
+                break;
+        }
+
+//        if ($offer->type === Offer::HELP_OFFER)
+//        {
+//
+//            $days = $offer->days;
+//            $showButton = false;
+//            $showContactInfo = false;
+//            $hasHelpRequest = false;
+//            $hasOfferResponse = false;
+//            $helpRequests = false;
+//            if (Sentry::check())
+//            {
+//                $helpRequests = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',1)->get();
+//                $hasHelpRequest = count($helpRequests) > 0;
+//                $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->count() > 0;
+//                $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
+//                $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+//            }
+//
+//            return Response::json(array(
+//                'offer' => $offer,
+//                'days' => $days,
+//                'showButton' => $showButton,
+//                'showContactInfo' => $showContactInfo,
+//            ));
+//
+//        }
+//        else
+//        {
+//
+//            $showButton = false;
+//            $showContactInfo = false;
+//            $hasOfferResponse = false;
+//            $helpOffer = false;
+//            if (Sentry::check())
+//            {
+//                $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
+//                $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
+//                $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
+//                $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+//            }
+//
+//            return Response::json(array(
+//                'offer' => $offer,
+//                'showButton' => $showButton,
+//                'showContactInfo' => $showContactInfo,
+//            ));
+//
+//        }
 
     }
 
@@ -271,12 +339,6 @@ class OfferController extends BaseController {
         $offer = Offer::findOrFail($id);
         $user = $offer->user;
 
-        Assets::addJs(array(
-            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-            'map.js',
-            'offer.help-request-view.js'
-        ));
-
         $showButton = false;
         $showContactInfo = false;
         $hasOfferResponse = false;
@@ -289,9 +351,30 @@ class OfferController extends BaseController {
             $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
         }
 
+        if (Request::ajax())
+        {
+            $html = View::make('app.offer.help-request-partial', array(
+                'offer' => $offer,
+                'user' => $user,
+                'showButton' => $showButton,
+                'showContactInfo' => $showContactInfo,
+                'helpOffer' => $helpOffer,
+                'hasOfferResponse' => $hasOfferResponse,
+            ))->render();
+            return Response::json(array(
+                'html' => $html,
+            ));
+        }
+
         $this->scriptComposer['offerData'] = json_encode(array(
             'lon' => $user->address_longitude,
             'lat' => $user->address_latitude,
+        ));
+
+        Assets::addJs(array(
+            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+            'map.js',
+            'offer.help-request-view.js'
         ));
 
         $this->layout = View::make('app.offer.help-request-view', array(
@@ -318,12 +401,6 @@ class OfferController extends BaseController {
         $user = $offer->user;
         $days = $offer->days;
 
-        Assets::addJs(array(
-            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-            'map.js',
-            'offer.help-offer-view.js'
-        ));
-
         $showButton = false;
         $showContactInfo = false;
         $hasHelpRequest = false;
@@ -337,6 +414,29 @@ class OfferController extends BaseController {
             $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
             $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
         }
+
+        if (Request::ajax())
+        {
+            $html = View::make('app.offer.help-offer-partial', array(
+                'offer' => $offer,
+                'user' => $user,
+                'days' => $days,
+                'showButton' => $showButton,
+                'showContactInfo' => $showContactInfo,
+                'hasHelpRequest' => $hasHelpRequest,
+                'hasOfferResponse' => $hasOfferResponse,
+                'helpRequests' => $helpRequests,
+            ))->render();
+            return Response::json(array(
+                'html' => $html,
+            ));
+        }
+
+        Assets::addJs(array(
+            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+            'map.js',
+            'offer.help-offer-view.js'
+        ));
 
         $this->scriptComposer['offerData'] = json_encode(array(
             'lon' => $user->address_longitude,

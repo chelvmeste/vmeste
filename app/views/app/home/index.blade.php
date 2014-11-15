@@ -12,10 +12,22 @@
                             @if ($response->offer_user_id === $currentUser->getId())
                                 @if($response->offer_user_id === $response->initiator_user_id)
                                 {{-- 1 - я хочу помочь кому-то --}}
-                                {{ trans('offer.response.1-want-help', ['username' => $response->requestUser->first_name.' '.$response->requestUser->last_name, 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
+                                {{ trans('offer.response.1-want-help', [
+                                    'username' => $response->requestUser->first_name.' '.$response->requestUser->last_name,
+                                    'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
+                                    'address' => $response->requestUser->address,
+                                    'phone' => $response->requestUser->phone,
+                                    'vk_id' => $response->requestUser->vk_id,
+                                ]) }}
                                 @else
                                 {{-- 2 - ко мне обратились за помощью --}}
-                                {{ trans('offer.response.2-somebody-request-help', ['username' => $response->requestUser->first_name.' '.$response->requestUser->last_name, 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
+                                {{ trans('offer.response.2-somebody-request-help', [
+                                    'username' => $response->requestUser->first_name.' '.$response->requestUser->last_name,
+                                    'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
+                                    'address' => $response->requestUser->address,
+                                    'phone' => $response->requestUser->phone,
+                                    'vk_id' => $response->requestUser->vk_id,
+                                ]) }}
                                 @endif
                             @elseif($response->request_user_id === $currentUser->getId())
                                 @if($response->request_user_id === $response->initiator_user_id)
@@ -30,7 +42,14 @@
                                 ]) }}
                                 @else
                                 {{-- 4 - вам хотят помочь --}}
-                                {{ trans('offer.response.4-somebody-want-help', ['username' => $response->offerUser->first_name.' '.$response->offerUser->last_name, 'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]), 'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])]) }}
+                                {{ trans('offer.response.4-somebody-want-help', [
+                                    'username' => $response->offerUser->first_name.' '.$response->offerUser->last_name,
+                                    'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]),
+                                    'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
+                                    'address' => $response->offerUser->address,
+                                    'phone' => $response->offerUser->phone,
+                                    'vk_id' => $response->offerUser->vk_id,
+                                ]) }}
                                 @endif
                             @endif
                             <div class="pull-right">
@@ -82,12 +101,13 @@
         @endif
 
         <div class="row">
-            <div class="col-lg-5" id="side-list">
-
-            </div>
+            <div class="col-lg-5" id="side-list"></div>
             <div class="col-lg-7">
                 <div id="map"></div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="offer-info"></div>
         </div>
     </div>
 

@@ -4,6 +4,8 @@ var Search = function(mapObject) {
     this.mapObject = mapObject;
     this.offers = [];
     this.requests = [];
+    this.activeItemKey = null;
+    this.activeItemType = null;
 
     this.loadItems = function() {
 
@@ -16,13 +18,13 @@ var Search = function(mapObject) {
                 if (data.help_offers.length > 0) {
                     $this.offers = $this.formatData(data.help_offers);
                     for (var i = 0; i < data.help_offers.length; i++) {
-                        $this.mapObject.addPlacemarkToCollection('offers', data.help_offers[i].user.address_latitude, data.help_offers[i].user.address_longitude);
+                        $this.mapObject.addPlacemarkToCollection('offers', i, data.help_offers[i].user.address_latitude, data.help_offers[i].user.address_longitude, null, $this.loadItemInfo);
                     }
                 }
                 if (data.help_requests.length > 0) {
                     $this.requests = $this.formatData(data.help_requests);
                     for (var i = 0; i < data.help_requests.length; i++) {
-                        $this.mapObject.addPlacemarkToCollection('requests', data.help_requests[i].user.address_latitude, data.help_requests[i].user.address_longitude);
+                        $this.mapObject.addPlacemarkToCollection('requests', i, data.help_requests[i].user.address_latitude, data.help_requests[i].user.address_longitude, null, $this.loadItemInfo);
                     }
                 }
             }
@@ -76,6 +78,7 @@ var Search = function(mapObject) {
                     }
                 }
             }
+            data[i].key = i;
 
         }
 
@@ -87,16 +90,73 @@ var Search = function(mapObject) {
 
         var $this = this;
 
-        $('#side-list-requests-collapse')
-            .on('shown.bs.collapse', function () {
-                $this.hideItems('offers');
-                $this.showItems('requests');
-            });
-        $('#side-list-offers-collapse')
-            .on('shown.bs.collapse', function () {
-                $this.showItems('offers');
-                $this.hideItems('requests');
-            });
+        $(document).on('shown.bs.collapse','#side-list-requests-collapse', function() {
+            $this.mapObject.resetCollectionPreset('offers');
+            $('.select-offer').removeClass('active');
+            $this.hideItems('offers');
+            $this.showItems('requests');
+        });
+        $(document).on('shown.bs.collapse','#side-list-offers-collapse', function() {
+            $this.mapObject.resetCollectionPreset('requests');
+            $('.select-offer').removeClass('active');
+            $this.showItems('offers');
+            $this.hideItems('requests');
+        });
+
+        $(document).on('click','.select-offer',function(e){
+
+            e.preventDefault();
+
+            var li = $(this),
+                offerKey = li.attr('data-offer-id'),
+                offerCollectionType = li.attr('data-offer-type');
+
+            $('.select-offer').removeClass('active');
+            li.addClass('active');
+
+            $this.mapObject.resetCollectionPreset(offerCollectionType);
+
+            var placemark = $this.mapObject.getPlacemarkFromCollection(offerCollectionType, offerKey);
+            placemark.options.set('preset', 'islands#redIcon');
+
+            $this.loadItemInfo(offerCollectionType, offerKey);
+
+        });
+
+    };
+
+    this.loadItemInfo = function(collection, key) {
+
+        if (this.activeItemType === collection && this.activeItemKey === key) {
+            console.log('Item already activated');
+            return false;
+        }
+
+        var item;
+
+        this.activeItemKey = key;
+        this.activeItemType = collection;
+
+        if (collection === 'requests') {
+            item = this.requests[key];
+        } else if (collection === 'offers') {
+            item = this.offers[key];
+        }
+
+        if (item === null) {
+            console.log('No item found...');
+            return false;
+        }
+
+        $.ajax({
+            url: '/ajax/offer/'+item.id,
+            type: 'GET',
+            success: function(data) {
+                if (typeof data.html !== 'undefined' && data.html !== '') {
+                    $('#offer-info').html(data.html);
+                }
+            }
+        });
 
     };
 

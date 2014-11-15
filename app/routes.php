@@ -114,6 +114,10 @@ Route::group(array('prefix'=>'ajax','before'=>'ajax'), function(){
         'as' => 'getOffers',
         'uses' => 'OfferController@getOffers'
     ));
+    Route::get('offer/{id}',array(
+        'as' => 'getOffer',
+        'uses' => 'OfferController@getOffer'
+    ));
     Route::get('map/settings', array(
         'as' => 'getMapSettings',
         'uses' => 'MapController@getMapSettings'

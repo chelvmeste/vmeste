@@ -4,6 +4,7 @@ var Map = function(geoConfig) {
     this.geoConfig = geoConfig;
     this.mapObject = null;
     this.collections = [];
+    this.defaultPreset = 'islands#blueIcon';
 
     this.createMap = function() {
 
@@ -20,23 +21,32 @@ var Map = function(geoConfig) {
 
     };
 
-    this.addPlacemarkToCollection = function(collection, lat, lon, content, color, preset) {
+    this.addPlacemarkToCollection = function(collection, id, lat, lon, content, clickCallback) {
 
-        color = color || '#0095b6';
-        preset = preset || 'islands#icon';
+        var $this = this;
 
         if (typeof this.collections[collection] === 'undefined') {
             this.collections[collection] = new ymaps.GeoObjectCollection();
         }
 
-        var placemark = new ymaps.Placemark([lat, lon], {
-            balloonContent: content
+        var placemark = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [lat, lon]
+            },
+            properties: {
+                key: id,
+                collection: collection
+            }
         }, {
-            preset: preset,
-            iconColor: color
+            preset: $this.defaultPreset
         });
 
-        this.collections[collection].add(placemark);
+        placemark.events.add('click', function(e){
+            $('li[data-offer-id='+e.get('target').properties.get('key')+'][data-offer-type='+e.get('target').properties.get('collection')+']').trigger('click');
+        });
+
+        this.collections[collection].add(placemark, id);
 
     };
 
@@ -78,30 +88,42 @@ var Map = function(geoConfig) {
 
     };
 
-    // DEPRECATED
-    //this.addMapObject = function(lat, lon, content, color, preset) {
-    //
-    //    color = color || '#0095b6';
-    //    preset = preset || 'islands#icon';
-    //    var $this = this;
-    //
-    //    ymaps.ready(function() {
-    //
-    //        if ($this.mapObject === null) {
-    //            console.log('No map found. Create it first');
-    //            return;
-    //        }
-    //
-    //        $this.mapObject.geoObjects
-    //            .add(new ymaps.Placemark([lat, lon], {
-    //                balloonContent: content
-    //            }, {
-    //                preset: preset,
-    //                iconColor: color
-    //            }));
-    //
-    //    });
-    //
-    //};
+    this.getCollection = function(collection) {
+
+        if (typeof this.collections[collection] === 'undefined') {
+            console.log('No collection found: ' + collection);
+            return false;
+        }
+
+        return this.collections[collection];
+
+    };
+
+    this.getPlacemarkFromCollection = function(collection, id) {
+
+        if (typeof this.collections[collection] === 'undefined') {
+            console.log('No collection found: ' + collection);
+            return false;
+        }
+
+        return this.collections[collection].get(id);
+
+    };
+
+    this.resetCollectionPreset = function(collection) {
+
+        if (typeof this.collections[collection] === 'undefined') {
+            console.log('No collection found: ' + collection);
+            return false;
+        }
+
+        var iterator = this.collections[collection].getIterator(),
+            object,
+            $this = this;
+        while ((object = iterator.getNext()) != iterator.STOP_ITERATION) {
+            object.options.set('preset', $this.defaultPreset);
+        }
+
+    };
 
 };
