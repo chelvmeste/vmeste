@@ -126,6 +126,7 @@ return array(
         'Mrjuliuss\Syntara\SyntaraServiceProvider',
         'Stolz\Assets\ManagerServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
+        'Hotrush\Statistics\StatisticsServiceProvider',
 
 	),
 
@@ -195,6 +196,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
         'Sentry'          => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
         'Date'            => 'Jenssegers\Date\Date',
+        'Statistics'      => 'Hotrush\Statistics\Facades\Statistics',
+        'StatisticsAggregation' => 'Hotrush\Statistics\Facades\StatisticsAggregation',
 
 	),
 

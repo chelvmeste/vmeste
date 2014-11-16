@@ -29,4 +29,9 @@ return array(
         'editOffer' => 'offers-management',
         'listOffers' => 'offers-management',
         'editResponse' => 'responses-management',
+
+        'viewStatistic' => 'statistics-management',
+        'getPageViews' => 'statistics-management',
+        'getSiteVisits' => 'statistics-management',
+        'getCreateResponse' => 'statistics-management',
 );

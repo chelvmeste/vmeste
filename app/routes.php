@@ -156,8 +156,25 @@ Route::get('help-offer/{id}',array(
 ));
 
 
+/**
+ * Admin routes
+ */
+Route::group(array('before' => 'basicAuth|hasPermissions', 'prefix' => Config::get('syntara::config.uri')), function() {
 
+    Route::get('site-visits',array(
+        'as' => 'getSiteVisits',
+        'uses' => 'AdminStatisticsController@getSiteVisits'
+    ));
+    Route::get('page-views',array(
+        'as' => 'getPageViews',
+        'uses' => 'AdminStatisticsController@getPageViews'
+    ));
+    Route::get('create-response',array(
+        'as' => 'getCreateResponse',
+        'uses' => 'AdminStatisticsController@getCreateResponse'
+    ));
 
+});
 
 
 

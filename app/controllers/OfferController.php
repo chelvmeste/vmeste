@@ -486,6 +486,16 @@ class OfferController extends BaseController {
             'status' => OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE,
         ));
 
+        Statistics::logEvent('createResponse');
+        if ($this->currentUser->getId() == $offer->user_id)
+        {
+            Statistics::logEvent('createResponseFromOffer');
+        }
+        if ($this->currentUser->getId() == $request->user_id)
+        {
+            Statistics::logEvent('createResponseFromRequest');
+        }
+
         return Redirect::back()->with('success', trans('offer.response-success'));
     }
 

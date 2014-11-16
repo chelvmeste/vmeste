@@ -38,6 +38,9 @@ class BaseController extends Controller {
         });
         View::share('currentUser',$this->currentUser);
 
+        Statistics::logUniqueEvent('siteVisit');
+        Statistics::logEvent('pageView');
+
 	}
 
 }
