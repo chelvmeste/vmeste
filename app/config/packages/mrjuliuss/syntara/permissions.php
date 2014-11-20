@@ -28,6 +28,15 @@ return array(
 
         'editOffer' => 'offers-management',
         'listOffers' => 'offers-management',
+        'getAdminOffers' => 'offers-management',
+        'getAdminRequests' => 'offers-management',
+        'showAdminOffer' => 'offers-management',
+        'putAdminOffer' => 'offers-management',
+        'deleteAdminOffer' => 'offers-management',
+        'showAdminRequest' => 'offers-management',
+        'putAdminRequest' => 'offers-management',
+        'deleteAdminRequest' => 'offers-management',
+        'getAdminResponses' => 'responses-management',
         'editResponse' => 'responses-management',
 
         'viewStatistic' => 'statistics-management',

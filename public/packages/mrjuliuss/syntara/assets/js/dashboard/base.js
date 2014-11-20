@@ -135,7 +135,20 @@ var showRegisterFormAjaxErrors = function(errors)
     {
         for(var i in errors[errorType])
         {
-            $('[name="'+errorType+'"]').closest('.form-group').append('<span class="label label-danger error-'+errorType+'">'+errors[errorType][i]+'</span>');
+            if (errorType.indexOf('.') !== -1) {
+                var tmp = errorType.split('.');
+                var errorTypeStr = null;
+                for (var j = 0; j < tmp.length; j++) {
+                    if (errorTypeStr === null) {
+                        errorTypeStr = tmp[j];
+                    } else {
+                        errorTypeStr = errorTypeStr + '[' + tmp[j] + ']';
+                    }
+                }
+            } else {
+                var errorTypeStr = errorType;
+            }
+            $('[name="'+errorTypeStr+'"]').closest('.form-group').append('<span class="label label-danger error-'+errorType+'">'+errors[errorType][i]+'</span>');
         }
     }
 };

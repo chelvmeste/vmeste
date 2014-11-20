@@ -1,26 +1,4 @@
-@extends('layouts.app.layout')
-@section('content')
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-
-                <h3>{{ trans('offer.help-offer.title') }}</h3>
-                <hr />
-
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger" role="alert">
-                            @foreach ($errors->all() as $error)
-                                {{ $error }}<br />
-                            @endforeach
-                        </div>
-                    @endif
-
-                    @if (Session::has('success'))
-                        <div class="alert alert-success">{{ Session::get('success') }}</div>
-                    @endif
-
-                    <form role="form" method="POST" action="{{ URL::route('requestPost') }}">
+                    <form role="form" method="POST" action="{{ URL::route('requestPost') }}" id="edit-offer-form">
                         <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
                             <label for="first_name">{{ trans('user.first_name') }}:</label>
                             {{ Form::text('first_name', $errors->has('first_name') ? Input::old('first_name') : $user->first_name, array('class' => 'form-control','id'=>'first_name')) }}
@@ -111,14 +89,8 @@
                         </div>
                         <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
                             <label for="description">{{ trans('offer.help-request.description') }}:</label>
-                            {{ Form::textarea('description', Input::old('description'), array('class' => 'form-control','id'=>'description')) }}
+                            {{ Form::textarea('description', $errors->has('description') ? Input::old('description') : $offer->description, array('class' => 'form-control','id'=>'description')) }}
                         </div>
                         {{ Form::hidden('type',2) }}
                         <button type="submit" class="btn btn-success">{{ trans('user.edit-profile.submit') }}</button>
                     </form>
-
-            </div>
-        </div>
-    </div>
-
-@stop

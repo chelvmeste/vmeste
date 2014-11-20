@@ -173,6 +173,42 @@ Route::group(array('before' => 'basicAuth|hasPermissions', 'prefix' => Config::g
         'as' => 'getCreateResponse',
         'uses' => 'AdminStatisticsController@getCreateResponse'
     ));
+    Route::get('offers',array(
+        'as' => 'getAdminOffers',
+        'uses' => 'AdminOffersController@getOffers'
+    ));
+    Route::get('requests',array(
+        'as' => 'getAdminRequests',
+        'uses' => 'AdminOffersController@getRequests'
+    ));
+    Route::get('responses',array(
+        'as' => 'getAdminResponses',
+        'uses' => 'AdminOffersController@getResponses'
+    ));
+    Route::get('offers/{id}',array(
+        'as' => 'showAdminOffer',
+        'uses' => 'AdminOffersController@showAdminOffer'
+    ));
+    Route::put('offers/{id}',array(
+        'as' => 'putAdminOffer',
+        'uses' => 'AdminOffersController@putAdminOffer'
+    ));
+    Route::delete('offers/{id}',array(
+        'as' => 'deleteAdminOffer',
+        'uses' => 'AdminOffersController@deleteAdminOffer'
+    ));
+    Route::get('requests/{id}',array(
+        'as' => 'showAdminRequest',
+        'uses' => 'AdminOffersController@showAdminRequest'
+    ));
+    Route::put('requests/{id}',array(
+        'as' => 'putAdminRequest',
+        'uses' => 'AdminOffersController@putAdminRequest'
+    ));
+    Route::delete('requests/{id}',array(
+        'as' => 'deleteAdminRequest',
+        'uses' => 'AdminOffersController@deleteAdminRequest'
+    ));
 
 });
 

@@ -17,7 +17,7 @@ $(document).ready(function(){
             pickDate: false,
             minuteStepping: 15
         });
-        console.log(timeStartPicker.closest('.day-container').find('.offer-day-switcher').is(':checked'));
+
         if (timeStartPicker.val() === '' && !timeStartPicker.closest('.day-container').find('.offer-day-switcher').is(':checked')) {
             timeStartPicker.data('DateTimePicker').disable();
         }

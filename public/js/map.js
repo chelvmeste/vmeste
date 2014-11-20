@@ -17,6 +17,8 @@ var Map = function(geoConfig) {
             center: [this.geoConfig.center.lon, this.geoConfig.center.lat],
             zoom: this.geoConfig.zoom,
             controls: ['zoomControl','typeSelector']
+        }, {
+            maxZoom: 18
         });
 
     };
