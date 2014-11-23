@@ -1,4 +1,4 @@
-                    <form role="form" method="POST" action="{{ URL::route('requestPost') }}" id="edit-offer-form">
+                    <form role="form" method="POST" action="{{ $offer->id ? URL::route('requestPost', ['id' => $offer->id]) : URL::route('requestPost') }}" id="edit-offer-form">
                         <div class="form-group {{ $errors->has('first_name') ? 'has-error' : '' }}">
                             <label for="first_name">{{ trans('user.first_name') }}:</label>
                             {{ Form::text('first_name', $errors->has('first_name') ? Input::old('first_name') : $user->first_name, array('class' => 'form-control','id'=>'first_name')) }}

@@ -73,7 +73,7 @@ class OfferController extends BaseController {
             return Redirect::route('getHelpRequestEdit',['id'=>$id]);
         }
 
-        if ($this->currentUser->getId() !== $offer->user_id && !$this->currentUser->hasPermission('editHelpOffer')) {
+        if ($this->currentUser->getId() !== $offer->user_id && !$this->currentUser->hasAccess('offers-management')) {
             return Response::view('not-found',['title' => trans('global.not-found.title')],404);
         }
 
@@ -109,23 +109,77 @@ class OfferController extends BaseController {
     }
 
     /**
+     * Edit help request
+     * @param $id
+     * @require auth
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function getHelpRequestEdit($id)
+    {
+
+        $offer = Offer::findOrFail($id);
+
+        if ($offer->type == 2) {
+            return Redirect::route('getHelpOfferEdit',['id'=>$id]);
+        }
+
+        if ($this->currentUser->getId() !== $offer->user_id && !$this->currentUser->hasAccess('offers-management')) {
+            return Response::view('not-found',['title' => trans('global.not-found.title')],404);
+        }
+
+        $user = Sentry::findUserById($offer->user_id);
+
+        Assets::addCss(array(
+            'bootstrap-datetimepicker.min.css'
+        ));
+
+        Assets::addJs(array(
+            'moment.js',
+            'moment.ru.js',
+            'bootstrap-datetimepicker.min.js',
+            'typeahead.bundle.js',
+            'offer.help-request.js'
+        ));
+
+        $this->layout = View::make('app.offer.help-request-edit',array(
+            'user' => $user,
+            'offer' => $offer,
+        ));
+        $this->layout->title = trans('offer.help-request.edit-title');
+
+    }
+
+    /**
      * Create or update new help request or offer
+     * @param $id optional
      * @return $this|\Illuminate\Http\RedirectResponse
      * @require auth
      */
-    public function postRequest()
+    public function postRequest($id = null)
     {
         try {
 
-            // todo check when add $id as param
-            $user = $this->currentUser;
+            if ($id)
+            {
+                $offer = Offer::findOrFail($id);
+                $user = $offer->user;
 
-            if (Input::get('type') == Offer::HELP_REQUEST) {
-                $offer = new Offer();
-                $offer->user_id = $user->getId();
-                $offer->type = Offer::HELP_REQUEST;
-            } else {
-                $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>Offer::HELP_OFFER));
+                if ($user->id !== $this->currentUser->getId() && !$this->currentUser->hasAccess('offers-management'))
+                {
+                    return Response::view('not-found',['title' => trans('global.not-found.title')],404);
+                }
+
+            } else
+            {
+                $user = $this->currentUser;
+
+                if (Input::get('type') == Offer::HELP_REQUEST) {
+                    $offer = new Offer();
+                    $offer->user_id = $user->getId();
+                    $offer->type = Offer::HELP_REQUEST;
+                } else {
+                    $offer = Offer::firstOrNew(array('user_id'=>$user->getId(),'type'=>Offer::HELP_OFFER));
+                }
             }
 
             if (!$user) {
@@ -249,55 +303,6 @@ class OfferController extends BaseController {
                 break;
         }
 
-//        if ($offer->type === Offer::HELP_OFFER)
-//        {
-//
-//            $days = $offer->days;
-//            $showButton = false;
-//            $showContactInfo = false;
-//            $hasHelpRequest = false;
-//            $hasOfferResponse = false;
-//            $helpRequests = false;
-//            if (Sentry::check())
-//            {
-//                $helpRequests = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',1)->get();
-//                $hasHelpRequest = count($helpRequests) > 0;
-//                $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->count() > 0;
-//                $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
-//                $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
-//            }
-//
-//            return Response::json(array(
-//                'offer' => $offer,
-//                'days' => $days,
-//                'showButton' => $showButton,
-//                'showContactInfo' => $showContactInfo,
-//            ));
-//
-//        }
-//        else
-//        {
-//
-//            $showButton = false;
-//            $showContactInfo = false;
-//            $hasOfferResponse = false;
-//            $helpOffer = false;
-//            if (Sentry::check())
-//            {
-//                $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
-//                $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
-//                $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
-//                $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
-//            }
-//
-//            return Response::json(array(
-//                'offer' => $offer,
-//                'showButton' => $showButton,
-//                'showContactInfo' => $showContactInfo,
-//            ));
-//
-//        }
-
     }
 
     /**
@@ -343,12 +348,14 @@ class OfferController extends BaseController {
         $showContactInfo = false;
         $hasOfferResponse = false;
         $helpOffer = false;
+        $canEdit = false;
         if (Sentry::check())
         {
             $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
             $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
             $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
-            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.offers-management')) || $this->currentUser->getId() === $offer->user_id;
+            $canEdit = $offer->user_id == $this->currentUser->getId() || $this->currentUser->hasAccess('offers-management');
         }
 
         if (Request::ajax())
@@ -360,6 +367,7 @@ class OfferController extends BaseController {
                 'showContactInfo' => $showContactInfo,
                 'helpOffer' => $helpOffer,
                 'hasOfferResponse' => $hasOfferResponse,
+                'canEdit' => $canEdit,
             ))->render();
             return Response::json(array(
                 'html' => $html,
@@ -384,6 +392,7 @@ class OfferController extends BaseController {
             'showContactInfo' => $showContactInfo,
             'helpOffer' => $helpOffer,
             'hasOfferResponse' => $hasOfferResponse,
+            'canEdit' => $canEdit,
         ));
         $this->layout->title = trans('offer.help-request-view.title');
 
@@ -406,6 +415,7 @@ class OfferController extends BaseController {
         $hasHelpRequest = false;
         $hasOfferResponse = false;
         $helpRequests = false;
+        $canEdit = false;
         if (Sentry::check())
         {
             $helpRequests = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',1)->get();
@@ -413,6 +423,7 @@ class OfferController extends BaseController {
             $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->count() > 0;
             $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
             $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
+            $canEdit = $offer->user_id == $this->currentUser->getId() || $this->currentUser->hasAccess('offers-management');
         }
 
         if (Request::ajax())
@@ -426,6 +437,7 @@ class OfferController extends BaseController {
                 'hasHelpRequest' => $hasHelpRequest,
                 'hasOfferResponse' => $hasOfferResponse,
                 'helpRequests' => $helpRequests,
+                'canEdit' => $canEdit,
             ))->render();
             return Response::json(array(
                 'html' => $html,
@@ -452,6 +464,7 @@ class OfferController extends BaseController {
             'hasHelpRequest' => $hasHelpRequest,
             'hasOfferResponse' => $hasOfferResponse,
             'helpRequests' => $helpRequests,
+            'canEdit' => $canEdit,
         ));
         $this->layout->title = trans('offer.help-offer-view.title');
 
@@ -521,7 +534,7 @@ class OfferController extends BaseController {
             return Response::json(array('message' => trans('offer.response.not_found')), 500);
         }
 
-        if ($this->currentUser->getId() !== $offerResponse->offer_user_id && $this->currentUser->getId() !== $offerResponse->request_user_id && !$this->currentUser->hasAccess('editResponse'))
+        if ($this->currentUser->getId() !== $offerResponse->offer_user_id && $this->currentUser->getId() !== $offerResponse->request_user_id && !$this->currentUser->hasAccess('response-management'))
         {
             return Response::json(array('message' => trans('offer.response.no_access')), 500);
         }

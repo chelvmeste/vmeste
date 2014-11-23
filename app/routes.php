@@ -87,7 +87,7 @@ Route::group(array('before' => 'auth'), function() {
         'as' => 'helpOfferNewGet',
         'uses' => 'OfferController@getHelpOfferNew'
     ));
-    Route::post('request',array(
+    Route::post('request/{id?}',array(
         'as' => 'requestPost',
         'uses' => 'OfferController@postRequest'
     ));

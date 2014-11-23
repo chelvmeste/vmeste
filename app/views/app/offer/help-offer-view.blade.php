@@ -5,6 +5,9 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>{{ trans('offer.help-offer-view.title') }}</h3>
+                @if($canEdit)
+                    <a href="{{ URL::route('helpOfferEditGet', ['id' => $offer->id]) }}"><i class="glyphicon glyphicon-pencil"></i> {{ trans('offer.edit') }}</a>
+                @endif
             </div>
         </div>
         <div class="row">
