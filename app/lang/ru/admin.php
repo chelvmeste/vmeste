@@ -16,6 +16,7 @@ return array(
             'responses' => 'Отклики',
             'offer-edit' => 'Редактировать карточку добровольца',
             'request-edit' => 'Редактировать заявку о помощи',
+            'response-view' => 'Просмотр отклика',
         ),
     ),
     'date' => 'Дата',
@@ -32,5 +33,15 @@ return array(
     'deleted' => 'Успешно удалено',
     'expired' => 'Просрочена',
     'active' => 'Активна',
+    'success' => 'Успешно',
+    'canceled' => 'Отменено',
+    'view' => 'Просмотр',
+    'offer-user' => 'Клиент',
+    'request-user' => 'Доброовлец',
+    'request' => 'Заявка',
+    'initiator' => 'инициатор',
+    'status' => 'Статус',
+    'offer-response' => 'Ответ добровольца',
+    'request-response' => 'Ответ клиента',
 
 );

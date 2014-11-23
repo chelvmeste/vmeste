@@ -263,6 +263,103 @@ use MrJuliuss\Syntara\Controllers\BaseController;
         public function getResponses()
         {
 
+            $offerResponses = new OfferResponse();
+
+            $responseStatus = Input::get('status');
+            if ($responseStatus)
+            {
+                $offerResponses = $offerResponses->where('status','=',$responseStatus);
+            }
+
+            $offerResponses = $offerResponses->orderBy('created_at','desc')->paginate(Config::get('syntara::config.item-perge-page'));
+            $links = $offerResponses->links();
+
+            $datas = array(
+                'offerResponses' => $offerResponses,
+                'links' => $links,
+            );
+
+            if (Request::ajax())
+            {
+                $html = View::make('admin.offers.responses-list',$datas)->render();
+                return Response::json(array('html'=>$html));
+            }
+
+            $this->layout = View::make('admin.offers.responses-index', $datas);
+            $this->layout->title = trans('admin.navigation.offers.responses');
+            $this->layout->breadcrumb = array(
+                array(
+                    'title' => trans('admin.navigation.offers.responses'),
+                    'link' => URL::route('getAdminResponses'),
+                    'icon' => 'glyphicon-file'
+                ),
+            );
+
+        }
+
+        public function showAdminResponse($id)
+        {
+
+            $response = OfferResponse::findOrFail($id);
+            $offerUser = $response->offerUser;
+            $requestUser = $response->requestUser;
+
+            $datas = array(
+                'response' => $response,
+                'offerUser' => $offerUser,
+                'requestUser' => $requestUser,
+            );
+
+            $this->layout = View::make('admin.offers.response-view', $datas);
+            $this->layout->title = trans('admin.offers.response-view');
+            $this->layout->breadcrumb = array(
+                array(
+                    'title' => trans('admin.navigation.offers.responses'),
+                    'link' => URL::route('getAdminResponses'),
+                    'icon' => 'glyphicon-file'
+                ),
+                array(
+                    'title' => trans('admin.navigation.offers.response-view'),
+                    'link' => URL::route('showAdminResponse', ['id' => $id]),
+                    'icon' => 'glyphicon-pencil'
+                ),
+            );
+
+        }
+
+        public function putAdminResponse($id)
+        {
+
+            try {
+
+                $response = OfferResponse::findOrFail($id);
+
+                $response->offer_response = Input::get('offer_response');
+                $response->request_response = Input::get('request_response');
+                $response->status = Input::get('status');
+                $response->save();
+
+                return Response::json(array('saved' => true, 'redirectUrl' => URL::route('getAdminResponses')));
+
+            } catch (Exception $e) {
+                return Response::json(array('saved' => false, 'message' => $e->getMessage(), 'messageType' => 'danger'));
+            }
+
+        }
+
+        public function deleteAdminResponse($id)
+        {
+
+            try {
+
+                OfferResponse::destroy($id);
+
+                return Response::json(array('deleted' => true, 'message' => trans('admin.deleted'), 'messageType' => 'success'));
+
+            } catch (Exception $e) {
+                return Response::json(array('deleted' => false, 'message' => $e->getMessage(), 'messageType' => 'danger'));
+            }
+
         }
 
     }

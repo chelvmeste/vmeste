@@ -38,6 +38,9 @@ return array(
         'deleteAdminRequest' => 'offers-management',
         'getAdminResponses' => 'responses-management',
         'editResponse' => 'responses-management',
+        'showAdminResponse' => 'responses-management',
+        'putAdminResponse' => 'responses-management',
+        'deleteAdminResponse' => 'responses-management',
 
         'viewStatistic' => 'statistics-management',
         'getPageViews' => 'statistics-management',

@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label for="responseInitiator">{{ trans('admin.response-initiator') }}</label>
                             <select class="form-control" name="responseInitiator" id="responseInitiator">
-                                <option>---</option>
+                                <option value="">---</option>
                                 <option value="offer">{{ trans('admin.offerer') }}</option>
                                 <option value="request">{{ trans('admin.requester') }}</option>
                             </select>

@@ -72,8 +72,8 @@ class AdminStatisticsController extends BaseController {
     public function getCreateResponse()
     {
 
-        $dateStart = Input::get('dateStart', date('Y-m-d', time()-7*24*3600));
-        $dateEnd = Input::get('dateEnd', date('Y-m-d'));
+        $dateStart = Input::get('dateStart'/*, date('Y-m-d', time()-7*24*3600)*/);
+        $dateEnd = Input::get('dateEnd'/*, date('Y-m-d')*/);
         $initiator = Input::get('responseInitiator');
 
         if ($initiator && $initiator == 'offer')

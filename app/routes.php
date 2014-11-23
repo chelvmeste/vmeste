@@ -209,6 +209,18 @@ Route::group(array('before' => 'basicAuth|hasPermissions', 'prefix' => Config::g
         'as' => 'deleteAdminRequest',
         'uses' => 'AdminOffersController@deleteAdminRequest'
     ));
+    Route::get('responses/{id}',array(
+        'as' => 'showAdminResponse',
+        'uses' => 'AdminOffersController@showAdminResponse'
+    ));
+    Route::put('responses/{id}',array(
+        'as' => 'putAdminResponse',
+        'uses' => 'AdminOffersController@putAdminResponse'
+    ));
+    Route::delete('responses/{id}',array(
+        'as' => 'deleteAdminResponse',
+        'uses' => 'AdminOffersController@deleteAdminResponse'
+    ));
 
 });
 
