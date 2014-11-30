@@ -105,24 +105,24 @@
                 <h3>Offers search</h3>
                 <form class="form-inline" id="search-offers-form">
                     <div class="form-group">
-                        <label for="gender">Gender</label>
+                        <label for="gender">{{ trans('global.gender') }}</label>
                         <select name="gender" class="form-control offers-search-filter">
-                            <option value="any">Any</option>
+                            <option value="any">{{ trans('global.any') }}</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="day">Day</label>
+                        <label for="day">{{ trans('global.day') }}</label>
                         <select name="day" class="form-control offers-search-filter">
-                            <option value="any">Any</option>
+                            <option value="any">{{ trans('global.any') }}</option>
                             @for($i=1;$i<=7;$i++)
                                 <option value="day_{{ $i }}">{{ trans('global.days.'.$i) }}</option>
                             @endfor
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="time">Time</label>
+                        <label for="time">{{ trans('global.time') }}</label>
                         <div class="input-group offer-time" id="offer-time">
                             <input type="text" class="form-control offers-search-filter" name="time" id="time" />
                             <span class="input-group-addon">
