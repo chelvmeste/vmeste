@@ -6,6 +6,11 @@ var Search = function(mapObject) {
     this.requests = [];
     this.activeItemKey = null;
     this.activeItemType = null;
+    this.offersFilterForm = '#search-offers-form';
+    this.requestsList = '#side-lists-requests';
+    this.requestsListCollaple = '#side-list-requests-collapse';
+    this.offersList = '#side-lists-offers';
+    this.offersListCollaple = '#side-list-offers-collapse';
 
     this.loadItems = function() {
 
@@ -17,18 +22,26 @@ var Search = function(mapObject) {
             success: function(data){
                 if (data.help_offers.length > 0) {
                     $this.offers = $this.formatData(data.help_offers);
-                    for (var i = 0; i < data.help_offers.length; i++) {
-                        $this.mapObject.addPlacemarkToCollection('offers', i, data.help_offers[i].user.address_latitude, data.help_offers[i].user.address_longitude, null, $this.loadItemInfo);
-                    }
+                    $this.addPlacemarks('offers',data.help_offers,false);
                 }
                 if (data.help_requests.length > 0) {
                     $this.requests = $this.formatData(data.help_requests);
-                    for (var i = 0; i < data.help_requests.length; i++) {
-                        $this.mapObject.addPlacemarkToCollection('requests', i, data.help_requests[i].user.address_latitude, data.help_requests[i].user.address_longitude, null, $this.loadItemInfo);
-                    }
+                    $this.addPlacemarks('requests',data.help_requests,false);
                 }
             }
         });
+
+    };
+
+    this.addPlacemarks = function(collection, items, resetCollection) {
+
+        if (resetCollection === true) {
+            this.mapObject.resetCollection(collection);
+        }
+
+        for (var i = 0; i < items.length; i++) {
+            this.mapObject.addPlacemarkToCollection(collection, i, items[i].user.address_latitude, items[i].user.address_longitude);
+        }
 
     };
 
@@ -44,12 +57,16 @@ var Search = function(mapObject) {
 
     };
 
-    this.buildSideList = function() {
+    this.buildSideList = function(callback) {
 
         var $this = this;
 
         $template.buildTemplate('home.side-list.container',{offers: this.offers, requests: this.requests},$('#side-list'),'html', function() {
-            $this.showItems('requests');
+            if (typeof callback === 'function') {
+                callback();
+            } else {
+                $this.showItems('requests');
+            }
         },{
             offerItem: 'home.side-list.offer-item',
             requestItem: 'home.side-list.requests-item'
@@ -86,17 +103,25 @@ var Search = function(mapObject) {
 
     };
 
+    this.showOffersList = function() {
+        $(this.offersList).find('a').trigger('click');
+    };
+
+    this.showRequestsList = function() {
+        $(this.requestsList).find('a').trigger('click');
+    };
+
     this.bindEvents = function() {
 
         var $this = this;
 
-        $(document).on('shown.bs.collapse','#side-list-requests-collapse', function() {
+        $(document).on('shown.bs.collapse',$this.requestsListCollaple, function() {
             $this.mapObject.resetCollectionPreset('offers');
             $('.select-offer').removeClass('active');
             $this.hideItems('offers');
             $this.showItems('requests');
         });
-        $(document).on('shown.bs.collapse','#side-list-offers-collapse', function() {
+        $(document).on('shown.bs.collapse',$this.offersListCollaple, function() {
             $this.mapObject.resetCollectionPreset('requests');
             $('.select-offer').removeClass('active');
             $this.showItems('offers');
@@ -121,6 +146,48 @@ var Search = function(mapObject) {
 
             $this.loadItemInfo(offerCollectionType, offerKey);
 
+        });
+
+        $(document).on('change','.offers-search-filter',function(e){
+
+            e.preventDefault();
+
+            $this.makeSearch();
+
+        });
+
+        $(document).on('dp.change','#offer-time',function(){
+            $this.makeSearch();
+        });
+
+    };
+
+    this.makeSearch = function() {
+
+        var $this = this,
+            formData = $(this.offersFilterForm).serialize();
+
+        $this.hideItems('offers');
+
+        $.ajax({
+            url: '/ajax/search/offers',
+            type: 'POST',
+            data: {
+                formData: formData
+            },
+            success: function(data) {
+                if (data.success === true) {
+                    if (typeof data.results !== 'undefined') {
+                        $this.offers = $this.formatData(data.results);
+                        $this.addPlacemarks('offers',data.results, true);
+                        $this.buildSideList(function(){
+                            $this.showOffersList();
+                        });
+                    }
+                } else {
+                    console.log('Search ajax error.');
+                }
+            }
         });
 
     };

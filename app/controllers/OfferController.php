@@ -169,7 +169,8 @@ class OfferController extends BaseController {
                     return Response::view('not-found',['title' => trans('global.not-found.title')],404);
                 }
 
-            } else
+            }
+            else
             {
                 $user = $this->currentUser;
 
@@ -200,8 +201,11 @@ class OfferController extends BaseController {
             {
                 $rules['time'] = 'required|date_format:H:i';
                 $rules['date'] = 'required|date_format:Y-m-d';
-            } else if ($offer->type == Offer::HELP_OFFER) {
-                for ($i = 1; $i <= 7; $i++) {
+            }
+            else if ($offer->type == Offer::HELP_OFFER)
+            {
+                for ($i = 1; $i <= 7; $i++)
+                {
                     $rules['days.'.$i.'.time_start'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
                     $rules['days.'.$i.'.time_end'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
                 }
@@ -230,7 +234,7 @@ class OfferController extends BaseController {
             if ($offer->type == Offer::HELP_REQUEST)
             {
                 $offer->date = Input::get('date');
-                $offer->time = Input::get('time');
+                $offer->time = Date::parse(Input::get('time'))->format('H:i:s');
             }
             $offer->save();
 
@@ -245,6 +249,8 @@ class OfferController extends BaseController {
                     ));
                 }
             }
+
+            $offer->index();
 
 //            return Redirect::back()->with('success',trans($offer->type == 1 ? 'offer.help-request.success' : 'offer.help-offer.success'));
             return Redirect::route($offer->type == 1 ? 'helpRequestViewGet' : 'helpOfferViewGet',['id'=>$offer->id]);

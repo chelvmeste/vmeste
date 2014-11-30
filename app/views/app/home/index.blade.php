@@ -101,6 +101,40 @@
         @endif
 
         <div class="row">
+            <div class="col-lg-12">
+                <h3>Offers search</h3>
+                <form class="form-inline" id="search-offers-form">
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select name="gender" class="form-control offers-search-filter">
+                            <option value="any">Any</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="day">Day</label>
+                        <select name="day" class="form-control offers-search-filter">
+                            <option value="any">Any</option>
+                            @for($i=1;$i<=7;$i++)
+                                <option value="day_{{ $i }}">{{ trans('global.days.'.$i) }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <div class="input-group offer-time" id="offer-time">
+                            <input type="text" class="form-control offers-search-filter" name="time" id="time" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-lg-5" id="side-list"></div>
             <div class="col-lg-7">
                 <div id="map"></div>

@@ -13,6 +13,11 @@ $(document).ready(function(){
 
     });
 
+    $('#offer-time').datetimepicker({
+        pickDate: false,
+        minuteStepping: 15
+    });
+
     $(document).on('click', '.show-requests-select', function(e){
         e.preventDefault();
         var btn = $(this);
@@ -27,24 +32,6 @@ $(document).ready(function(){
         btn.attr('href', btn.attr('data-submit-link').replace('XXX',$(this).val()));
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     $('.response-success').on('click', function(e) {
 

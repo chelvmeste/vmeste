@@ -11,3 +11,6 @@
 |
 */
 
+Artisan::add(new SearchIndexCommand());
+Artisan::add(new SearchRemoveIndex());
+Artisan::add(new SearchMappingCommand());

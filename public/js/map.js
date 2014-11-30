@@ -23,7 +23,13 @@ var Map = function(geoConfig) {
 
     };
 
-    this.addPlacemarkToCollection = function(collection, id, lat, lon, content, clickCallback) {
+    this.resetCollection = function(collection) {
+
+        this.collections[collection] = new ymaps.GeoObjectCollection();
+
+    };
+
+    this.addPlacemarkToCollection = function(collection, id, lat, lon) {
 
         var $this = this;
 

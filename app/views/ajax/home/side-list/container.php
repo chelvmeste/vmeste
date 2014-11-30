@@ -1,5 +1,5 @@
 <div class="panel-group" id="side-list-inner">
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="side-lists-offers">
         <div class="panel-heading" id="side-list-offers-header">
             <h4 class="panel-title">
                 <a class="collapsed" data-toggle="collapse" data-parent="#side-list-inner" href="#side-list-offers-collapse" aria-expanded="false" aria-controls="side-list-offers-collapse">

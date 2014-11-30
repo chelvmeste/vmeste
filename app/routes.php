@@ -126,6 +126,10 @@ Route::group(array('prefix'=>'ajax','before'=>'ajax'), function(){
         'as' => 'getTemplates',
         'uses' => 'TemplateController@getTemplate'
     ));
+    Route::post('search/offers', array(
+        'as' => 'searchOffers',
+        'uses' => 'SearchController@offers',
+    ));
 });
 Route::group(array('prefix'=>'ajax','before'=>'ajax|auth'), function(){
     Route::post('response', array(

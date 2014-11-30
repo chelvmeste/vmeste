@@ -127,6 +127,7 @@ return array(
         'Stolz\Assets\ManagerServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
         'Hotrush\Statistics\StatisticsServiceProvider',
+        'Fadion\Bouncy\BouncyServiceProvider',
 
 	),
 
