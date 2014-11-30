@@ -19,7 +19,7 @@
                         <td><strong>{{ trans('user.email') }}</strong></td>
                         <td>{{ $user->email }}</td>
                     </tr>
-                    @if(Sentry::check() && Sentry::getUser()->hasAccess(Config::get('syntara::permissions.showUser')))
+                    @if(Sentry::check() && (Sentry::getUser()->hasAccess(Config::get('syntara::permissions.showUser')) || Sentry::getUser()->getId() === $user->id))
                         @if(!empty($user->vk_id))
                             <tr>
                                 <td><strong>{{ trans('user.vk_id') }}</strong></td>
