@@ -38,7 +38,15 @@ class SearchMappingCommand extends Command {
 	public function fire()
 	{
 
-        Offer::rebuildMapping();
+        if ($this->option('force'))
+        {
+            Offer::rebuildMapping();
+        }
+        else
+        {
+            Offer::putMapping();
+        }
+
 
 	}
 
@@ -59,7 +67,9 @@ class SearchMappingCommand extends Command {
 	 */
 	protected function getOptions()
 	{
-		return array();
+		return array(
+            array('force', null, InputOption::VALUE_OPTIONAL, 'Force rebuild mapping.', false),
+        );
 	}
 
 }
