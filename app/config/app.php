@@ -128,6 +128,7 @@ return array(
         'Jenssegers\Date\DateServiceProvider',
         'Hotrush\Statistics\StatisticsServiceProvider',
         'Fadion\Bouncy\BouncyServiceProvider',
+        'PragmaRX\Tracker\Vendor\Laravel\ServiceProvider',
 
 	),
 
@@ -199,6 +200,7 @@ return array(
         'Date'            => 'Jenssegers\Date\Date',
         'Statistics'      => 'Hotrush\Statistics\Facades\Statistics',
         'StatisticsAggregation' => 'Hotrush\Statistics\Facades\StatisticsAggregation',
+        'Tracker'         => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
 
 	),
 
