@@ -12,9 +12,11 @@ class UpdateAdminGroupPermission extends Migration {
 	 */
 	public function up()
 	{
-        DB::table('groups')
-	        ->where('name', 'Admin')
-            ->update(array('permissions' => json_encode(array('superuser' => 1))));
+		DB::table('groups')
+			->insert(array(
+				'name' => 'Admin',
+				'permissions' => json_encode(array('superuser' => 1))
+			));
 	}
 
 	/**
