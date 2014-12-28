@@ -20,7 +20,11 @@
                         <div class="alert alert-success">{{ Session::get('success') }}</div>
                     @endif
 
-                    @include('app.offer.help-request-edit-form')
+                    @if(Blind::isEnabled())
+                        @include('app.offer.help-request-edit-form-blind')
+                    @else
+                        @include('app.offer.help-request-edit-form')
+                    @endif
 
             </div>
         </div>

@@ -8,21 +8,26 @@ class OfferController extends BaseController {
      */
     public function getHelpRequestNew()
     {
-        Assets::addCss(array(
-            'bootstrap-datetimepicker.min.css'
-        ));
+        if (!Blind::isEnabled())
+        {
+            Assets::addCss(array(
+                'bootstrap-datetimepicker.min.css'
+            ));
 
+            Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'bootstrap-datetimepicker.min.js'
+            ));
+        }
         Assets::addJs(array(
-            'moment.js',
-            'moment.ru.js',
-            'bootstrap-datetimepicker.min.js',
             'typeahead.bundle.js',
             'offer.help-request.js'
         ));
 
         $user = $this->currentUser;
 
-        $this->layout = View::make('app.offer.help-request-new',array(
+        $this->layout = View::make(Blind::isEnabled() ? 'app.offer.help-request-new-blind' : 'app.offer.help-request-new',array(
             'user' => $user,
         ));
         $this->layout->title = trans('offer.help-request.title');
@@ -33,26 +38,29 @@ class OfferController extends BaseController {
      */
     public function getHelpOfferNew()
     {
-
         $user = $this->currentUser;
         $offer = Offer::where('user_id','=',$user->getId())->where('type','=',2)->first();
         if ($offer && $offer->id) {
             return Redirect::route('helpOfferEditGet',['id'=>$offer->id]);
         }
 
-        Assets::addCss(array(
-            'bootstrap-datetimepicker.min.css'
-        ));
-
+        if (!Blind::isEnabled())
+        {
+            Assets::addCss(array(
+                'bootstrap-datetimepicker.min.css'
+            ));
+            Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'bootstrap-datetimepicker.min.js',
+            ));
+        }
         Assets::addJs(array(
-            'moment.js',
-            'moment.ru.js',
-            'bootstrap-datetimepicker.min.js',
+            'offer.help-offer.js',
             'typeahead.bundle.js',
-            'offer.help-offer.js'
         ));
 
-        $this->layout = View::make('app.offer.help-offer-new',array(
+        $this->layout = View::make(Blind::isEnabled() ? 'app.offer.help-offer-new-blind' : 'app.offer.help-offer-new',array(
             'user' => $user,
         ));
         $this->layout->title = trans('offer.help-offer.title');
@@ -87,14 +95,21 @@ class OfferController extends BaseController {
             }
         }
 
-        Assets::addCss(array(
-            'bootstrap-datetimepicker.min.css'
-        ));
+        if (!Blind::isEnabled())
+        {
+            Assets::addCss(array(
+                'bootstrap-datetimepicker.min.css'
+            ));
 
+            Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'bootstrap-datetimepicker.min.js',
+                'typeahead.bundle.js',
+                'offer.help-offer.js'
+            ));
+        }
         Assets::addJs(array(
-            'moment.js',
-            'moment.ru.js',
-            'bootstrap-datetimepicker.min.js',
             'typeahead.bundle.js',
             'offer.help-offer.js'
         ));
@@ -129,17 +144,23 @@ class OfferController extends BaseController {
 
         $user = Sentry::findUserById($offer->user_id);
 
-        Assets::addCss(array(
-            'bootstrap-datetimepicker.min.css'
-        ));
+        if (!Blind::isEnabled())
+        {
+            Assets::addCss(array(
+                'bootstrap-datetimepicker.min.css'
+            ));
 
+            Assets::addJs(array(
+                'moment.js',
+                'moment.ru.js',
+                'bootstrap-datetimepicker.min.js',
+            ));
+        }
         Assets::addJs(array(
-            'moment.js',
-            'moment.ru.js',
-            'bootstrap-datetimepicker.min.js',
             'typeahead.bundle.js',
             'offer.help-request.js'
         ));
+
 
         $this->layout = View::make('app.offer.help-request-edit',array(
             'user' => $user,
@@ -194,20 +215,50 @@ class OfferController extends BaseController {
                 'gender' => 'in:male,female',
                 'phone' => 'digits_between:7,16',
                 'vk_id' => 'alpha_dash',
-                'birthdate' => 'date_format:Y-m-d',
+//                'birthdate' => 'date_format:Y-m-d',
                 'description' => 'required|min:10',
             );
+            if (Blind::isEnabled())
+            {
+                $rules['birthdate.day'] = 'required|date_format:d';
+                $rules['birthdate.month'] = 'required|date_format:m';
+                $rules['birthdate.year'] = 'required|date_format:Y';
+            }
+            else
+            {
+                $rules['birthdate'] = 'date_format:Y-m-d';
+            }
             if ($offer->type == Offer::HELP_REQUEST)
             {
-                $rules['time'] = 'required|date_format:H:i';
-                $rules['date'] = 'required|date_format:Y-m-d';
+                if (Blind::isEnabled())
+                {
+                    $rules['time.hours'] = 'required|date_format:H';
+                    $rules['time.minutes'] = 'required|date_format:i';
+                    $rules['date.day'] = 'required|date_format:d';
+                    $rules['date.month'] = 'required|date_format:m';
+                    $rules['date.year'] = 'required|date_format:Y';
+                } else
+                {
+                    $rules['time'] = 'required|date_format:H:i';
+                    $rules['date'] = 'required|date_format:Y-m-d';
+                }
             }
             else if ($offer->type == Offer::HELP_OFFER)
             {
                 for ($i = 1; $i <= 7; $i++)
                 {
-                    $rules['days.'.$i.'.time_start'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
-                    $rules['days.'.$i.'.time_end'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                    if (Blind::isEnabled())
+                    {
+                        $rules['days.'.$i.'.time_start.hours'] = 'required_if:days.'.$i.'.enabled,1|date_format:H';
+                        $rules['days.'.$i.'.time_start.minutes'] = 'required_if:days.'.$i.'.enabled,1|date_format:i';
+                        $rules['days.'.$i.'.time_end.hours'] = 'required_if:days.'.$i.'.enabled,1|date_format:H';
+                        $rules['days.'.$i.'.time_end.minutes'] = 'required_if:days.'.$i.'.enabled,1|date_format:i';
+                    }
+                    else
+                    {
+                        $rules['days.'.$i.'.time_start'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                        $rules['days.'.$i.'.time_end'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                    }
                 }
             }
 
@@ -223,29 +274,40 @@ class OfferController extends BaseController {
             $user->last_name = (string)Input::get('last_name');
             $user->vk_id = Input::get('vk_id');
             $user->phone = Input::get('phone');
-            $user->birthdate = Input::get('birthdate');
+            if (Blind::isEnabled())
+            {
+                $user->birthdate = Date::createFromDate(Input::get('birthdate.year'),Input::get('birthdate.month'),Input::get('birthdate.day'))->format('Y-m-d');
+            }
+            else
+            {
+                $user->birthdate = Input::get('birthdate');
+            }
             $user->gender = Input::get('gender');
             $user->address = Input::get('address');
-            $user->address_longitude = Input::get('address_longitude');
-            $user->address_latitude = Input::get('address_latitude');
+            $user->address_longitude = Input::get('address_longitude', null);
+            $user->address_latitude = Input::get('address_latitude', null);
             $user->save();
 
             $offer->description = Input::get('description');
             if ($offer->type == Offer::HELP_REQUEST)
             {
-                $offer->date = Input::get('date');
-                $offer->time = Date::parse(Input::get('time'))->format('H:i:s');
+                $offer->date = Blind::isEnabled() ? Date::createFromDate(Input::get('date.year'),Input::get('date.month'),Input::get('date.day'))->format('Y-m-d') : Input::get('date');
+                $offer->time = Blind::isEnabled() ? Date::createFromTime(Input::get('time.hours'), Input::get('time.minutes'))->format('H:i:s') : Date::parse(Input::get('time'))->format('H:i:s');
             }
             $offer->save();
 
             if ($offer->type == Offer::HELP_OFFER) {
                 OfferDays::where('offer_id','=',$offer->id)->delete();
                 foreach (Input::get('days') as $day => $data) {
+
+                    $timeStart = Blind::isEnabled() ? Date::parse($data['time_start']['hours'].':'.$data['time_start']['minutes'])->format('H:i:s') : $data['time_start'];
+                    $timeEnd = Blind::isEnabled() ? Date::parse($data['time_end']['hours'].':'.$data['time_end']['minutes'])->format('H:i:s') : $data['time_end'];
+
                     OfferDays::create(array(
                         'offer_id' => $offer->id,
                         'day' => $day,
-                        'time_start' => $data['time_start'],
-                        'time_end' => $data['time_end'],
+                        'time_start' => $timeStart,
+                        'time_end' => $timeEnd,
                     ));
                 }
             }
@@ -341,8 +403,8 @@ class OfferController extends BaseController {
 
     /**
      * Show help request
-     *
      * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getHelpRequestView($id)
     {
@@ -385,11 +447,14 @@ class OfferController extends BaseController {
             'lat' => $user->address_latitude,
         ));
 
-        Assets::addJs(array(
-            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-            'map.js',
-            'offer.help-request-view.js'
-        ));
+        if (!Blind::isEnabled())
+        {
+            Assets::addJs(array(
+                '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+                'map.js',
+                'offer.help-request-view.js'
+            ));
+        }
 
         $this->layout = View::make('app.offer.help-request-view', array(
             'offer' => $offer,
@@ -406,8 +471,8 @@ class OfferController extends BaseController {
 
     /**
      * Show help offer
-     *
      * @param $id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getHelpOfferView($id)
     {
@@ -450,11 +515,14 @@ class OfferController extends BaseController {
             ));
         }
 
-        Assets::addJs(array(
-            '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-            'map.js',
-            'offer.help-offer-view.js'
-        ));
+        if (!Blind::isEnabled())
+        {
+            Assets::addJs(array(
+                '//api-maps.yandex.ru/2.1/?lang=ru_RU',
+                'map.js',
+                'offer.help-offer-view.js'
+            ));
+        }
 
         $this->scriptComposer['offerData'] = json_encode(array(
             'lon' => $user->address_longitude,

@@ -148,8 +148,19 @@
                     'gender' => 'in:male,female',
                     'phone' => 'digits_between:7,16',
                     'vk_id' => 'alpha_dash',
-                    'birthdate' => 'date_format:Y-m-d',
+//                    'birthdate' => 'date_format:Y-m-d',
                 );
+
+                if (Blind::isEnabled())
+                {
+                    $rules['birthdate.day'] = 'required|date_format:d';
+                    $rules['birthdate.month'] = 'required|date_format:m';
+                    $rules['birthdate.year'] = 'required|date_format:Y';
+                }
+                else
+                {
+                    $rules['birthdate'] = 'date_format:Y-m-d';
+                }
 
 //                if (Input::get('password')) {
 //                    $rules['password'] = 'required|min:6|max:255|confirmed';
@@ -177,7 +188,15 @@
                     $user->phone = Input::get('phone');
                 }
                 if (Input::exists('birthdate')) {
-                    $user->birthdate = Input::get('birthdate');
+//                    $user->birthdate = Input::get('birthdate');
+                    if (Blind::isEnabled())
+                    {
+                        $user->birthdate = Date::createFromDate(Input::get('birthdate.year'),Input::get('birthdate.month'),Input::get('birthdate.day'))->format('Y-m-d');
+                    }
+                    else
+                    {
+                        $user->birthdate = Input::get('birthdate');
+                    }
                 }
                 if (Input::exists('gender')) {
                     $user->gender = Input::get('gender');

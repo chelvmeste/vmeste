@@ -3,7 +3,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="{{ Blind::isEnabled() ? 'col-md-6 col-md-offset-3' : 'col-md-12' }}">
                 <h3>{{ trans('offer.help-offer-view.title') }}</h3>
                 @if($canEdit)
                     <a href="{{ URL::route('helpOfferEditGet', ['id' => $offer->id]) }}"><i class="glyphicon glyphicon-pencil"></i> {{ trans('offer.edit') }}</a>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6{{ Blind::isEnabled() ? ' col-lg-offset-3' : '' }}">
 
                 @if(Session::has('error'))
                     <div class="alert alert-danger" role="alert">{{ Session::get('error') }}</div>
@@ -22,9 +22,11 @@
                 @include('app.offer.help-offer-partial')
 
             </div>
-            <div class="col-lg-6">
-                <div id="map"></div>
-            </div>
+            @if(!Blind::isEnabled())
+                <div class="col-lg-6">
+                    <div id="map"></div>
+                </div>
+            @endif
         </div>
     </div>
 

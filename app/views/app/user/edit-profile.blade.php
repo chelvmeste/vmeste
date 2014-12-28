@@ -51,11 +51,10 @@
                         </div>
                         <div class="form-group {{ $errors->has('birthdate') ? 'has-error' : '' }}">
                             <label for="daterimepicker-birthdate">{{ trans('user.birthdate') }}:</label>
-                            <div class="input-group date" id="daterimepicker-birthdate">
-                                <input type='text' class="form-control" data-date-format="YYYY-MM-DD" name="birthdate" value="{{ $user->birthdate !== '0000-00-00' ? $user->birthdate : '' }}"/>
-                            	<span class="input-group-addon">
-                            	    <span class="glyphicon glyphicon-calendar"></span>
-                            	</span>
+                            <div class="form-inline">
+                                {{ Form::selectDays('birthdate[day]', Input::old('birthdate.day', Date::parse($user->birthdate)->format('j')), ['class' => 'form-control']) }}
+                                {{ Form::selectMonths('birthdate[month]', Input::old('birthdate.month', Date::parse($user->birthdate)->format('n')), ['class' => 'form-control']) }}
+                                {{ Form::selectYears('birthdate[year]', 1920, Input::old('birthdate.year', Date::parse($user->birthdate)->format('Y')), ['class' => 'form-control']) }}
                             </div>
                         </div>
                         <div class="form-group {{ $errors->has('vk_id') ? 'has-error' : '' }}">

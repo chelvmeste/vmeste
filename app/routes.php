@@ -12,10 +12,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 |
 */
 
-Route::get('/', array(
-    'as' => 'homeGet',
-    'uses' => 'MapController@getIndex',
-));
+Route::group(array('prefix' => Blind::setRoutePrefix()), function(){
+
+    Route::get('/', array(
+        'as' => 'homeGet',
+        'uses' => 'MapController@getIndex',
+    ));
+
+});
 
 Route::get(Config::get('syntara::config.uri'), array(
     'before' => 'basicAuth|hasPermissions',
@@ -23,7 +27,7 @@ Route::get(Config::get('syntara::config.uri'), array(
     'uses' => 'MrJuliuss\Syntara\Controllers\DashboardController@getIndex'
 ));
 
-Route::group(array('before' => 'guest'), function() {
+Route::group(array('before' => 'guest|VmesteBlindFilter', 'prefix' => Blind::setRoutePrefix()), function() {
 //    Route::get('register', array(
 //        'as' => 'registerGet',
 //        'uses' => 'UserController@getRegister',
@@ -66,7 +70,7 @@ Route::group(array('before' => 'guest'), function() {
     ));
 });
 
-Route::group(array('before' => 'auth'), function() {
+Route::group(array('before' => 'auth|VmesteBlindFilter', 'prefix' => Blind::setRoutePrefix()), function() {
     Route::get('logout', array(
         'as' => 'logoutGet',
         'uses' => 'UserController@getLogout',
@@ -138,27 +142,28 @@ Route::group(array('prefix'=>'ajax','before'=>'ajax|auth'), function(){
     ));
 });
 
-Route::get('user/{id}', array(
-    'as' => 'profileGet',
-    'uses' => 'UserController@getProfile',
-));
-Route::get('help-requests',array(
-    'as' => 'helpRequestsGet',
-    'uses' => 'OfferController@getHelpRequests'
-));
-Route::get('help-offers',array(
-    'as' => 'helpOffersGet',
-    'uses' => 'OfferController@getHelpOffers'
-));
-Route::get('help-request/{id}',array(
-    'as' => 'helpRequestViewGet',
-    'uses' => 'OfferController@getHelpRequestView'
-));
-Route::get('help-offer/{id}',array(
-    'as' => 'helpOfferViewGet',
-    'uses' => 'OfferController@getHelpOfferView'
-));
-
+Route::group(array('before' => 'VmesteBlindFilter', 'prefix' => Blind::setRoutePrefix()), function() {
+    Route::get('user/{id}', array(
+        'as' => 'profileGet',
+        'uses' => 'UserController@getProfile',
+    ));
+    Route::get('help-requests', array(
+        'as' => 'helpRequestsGet',
+        'uses' => 'OfferController@getHelpRequests'
+    ));
+    Route::get('help-offers', array(
+        'as' => 'helpOffersGet',
+        'uses' => 'OfferController@getHelpOffers'
+    ));
+    Route::get('help-request/{id}', array(
+        'as' => 'helpRequestViewGet',
+        'uses' => 'OfferController@getHelpRequestView'
+    ));
+    Route::get('help-offer/{id}', array(
+        'as' => 'helpOfferViewGet',
+        'uses' => 'OfferController@getHelpOfferView'
+    ));
+});
 
 /**
  * Admin routes

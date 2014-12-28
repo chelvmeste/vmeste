@@ -15,7 +15,7 @@ class BaseController extends Controller {
 	{
         $this->currentUser = Sentry::getUser();
 
-        $this->layout = View::make('layouts.app.layout');
+        $this->layout = Blind::isEnabled() ? View::make('layouts.app.layout_blind') : View::make('layouts.app.layout');
         $this->layout->title = 'Вместе';
 
         $this->scriptComposer['geoConfig'] = json_encode(Config::get('geo'));

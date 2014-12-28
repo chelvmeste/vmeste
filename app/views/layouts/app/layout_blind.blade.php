@@ -12,7 +12,7 @@
 
     </head>
     <body>
-        @include('layouts.app.header')
+        @include('layouts.app.header_blind')
 
         <div id="main-container">
             <div class="container">

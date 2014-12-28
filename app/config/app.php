@@ -129,6 +129,7 @@ return array(
         'Hotrush\Statistics\StatisticsServiceProvider',
         'Fadion\Bouncy\BouncyServiceProvider',
         'PragmaRX\Tracker\Vendor\Laravel\ServiceProvider',
+        'Vmeste\Blind\BlindServiceProvider',
 
 	),
 
@@ -201,6 +202,7 @@ return array(
         'Statistics'      => 'Hotrush\Statistics\Facades\Statistics',
         'StatisticsAggregation' => 'Hotrush\Statistics\Facades\StatisticsAggregation',
         'Tracker'         => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
+        'Blind'           => 'Vmeste\Blind\Facades\Blind',
 
 	),
 

@@ -33,18 +33,18 @@ class ElasticOfferCollection extends Collection {
                 foreach($item['days'] as $day)
                 {
                     $days['day_'.$day['day']] = array(
-                         'active' => true,
-                         'time_start' => $day['time_start'],
-                         'time_end' => $day['time_end'],
+                        'day' => $day['day'],
+                        'active' => true,
+                        'time_start' => $day['time_start'],
+                        'time_end' => $day['time_end'],
                     );
                 }
                 for($i=1;$i<=7;$i++)
                 {
                     if (!isset($days['day_'.$i])) {
                         $days['day_'.$i] = array(
-                            'day_'.$i => array(
-                                'active' => false
-                            )
+                            'day' => $i,
+                            'active' => false
                         );
                     }
                 }
@@ -56,15 +56,18 @@ class ElasticOfferCollection extends Collection {
             $item['user']['location']['lat'] = $item['user']['address_latitude'];
             $item['user']['location']['lon'] = $item['user']['address_longitude'];
 
-            if ($item['type'] == 2) {
+            if ($item['type'] == \Offer::HELP_OFFER)
+            {
                 unset($item['time'], $item['date']);
             }
             unset($item['user']['address_longitude'], $item['user']['address_latitude'], $item['created_at'], $item['updated_at']);
+
 
             $params['body'][] = $item;
         }
 
         return $this->getElasticClient()->bulk($params);
+
     }
 
 }
