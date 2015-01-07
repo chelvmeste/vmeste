@@ -126,7 +126,6 @@ return array(
         'Mrjuliuss\Syntara\SyntaraServiceProvider',
         'Stolz\Assets\ManagerServiceProvider',
         'Jenssegers\Date\DateServiceProvider',
-        'Hotrush\Statistics\StatisticsServiceProvider',
         'Fadion\Bouncy\BouncyServiceProvider',
         'PragmaRX\Tracker\Vendor\Laravel\ServiceProvider',
         'Vmeste\Blind\BlindServiceProvider',
@@ -199,8 +198,6 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
         'Sentry'          => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
         'Date'            => 'Jenssegers\Date\Date',
-        'Statistics'      => 'Hotrush\Statistics\Facades\Statistics',
-        'StatisticsAggregation' => 'Hotrush\Statistics\Facades\StatisticsAggregation',
         'Tracker'         => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
         'Blind'           => 'Vmeste\Blind\Facades\Blind',
 

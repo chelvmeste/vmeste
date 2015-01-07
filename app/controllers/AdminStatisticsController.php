@@ -6,10 +6,10 @@ class AdminStatisticsController extends BaseController {
     public function getSiteVisits()
     {
 
-        $dateStart = Input::get('dateStart', date('Y-m-d', time()-7*24*3600));
-        $dateEnd = Input::get('dateEnd', date('Y-m-d'));
+        $dateStart = Input::get('dateStart', date('Y-m-d', time()-30*24*3600));
+        $dateEnd = Input::get('dateEnd', date('Y-m-d', time()+1*24*3600));
 
-        $stats = StatisticsAggregation::aggregateCountByDateRange('siteVisit', $dateStart, $dateEnd);
+        $stats = Tracker::sessionsForPeriod($dateStart, $dateEnd, true);
 
         $datas = array(
             'stats' => $stats,
@@ -39,10 +39,10 @@ class AdminStatisticsController extends BaseController {
     public function getPageViews()
     {
 
-        $dateStart = Input::get('dateStart', date('Y-m-d', time()-7*24*3600));
-        $dateEnd = Input::get('dateEnd', date('Y-m-d'));
+        $dateStart = Input::get('dateStart', date('Y-m-d', time()-31*24*3600));
+        $dateEnd = Input::get('dateEnd', date('Y-m-d', time()+1*24*3600));
 
-        $stats = StatisticsAggregation::aggregateCountByDateRange('pageView', $dateStart, $dateEnd);
+        $stats = Tracker::pageViewsForPeriod($dateStart, $dateEnd, true);
 
         $datas = array(
             'stats' => $stats,
@@ -50,7 +50,7 @@ class AdminStatisticsController extends BaseController {
             'dateEnd' => $dateEnd,
         );
 
-        if(Request::ajax())
+        if (Request::ajax())
         {
             $html = View::make('admin.stats.stats-partial', array('datas' => $datas))->render();
 
@@ -72,19 +72,19 @@ class AdminStatisticsController extends BaseController {
     public function getCreateResponse()
     {
 
-        $dateStart = Input::get('dateStart'/*, date('Y-m-d', time()-7*24*3600)*/);
-        $dateEnd = Input::get('dateEnd'/*, date('Y-m-d')*/);
+        $dateStart = Input::get('dateStart', date('Y-m-d', time()-31*24*3600));
+        $dateEnd = Input::get('dateEnd', date('Y-m-d', time()+1*24*3600));
         $initiator = Input::get('responseInitiator');
 
         if ($initiator && $initiator == 'offer')
         {
-            $stats = StatisticsAggregation::aggregateCountByDateRange('createResponseFromOffer', $dateStart, $dateEnd);
+            $stats = Tracker::customEventForPeriod('vmeste.createResponseFromOffer', $dateStart, $dateEnd, true);
         } else if ($initiator && $initiator == 'request')
         {
-            $stats = StatisticsAggregation::aggregateCountByDateRange('createResponseFromRequest', $dateStart, $dateEnd);
+            $stats = Tracker::customEventForPeriod('vmeste.createResponseFromRequest', $dateStart, $dateEnd, true);
         } else
         {
-            $stats = StatisticsAggregation::aggregateCountByDateRange('createResponse', $dateStart, $dateEnd);
+            $stats = Tracker::customEventForPeriod('vmeste.createResponse', $dateStart, $dateEnd, true);
         }
 
         $datas = array(

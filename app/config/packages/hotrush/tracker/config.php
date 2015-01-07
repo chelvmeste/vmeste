@@ -221,7 +221,7 @@ return [
 	/**
 	 * Internal tracker session name.
 	 */
-    'tracker_session_name' => 'tracker_session',
+	'tracker_session_name' => 'tracker_session',
 
 	/**
 	 * ** IMPORTANT **
@@ -233,9 +233,9 @@ return [
 	 * You can use your own model for every single table Tracker has.
 	 */
 
-    'session_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Session',
+	'session_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Session',
 
-    'log_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Log',
+	'log_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Log',
 
 	'path_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Path',
 
@@ -245,9 +245,9 @@ return [
 
 	'agent_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Agent',
 
-    'device_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Device',
+	'device_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Device',
 
-    'cookie_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Cookie',
+	'cookie_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Cookie',
 
 	'domain_model' => 'PragmaRX\Tracker\Vendor\Laravel\Models\Domain',
 
@@ -284,13 +284,13 @@ return [
 	 */
 	'authentication_ioc_binding' => 'auth', // defaults to 'auth' in Illuminate\Support\Facades\Auth
 
-    'authenticated_check_method' => 'check', // to Auth::check()
+	'authenticated_check_method' => 'check', // to Auth::check()
 
-    'authenticated_user_method' => 'user', // to Auth::user()
+	'authenticated_user_method' => 'user', // to Auth::user()
 
-    'authenticated_user_id_column' => 'id', // to Auth::user()->id
+	'authenticated_user_id_column' => 'id', // to Auth::user()->id
 
-    'authenticated_user_username_column' => 'email', // to Auth::user()->email
+	'authenticated_user_username_column' => 'email', // to Auth::user()->email
 
 	/**
 	 * Laravel Alias, create one? Which name?
@@ -312,27 +312,27 @@ return [
 	'stats_routes_before_filter' => '',
 
 	/**
-     * Stats Panel template path
-     */
-    'stats_template_path' => '/templates/sb-admin-2',
+	 * Stats Panel template path
+	 */
+	'stats_template_path' => '/templates/sb-admin-2',
 
-    /**
-     * Stats Panel base uri.
-     *
-     * If your site url is http://wwww.mysite.com, then your stats page will be:
-     *
-     *    http://wwww.mysite.com/stats
-     *
-     */
-    'stats_base_uri' => 'stats',
+	/**
+	 * Stats Panel base uri.
+	 *
+	 * If your site url is http://wwww.mysite.com, then your stats page will be:
+	 *
+	 *    http://wwww.mysite.com/stats
+	 *
+	 */
+	'stats_base_uri' => 'stats',
 
-    /**
-     * Stats Panel layout view
-     */
-    'stats_layout' => 'pragmarx/tracker::layout',
+	/**
+	 * Stats Panel layout view
+	 */
+	'stats_layout' => 'pragmarx/tracker::layout',
 
-    /**
-     * Stats Panel controllers namespace
-     */
-    'stats_controllers_namespace' => 'PragmaRX\Tracker\Vendor\Laravel\Controllers',
+	/**
+	 * Stats Panel controllers namespace
+	 */
+	'stats_controllers_namespace' => 'PragmaRX\Tracker\Vendor\Laravel\Controllers',
 ];

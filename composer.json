@@ -10,10 +10,9 @@
         "mrjuliuss/syntara": "1.2.*",
 		"stolz/assets": "dev-master",
         "jenssegers/date": "*",
-        "hotrush/statistics": "dev-master",
         "fadion/bouncy": "dev-master",
         "ruflin/elastica": "1.3.*",
-        "pragmarx/tracker": "0.7.*"
+		"hotrush/tracker": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
