@@ -20,7 +20,13 @@ class RemindersController extends BaseController {
 	 */
 	public function postRemind()
 	{
-		switch ($response = Password::remind(Input::only('email')))
+        $response = Password::remind(Input::only('email'), function($message)
+        {
+            $message->subject(lang('reminders.subject'));
+            $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'));
+        });
+
+		switch ($response)
 		{
 			case Password::INVALID_USER:
 				return Redirect::back()->with('error', Lang::get($response));
