@@ -22,7 +22,7 @@ class RemindersController extends BaseController {
 	{
         $response = Password::remind(Input::only('email'), function($message)
         {
-            $message->subject(lang('reminders.subject'));
+            $message->subject(Lang::get('reminders.subject'));
             $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'));
         });
 
