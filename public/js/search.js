@@ -48,6 +48,7 @@ var Search = function(mapObject) {
     this.showItems = function(type) {
 
         this.mapObject.renderCollection(type, false);
+        this.mapObject.setCenter();
 
     };
 
@@ -144,6 +145,8 @@ var Search = function(mapObject) {
             var placemark = $this.mapObject.getPlacemarkFromCollection(offerCollectionType, offerKey);
             placemark.options.set('preset', 'islands#redIcon');
 
+            $this.checkVisibleOrCenter(placemark);
+
             $this.loadItemInfo(offerCollectionType, offerKey);
 
         });
@@ -224,6 +227,31 @@ var Search = function(mapObject) {
                 }
             }
         });
+
+    };
+
+    this.checkVisibleOrCenter = function(placemark) {
+
+        var placeMarkCoordinates = placemark.geometry.getCoordinates(),
+            mapBounds = this.mapObject.getBounds(),
+            mapBotLeft = mapBounds[0],
+            mapTopRight = mapBounds[1];
+
+        if (
+            placeMarkCoordinates[0] < mapBotLeft[0]
+            ||
+            placeMarkCoordinates[0] > mapTopRight[0]
+            ||
+            placeMarkCoordinates[1] < mapBotLeft[1]
+            ||
+            placeMarkCoordinates[1] > mapTopRight[1]
+        ) {
+
+            // placemark not visible, set map center to it
+
+            this.mapObject.setCenter(placeMarkCoordinates);
+
+        }
 
     };
 

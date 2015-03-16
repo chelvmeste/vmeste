@@ -107,6 +107,26 @@ var Map = function(geoConfig) {
 
     };
 
+    this.getBounds = function() {
+
+        return this.mapObject.getBounds();
+
+    };
+
+    this.setCenter = function(coords) {
+
+        if (coords) {
+
+            this.mapObject.setCenter(coords);
+
+        } else {
+
+            this.mapObject.setCenter([this.geoConfig.center.lon, this.geoConfig.center.lat], this.geoConfig.zoom);
+
+        }
+
+    };
+
     this.getPlacemarkFromCollection = function(collection, id) {
 
         if (typeof this.collections[collection] === 'undefined') {
