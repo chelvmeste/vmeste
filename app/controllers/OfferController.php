@@ -249,15 +249,15 @@ class OfferController extends BaseController {
                 {
                     if (Blind::isEnabled())
                     {
-                        $rules['days.'.$i.'.time_start.hours'] = 'required_if:days.'.$i.'.enabled,1|date_format:H';
-                        $rules['days.'.$i.'.time_start.minutes'] = 'required_if:days.'.$i.'.enabled,1|date_format:i';
-                        $rules['days.'.$i.'.time_end.hours'] = 'required_if:days.'.$i.'.enabled,1|date_format:H';
-                        $rules['days.'.$i.'.time_end.minutes'] = 'required_if:days.'.$i.'.enabled,1|date_format:i';
+                        $rules['days.'.$i.'.time_start.hours'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:H';
+                        $rules['days.'.$i.'.time_start.minutes'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:i';
+                        $rules['days.'.$i.'.time_end.hours'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:H';
+                        $rules['days.'.$i.'.time_end.minutes'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:i';
                     }
                     else
                     {
-                        $rules['days.'.$i.'.time_start'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
-                        $rules['days.'.$i.'.time_end'] = 'required_if:days.'.$i.'.enabled,1|date_format:H:i';
+                        $rules['days.'.$i.'.time_start'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:H:i';
+                        $rules['days.'.$i.'.time_end'] = /*'required_if:days.'.$i.'.enabled,1|*/'date_format:H:i';
                     }
                 }
             }
@@ -298,17 +298,35 @@ class OfferController extends BaseController {
 
             if ($offer->type == Offer::HELP_OFFER) {
                 OfferDays::where('offer_id','=',$offer->id)->delete();
-                foreach (Input::get('days') as $day => $data) {
+                if (Input::get('days')) {
+                    foreach (Input::get('days') as $day => $data) {
 
-                    $timeStart = Blind::isEnabled() ? Date::parse($data['time_start']['hours'].':'.$data['time_start']['minutes'])->format('H:i:s') : $data['time_start'];
-                    $timeEnd = Blind::isEnabled() ? Date::parse($data['time_end']['hours'].':'.$data['time_end']['minutes'])->format('H:i:s') : $data['time_end'];
+                        if (Blind::isEnabled()) {
+                            $data['time_start']['hours'] = $data['time_start']['hours'] ? $data['time_start']['hours'] : '09';
+                            $data['time_end']['minutes'] = $data['time_end']['minutes'] ? $data['time_end']['minutes'] : '00';
+                        } else {
+                            $data['time_start'] = $data['time_start'] ? $data['time_start'] : '09:00';
+                            $data['time_end'] = $data['time_end'] ? $data['time_end'] : '21:00';
+                        }
+                        $timeStart = Blind::isEnabled() ? Date::parse($data['time_start']['hours'].':'.$data['time_start']['minutes'])->format('H:i:s') : $data['time_start'];
+                        $timeEnd = Blind::isEnabled() ? Date::parse($data['time_end']['hours'].':'.$data['time_end']['minutes'])->format('H:i:s') : $data['time_end'];
 
-                    OfferDays::create(array(
-                        'offer_id' => $offer->id,
-                        'day' => $day,
-                        'time_start' => $timeStart,
-                        'time_end' => $timeEnd,
-                    ));
+                        OfferDays::create(array(
+                            'offer_id' => $offer->id,
+                            'day' => $day,
+                            'time_start' => $timeStart,
+                            'time_end' => $timeEnd,
+                        ));
+                    }
+                } else {
+                    for ($i = 1; $i <= 7; $i++) {
+                        OfferDays::create(array(
+                            'offer_id' => $offer->id,
+                            'day' => $i,
+                            'time_start' => '09:00:00',
+                            'time_end' => '21:00:00',
+                        ));
+                    }
                 }
             }
 

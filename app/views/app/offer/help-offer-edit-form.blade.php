@@ -68,7 +68,7 @@
                                     <div class="form-inline">
                                         <div class="form-group {{ $errors->has('days.'.$i.'.time_start') ? 'has-error' : '' }}">
                                             <div class="input-group offer-time offer-time-start" id="time_start_{{ $i }}">
-                                                <input type="text" class="form-control" name="days[{{ $i }}][time_start]" value="{{ Input::old('days.'.$i.'.time_start', isset($days[$i]) ? Date::parse($days[$i]['time_start'])->format('H:i') : null) }}" />
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_start]" value="{{ Input::old('days.'.$i.'.time_start', isset($days[$i]) ? Date::parse($days[$i]['time_start'])->format('H:i') : '09:00') }}" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>
@@ -77,7 +77,7 @@
                                         -
                                         <div class="form-group {{ $errors->has('days.'.$i.'.time_end') ? 'has-error' : '' }}">
                                             <div class="input-group offer-time offer-time-end" id="time_end_{{ $i }}">
-                                                <input type="text" class="form-control" name="days[{{ $i }}][time_end]" value="{{ Input::old('days.'.$i.'.time_end', isset($days[$i]) ? Date::parse($days[$i]['time_end'])->format('H:i') : null) }}" />
+                                                <input type="text" class="form-control" name="days[{{ $i }}][time_end]" value="{{ Input::old('days.'.$i.'.time_end', isset($days[$i]) ? Date::parse($days[$i]['time_end'])->format('H:i') : '21:00') }}" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-time"></span>
                                                 </span>

@@ -11,11 +11,15 @@ $(document).ready(function(){
                 timeEndPicker = $('#time_end_' + i);
             timeStartPicker.datetimepicker({
                 pickDate: false,
-                minuteStepping: 15
+                minuteStepping: 15,
+                format: 'HH:mm',
+                keepInvalid: false
             });
             timeEndPicker.datetimepicker({
                 pickDate: false,
-                minuteStepping: 15
+                minuteStepping: 15,
+                format: 'HH:mm',
+                keepInvalid: false
             });
 
             if (timeStartPicker.val() === '' && !timeStartPicker.closest('.day-container').find('.offer-day-switcher').is(':checked')) {

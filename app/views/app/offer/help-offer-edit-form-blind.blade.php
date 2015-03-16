@@ -56,7 +56,7 @@
                     <div class="form-group {{ $errors->has('days.'.$i.'.time_start') ? 'has-error' : '' }}">
                         <select class="form-control" name="days[{{ $i }}][time_start][hours]" id="time_start_hours_{{ $i }}"{{ Input::old('days.'.$i.'.time_start.hours', isset($days[$i])) ? '' : ' disabled' }}>
                             @for($j=0;$j<=23;$j++)
-                                <option value="{{ $j }}"{{ Input::old('days.'.$i.'.time_start.hours') == $j || (isset($days[$i]) && Date::parse($days[$i]['time_start'])->format('G') == $j) ? ' selected' : '' }}>{{ strlen($j) == 1 ? '0'.$j : $j }}</option>
+                                <option value="{{ $j }}"{{ Input::old('days.'.$i.'.time_start.hours') == $j || (isset($days[$i]) && Date::parse($days[$i]['time_start'])->format('G') == $j) || (!isset($days[$i]) && !Input::old('days.'.$i.'.time_start.hours') && $j == 9) ? ' selected' : '' }}>{{ strlen($j) == 1 ? '0'.$j : $j }}</option>
                             @endfor
                         </select>
                         <select class="form-control" name="days[{{ $i }}][time_start][minutes]" id="time_start_minutes_{{ $i }}"{{ Input::old('days.'.$i.'.time_start.hours', isset($days[$i])) ? '' : ' disabled' }}>
@@ -69,7 +69,7 @@
                     <div class="form-group {{ $errors->has('days.'.$i.'.time_start') ? 'has-error' : '' }}">
                         <select class="form-control" name="days[{{ $i }}][time_end][hours]" id="time_end_hours_{{ $i }}"{{ Input::old('days.'.$i.'.time_end.hours', isset($days[$i])) ? '' : ' disabled' }}>
                             @for($j=0;$j<=23;$j++)
-                                <option value="{{ $j }}"{{ Input::old('days.'.$i.'.time_end.hours') == $j || (isset($days[$i]) && Date::parse($days[$i]['time_end'])->format('G') == $j) ? ' selected' : '' }}>{{ strlen($j) == 1 ? '0'.$j : $j }}</option>
+                                <option value="{{ $j }}"{{ Input::old('days.'.$i.'.time_end.hours') == $j || (isset($days[$i]) && Date::parse($days[$i]['time_end'])->format('G') == $j) || (!isset($days[$i]) && !Input::old('days.'.$i.'.time_start.hours') && $j == 21) ? ' selected' : '' }}>{{ strlen($j) == 1 ? '0'.$j : $j }}</option>
                             @endfor
                         </select>
                         <select class="form-control" name="days[{{ $i }}][time_end][minutes]" id="time_end_minutes_{{ $i }}"{{ Input::old('days.'.$i.'.time_end.hours', isset($days[$i])) ? '' : ' disabled' }}>
