@@ -47,7 +47,7 @@ var Search = function(mapObject) {
 
     this.showItems = function(type) {
 
-        this.mapObject.renderCollection(type);
+        this.mapObject.renderCollection(type, false);
 
     };
 

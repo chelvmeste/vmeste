@@ -60,7 +60,7 @@ var Map = function(geoConfig) {
 
     this.renderCollection = function(collection, setBounds) {
 
-        setBounds = setBounds || true;
+        setBounds = typeof setBounds === 'boolean' ? setBounds : false;
 
         if (typeof this.collections[collection] === 'undefined') {
             console.log('No collection found: ' + collection);
