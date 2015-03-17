@@ -8,7 +8,7 @@
         "pda/pheanstalk": "2.0.*",
         "barryvdh/laravel-ide-helper": "1.*",
         "mrjuliuss/syntara": "1.2.*",
-		"stolz/assets": "dev-master",
+		"stolz/assets": "0.0.*",
         "jenssegers/date": "*",
         "fadion/bouncy": "dev-master",
         "ruflin/elastica": "1.3.*",
