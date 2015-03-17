@@ -16,18 +16,30 @@ class ElasticOfferCollection extends Collection {
 
         $params = array();
 
-        foreach ($this->all() as $item) {
+        foreach ($this->all() as $item1) {
             $params['body'][] = array(
                 'index' => array(
-                    '_index' => $item->getIndex(),
-                    '_type' => $item->getTypeName(),
-                    '_id' => $item->getKey()
+                    '_index' => $item1->getIndex(),
+                    '_type' => $item1->getTypeName(),
+                    '_id' => $item1->getKey()
                 )
             );
 
-            $item = $item->toArray();
+            $item = $item1->toArray();
 
             $days = array();
+
+            if (!isset($item['days']) && $item1->type == \Offer::HELP_OFFER) {
+
+                $offerDays = $item1->days;
+                if ($offerDays) {
+                    foreach($offerDays as $d) {
+                        $item['days'][] = $d->toArray();
+                    }
+                }
+
+            }
+
             if (isset($item['days']) && !empty($item['days']))
             {
                 foreach($item['days'] as $day)
@@ -60,7 +72,7 @@ class ElasticOfferCollection extends Collection {
             {
                 unset($item['time'], $item['date']);
             }
-            unset($item['user']['address_longitude'], $item['user']['address_latitude'], $item['created_at'], $item['updated_at']);
+            unset($item['user']['address_longitude'], $item['user']['address_latitude'], $item['created_at'], $item['updated_at'], $item['birthdate']);
 
 
             $params['body'][] = $item;

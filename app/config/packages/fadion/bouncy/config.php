@@ -22,6 +22,6 @@ return array(
     | Disable it to have manual control over indexes.
     |
     */
-    'auto_index' => false,
+    'auto_index' => true,
 
 );

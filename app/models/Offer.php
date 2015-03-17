@@ -4,7 +4,8 @@ use Vmeste\Collections\ElasticOfferCollection;
 
     class Offer extends Eloquent {
 
-        use Fadion\Bouncy\BouncyTrait;
+//        use Fadion\Bouncy\BouncyTrait;
+        use Vmeste\Traits\ElasticOfferTrait;
 
         protected $mappingProperties = [
             'id' => ['type' => 'integer', 'index' => 'not_analyzed'],
