@@ -22,5 +22,5 @@ return array(
      * Number of item to show
      * in /users /groups /permissions
      */
-    'item-perge-page' => 20,
+    'item-perge-page' => 5,
 );

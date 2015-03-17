@@ -1,4 +1,4 @@
-$(function() 
+$(function()
 {
     $('.activate-user').tooltip();
 
@@ -28,7 +28,7 @@ $(function()
                 window.location = result.redirectUrl;
             }
         });
-        
+
         return false;
     }).on('submit', '#edit-user-form', function()
     {
@@ -61,7 +61,7 @@ $(function()
         $('#confirm-modal').modal();
     }).on('click', '.delete-user .confirm-action', function()
     {
-        $.each($('.table tbody tr td input:checkbox:checked'), function( key, value ) 
+        $.each($('.table tbody tr td input:checkbox:checked'), function( key, value )
         {
             $.ajax(
             {
@@ -79,9 +79,15 @@ $(function()
     {
         var userId = $(this).parent().parent().find('input[type="checkbox"]').data('user-id');
 
+        var url = window.location.href.toString();
+        if (url.indexOf('?') > -1) {
+            url = url.split('?')[0];
+        }
+        url = url + '/../user/'+userId+'/activate/';
+
         $.ajax({
             "type": "PUT",
-            "url": window.location.href.toString()+'/../user/'+userId+'/activate/',
+            "url": url,
             "data": {userId : userId},
             "dataType": "json"
         }).done(function(result)
