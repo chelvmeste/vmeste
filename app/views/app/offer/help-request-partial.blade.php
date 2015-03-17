@@ -7,11 +7,11 @@
             @endif
         </td>
     </tr>
-    <tr>
-        <td><strong>{{ trans('user.email') }}</strong></td>
-        <td>{{ $user->email }}</td>
-    </tr>
     @if($showContactInfo)
+        <tr>
+            <td><strong>{{ trans('user.email') }}</strong></td>
+            <td>{{ $user->email }}</td>
+        </tr>
         @if(!empty($user->vk_id))
             <tr>
                 <td><strong>{{ trans('user.vk_id') }}</strong></td>
@@ -22,6 +22,23 @@
             <tr>
                 <td><strong>{{ trans('user.phone') }}</strong></td>
                 <td>+{{ $user->phone }}</td>
+            </tr>
+        @endif
+    @else
+        <tr>
+            <td><strong>{{ trans('user.email') }}</strong></td>
+            <td><i>{{ trans('user.available-after-contact') }}</i></td>
+        </tr>
+        @if(!empty($user->vk_id))
+            <tr>
+                <td><strong>{{ trans('user.vk_id') }}</strong></td>
+                <td><i>{{ trans('user.available-after-contact') }}</i></td>
+            </tr>
+        @endif
+        @if(!empty($user->phone))
+            <tr>
+                <td><strong>{{ trans('user.phone') }}</strong></td>
+                <td><i>{{ trans('user.available-after-contact') }}</i></td>
             </tr>
         @endif
     @endif

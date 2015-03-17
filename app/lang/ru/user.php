@@ -50,4 +50,5 @@ return array(
     'profile' => array(
         'title' => 'Профиль пользователя :name',
     ),
+    'available-after-contact' => 'Доступно после обращения',
 );

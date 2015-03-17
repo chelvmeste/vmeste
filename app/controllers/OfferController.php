@@ -438,9 +438,9 @@ class OfferController extends BaseController {
         if (Sentry::check())
         {
             $helpOffer = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',2)->first();
-            $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->count() > 0;
+            $hasOfferResponse = !empty($helpOffer) && OfferResponse::where('offer_id','=',$helpOffer->id)->where('request_id','=',$offer->id)->where('status','=',OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE)->count() > 0;
             $showButton = !empty($helpOffer) && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
-            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.offers-management')) || $this->currentUser->getId() === $offer->user_id;
+            $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
             $canEdit = $offer->user_id == $this->currentUser->getId() || $this->currentUser->hasAccess('offers-management');
         }
 
@@ -509,7 +509,7 @@ class OfferController extends BaseController {
         {
             $helpRequests = Offer::where('user_id','=',$this->currentUser->getId())->where('type','=',1)->get();
             $hasHelpRequest = count($helpRequests) > 0;
-            $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->count() > 0;
+            $hasOfferResponse = OfferResponse::where('offer_id','=',$offer->id)->where('request_user_id','=',$this->currentUser->getId())->where('status','=',OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE)->count() > 0;
             $showButton = $hasHelpRequest && !$hasOfferResponse && $this->currentUser->getId() !== $user->id ? true : false;
             $showContactInfo = $hasOfferResponse || $this->currentUser->hasAccess(Config::get('syntara::permissions.listOffers')) || $this->currentUser->getId() === $offer->user_id;
             $canEdit = $offer->user_id == $this->currentUser->getId() || $this->currentUser->hasAccess('offers-management');
