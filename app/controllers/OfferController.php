@@ -575,9 +575,9 @@ class OfferController extends BaseController {
         $request = Offer::findOrFail($requestId);
 
         // может уже откликался
-        $hasOfferResponse = OfferResponse::where('offer_id','=',$offerId)->where('request_id','=',$requestId)->count() > 0;
+        $hasOfferResponse = OfferResponse::where('offer_id','=',$offerId)->where('request_id','=',$requestId)->first();
 
-        if ($hasOfferResponse)
+        if ($hasOfferResponse->id && $hasOfferResponse->status === OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE)
         {
             return Redirect::back()->with('error', trans('offer.already-has-response'));
         }

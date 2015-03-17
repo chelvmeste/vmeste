@@ -30,7 +30,7 @@
             $data = array();
 
             // get responses
-            $data['offerResponses'] = Sentry::check() ? OfferResponse::where('status','=',OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE)->where('offer_user_id','=',$this->currentUser->getId())->orWhere('request_user_id','=',$this->currentUser->getId())->get() : array();
+            $data['offerResponses'] = Sentry::check() ? OfferResponse::whereRaw('status = ? AND (offer_user_id = ? OR request_user_id = ?)', [OfferResponse::OFFER_RESPONSE_STATUS_ACTIVE, $this->currentUser->getId(), $this->currentUser->getId()])->get() : array();
 
             if (Blind::isEnabled())
             {
