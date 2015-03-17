@@ -27,6 +27,7 @@ return array(
         'remind_password' => 'Восстановить пароль',
         'remember' => 'Запомнить меня',
         'invalid_password' => 'Неверный пароль',
+        'not_activated' => 'Пользователь не активирован',
     ),
     'activate' => array(
         'title' => 'Активация аккаунта',

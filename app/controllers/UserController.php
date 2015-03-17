@@ -49,6 +49,8 @@
                 return Redirect::back()->withErrors([trans('syntara::all.messages.banned')]);
             } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
                 return Redirect::back()->withErrors([trans('user.login.invalid_password')]);
+            } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+                return Redirect::back()->withErrors([trans('user.login.not_activated')]);
             } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
 
                 $user = Sentry::getUserProvider()->create($credentials);
