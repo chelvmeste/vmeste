@@ -15,27 +15,27 @@
                                 {{ trans('offer.response.1-want-help', [
                                     'username' => $response->requestUser->first_name.' '.$response->requestUser->last_name,
                                     'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
-                                    'address' => $response->requestUser->address,
-                                    'phone' => $response->requestUser->phone,
-                                    'vk_id' => $response->requestUser->vk_id,
+                                    'address' => $response->requestUser->address ? $response->requestUser->address : trans('offer.no-address'),
+                                    'phone' => $response->requestUser->phone ? $response->requestUser->phone : trans('offer.no-phone'),
+                                    'vk_id' => $response->requestUser->vk_id ? trans('offer.vk_link', ['vk_id' => $response->requestUser->vk_id]) : '',
                                 ]) }}
                                 @else
                                 {{-- 2 - ко мне обратились за помощью --}}
                                 {{ trans('offer.response.2-somebody-request-help', [
                                     'username' => $response->requestUser->first_name.' '.$response->requestUser->last_name,
                                     'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
-                                    'address' => $response->requestUser->address,
-                                    'phone' => $response->requestUser->phone,
-                                    'vk_id' => $response->requestUser->vk_id,
+                                    'address' => $response->requestUser->address ? $response->requestUser->address : trans('offer.no-address'),
+                                    'phone' => $response->requestUser->phone ? $response->requestUser->phone : trans('offer.no-phone'),
+                                    'vk_id' => $response->requestUser->vk_id ? trans('offer.vk_link', ['vk_id' => $response->requestUser->vk_id]) : '',
                                 ]) }}
                                 @endif
                             @elseif($response->request_user_id === $currentUser->getId())
                                 @if($response->request_user_id === $response->initiator_user_id)
                                 {{-- 3 - вы попросили о помощи --}}
                                 {{ trans('offer.response.3-you-request-help', [
-                                    'address' => $response->offerUser->address,
-                                    'phone' => $response->offerUser->phone,
-                                    'vk_id' => $response->offerUser->vk_id,
+                                    'address' => $response->offerUser->address ? $response->offerUser->address : trans('offer.no-address'),
+                                    'phone' => $response->offerUser->phone ? $response->offerUser->phone : trans('offer.no-phone'),
+                                    'vk_id' => $response->offerUser->vk_id ? trans('offer.vk_link', ['vk_id' => $response->offerUser->vk_id]) : '',
                                     'username' => $response->offerUser->first_name.' '.$response->offerUser->last_name,
                                     'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]),
                                     'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id])
@@ -46,9 +46,9 @@
                                     'username' => $response->offerUser->first_name.' '.$response->offerUser->last_name,
                                     'offerLink' => URL::route('helpOfferViewGet', ['id' => $response->offer_id]),
                                     'requestLink' => URL::route('helpRequestViewGet', ['id' => $response->request_id]),
-                                    'address' => $response->offerUser->address,
-                                    'phone' => $response->offerUser->phone,
-                                    'vk_id' => $response->offerUser->vk_id,
+                                    'address' => $response->offerUser->address ? $response->offerUser->address : trans('offer.no-address'),
+                                    'phone' => $response->offerUser->phone ? $response->offerUser->phone : trans('offer.no-phone'),
+                                    'vk_id' => $response->offerUser->vk_id ? trans('offer.vk_link', ['vk_id' => $response->offerUser->vk_id]) : '',
                                 ]) }}
                                 @endif
                             @endif

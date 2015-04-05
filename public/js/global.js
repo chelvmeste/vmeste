@@ -32,6 +32,8 @@ $(document).ready(function(){
                             }
                         }
                         process(response);
+                        $('#address_latitude').val('');
+                        $('#address_longitude').val('');
                     }
                 });
             },

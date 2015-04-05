@@ -54,12 +54,16 @@
             <td>{{ $user->birthdate }}</td>
         </tr>
     @endif
-    @if(!empty($user->address))
-        <tr>
-            <td><strong>{{ trans('user.address') }}</strong></td>
-            <td>{{ $user->address }}</td>
-        </tr>
-    @endif
+    <tr>
+        <td><strong>{{ trans('user.address') }}</strong></td>
+        <td>
+            @if(!empty($user->address))
+                {{ $user->address }}
+            @else
+                {{trans('offer.no-address')}}
+            @endif
+        </td>
+    </tr>
     @if(!empty($offer->time) && !empty($offer->date))
         <tr>
             <td><strong>{{ trans('offer.help-request.date') }}</strong></td>

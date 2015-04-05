@@ -43,10 +43,10 @@ return array(
         'title' => 'Заявка о помощи',
     ),
     'response' => array(
-        '1-want-help' => 'Вы хотели помочь :username.<br />Адрес: :address <br />Номер телефона: +:phone<br /><a target="_blank" href="http://vk.com/:vk_id">Страница Вконтакте</a><br /><a href=":requestLink">Посмотреть заявку</a>',
-        '2-somebody-request-help' => ':username обратился к Вам за помощью. <br />Адрес: :address <br />Номер телефона: +:phone<br /><a target="_blank" href="http://vk.com/:vk_id">Страница Вконтакте</a><br /> <a href=":requestLink">Посмотреть заявку</a>',
-        '3-you-request-help' => 'Вы обратилсь за помощью к :username. <br />Адрес: :address <br />Номер телефона: +:phone<br /><a target="_blank" href="http://vk.com/:vk_id">Страница Вконтакте</a><br /><a href=":requestLink">Посмотреть вашу заявку</a>. <a href=":offerLink">Посмотреть карточку :username</a>',
-        '4-somebody-want-help' => ':username хочет помочь вам с <a href=":requestLink">вашей зявкой</a>. <br />Адрес: :address <br />Номер телефона: +:phone<br /><a target="_blank" href="http://vk.com/:vk_id">Страница Вконтакте</a><br /> <a href=":offerLink">Посмотреть карточку добровольца :username</a>',
+        '1-want-help' => 'Вы хотели помочь :username.<br />Адрес: :address <br />Номер телефона: :phone<br />:vk_id<a href=":requestLink">Посмотреть заявку</a>',
+        '2-somebody-request-help' => ':username обратился к Вам за помощью. <br />Адрес: :address <br />Номер телефона: :phone<br />:vk_id<a href=":requestLink">Посмотреть заявку</a>',
+        '3-you-request-help' => 'Вы обратилсь за помощью к :username. <br />Адрес: :address <br />Номер телефона: :phone<br />:vk_id<a href=":requestLink">Посмотреть вашу заявку</a>. <a href=":offerLink">Посмотреть карточку :username</a>',
+        '4-somebody-want-help' => ':username хочет помочь вам с <a href=":requestLink">вашей зявкой</a>. <br />Адрес: :address <br />Номер телефона: :phone<br />:vk_id<a href=":offerLink">Посмотреть карточку добровольца :username</a>',
         'helped' => 'Помог!',
         'cancel' => 'Отменить',
         'response_text' => 'Оставьте сообщение',
@@ -54,6 +54,10 @@ return array(
         'not_found' => 'Не найдено',
         'no_access' => 'Нет доступа',
     ),
+    'vk_link' => '<a target="_blank" href=":vk_id">Страница Вконтакте</a><br />',
     'edit' => 'Редактировать',
+    'no-address' => 'Не указан',
+    'no-phone' => 'Не указан',
+    'no-vk' => 'Не указан',
 
 );

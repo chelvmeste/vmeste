@@ -283,9 +283,9 @@ class OfferController extends BaseController {
                 $user->birthdate = Input::get('birthdate');
             }
             $user->gender = Input::get('gender');
-            $user->address = Input::get('address');
-            $user->address_longitude = Input::get('address_longitude', null);
-            $user->address_latitude = Input::get('address_latitude', null);
+            $user->address = Input::get('address_longitude') && Input::get('address_longitude') != '0.00000000' ? Input::get('address') : null;
+            $user->address_longitude = Input::get('address_longitude') && Input::get('address_longitude') != '0.00000000' ? Input::get('address_longitude') : Config::get('geo.default.lon');
+            $user->address_latitude = Input::get('address_latitude') && Input::get('address_latitude') != '0.00000000' ? Input::get('address_latitude') : Config::get('geo.default.lat');
             $user->save();
 
             $offer->description = Input::get('description');

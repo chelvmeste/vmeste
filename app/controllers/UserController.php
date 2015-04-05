@@ -204,9 +204,9 @@
                     $user->gender = Input::get('gender');
                 }
                 if (Input::exists('address') && Input::exists('address_longitude') && Input::exists('address_latitude')) {
-                    $user->address = Input::get('address');
-                    $user->address_longitude = Input::get('address_longitude');
-                    $user->address_latitude = Input::get('address_latitude');
+                    $user->address = Input::get('address_longitude') && Input::get('address_longitude') != '0.00000000' ? Input::get('address') : null;
+                    $user->address_longitude = Input::get('address_longitude') && Input::get('address_longitude') != '0.00000000' ? Input::get('address_longitude') : Config::get('geo.default.lon');
+                    $user->address_latitude = Input::get('address_latitude') && Input::get('address_latitude') != '0.00000000' ? Input::get('address_latitude') : Config::get('geo.default.lat');
                 }
                 $user->save();
 

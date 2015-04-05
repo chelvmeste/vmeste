@@ -45,12 +45,16 @@
                             <td>{{ $user->birthdate }}</td>
                         </tr>
                     @endif
-                    @if(!empty($user->address))
-                        <tr>
-                            <td><strong>{{ trans('user.address') }}</strong></td>
-                            <td>{{ $user->address }}</td>
-                        </tr>
-                    @endif
+                    <tr>
+                        <td><strong>{{ trans('user.address') }}</strong></td>
+                        <td>
+                            @if(!empty($user->address))
+                                {{ $user->address }}
+                            @else
+                                {{trans('offer.no-address')}}
+                            @endif
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-lg-3" style="padding-top: 55px;">
