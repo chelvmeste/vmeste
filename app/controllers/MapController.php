@@ -3,6 +3,7 @@
     class MapController extends BaseController
     {
 
+        protected $bodyClasses = ['index', 'page-start'];
         /**
          * Home page with map and search
          */

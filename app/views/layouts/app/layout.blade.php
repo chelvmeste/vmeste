@@ -11,19 +11,20 @@
         {{ Assets::css() }}
 
     </head>
-    <body>
-        @include('layouts.app.header')
 
-        <div id="main-container">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 pull-right">
-                        {{ Blind::getBlindSwitcher() }}
-                    </div>
+    <body class="{{ implode(' ', $bodyClasses) }}">
+
+        <div id="main">
+            @include('layouts.app.header')
+            <div class="content">
+                <div class="all">
+                    @yield('content')
                 </div>
             </div>
-            @yield('content')
+            @include('layouts.app.footer')
         </div>
+
+        {{--{{ Blind::getBlindSwitcher() }}--}}
 
         @include('script-composer')
         {{ Assets::js() }}

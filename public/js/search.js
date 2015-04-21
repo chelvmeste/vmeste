@@ -7,9 +7,11 @@ var Search = function(mapObject) {
     this.activeItemKey = null;
     this.activeItemType = null;
     this.offersFilterForm = '#search-offers-form';
-    this.requestsList = '#side-lists-requests';
+    //this.requestsList = '#side-lists-requests';
+    this.requestsList = '.show-requests';
     this.requestsListCollaple = '#side-list-requests-collapse';
-    this.offersList = '#side-lists-offers';
+    //this.offersList = '#side-lists-offers';
+    this.offersList = '.show-offers';
     this.offersListCollaple = '#side-list-offers-collapse';
 
     this.loadItems = function() {
@@ -40,7 +42,7 @@ var Search = function(mapObject) {
         }
 
         for (var i = 0; i < items.length; i++) {
-            this.mapObject.addPlacemarkToCollection(collection, i, items[i].user.address_latitude, items[i].user.address_longitude);
+            this.mapObject.addPlacemarkToCollection(collection, i, items[i].user.address_latitude, items[i].user.address_longitude, this.selectOffer);
         }
 
     };
@@ -62,7 +64,7 @@ var Search = function(mapObject) {
 
         var $this = this;
 
-        $template.buildTemplate('home.side-list.container',{offers: this.offers, requests: this.requests},$('#side-list'),'html', function() {
+        $template.buildTemplate('home.side-list.container_hidden',{offers: this.offers, requests: this.requests},$('#side-list'),'html', function() {
             if (typeof callback === 'function') {
                 callback();
             } else {
@@ -106,10 +108,22 @@ var Search = function(mapObject) {
 
     this.showOffersList = function() {
         $(this.offersList).find('a').trigger('click');
+        $('.bt-active').removeClass('bt-active');
+        $('.show-offers').addClass('bt-active');
+        this.showItems('offers');
+        this.hideItems('requests');
     };
 
     this.showRequestsList = function() {
         $(this.requestsList).find('a').trigger('click');
+    };
+
+    this.selectOffer = function(placemark, offerKey, offerCollectionType) {
+
+        this.checkVisibleOrCenter(placemark);
+
+        this.loadItemInfo(offerCollectionType, offerKey);
+
     };
 
     this.bindEvents = function() {
@@ -127,6 +141,21 @@ var Search = function(mapObject) {
             $('.select-offer').removeClass('active');
             $this.showItems('offers');
             $this.hideItems('requests');
+        });
+
+        $(document).on('click','.search-switch', function(e) {
+            e.preventDefault();
+            var tmpThis = $(this);
+            if (tmpThis.hasClass('bt-active')) return false;
+            $('.bt-active').removeClass('bt-active');
+            tmpThis.addClass('bt-active');
+            if (tmpThis.hasClass('show-requests')) {
+                $this.hideItems('offers');
+                $this.showItems('requests');
+            } else {
+                $this.showItems('offers');
+                $this.hideItems('requests');
+            }
         });
 
         $(document).on('click','.select-offer',function(e){

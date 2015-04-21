@@ -53,6 +53,12 @@ var Map = function(geoConfig) {
         placemark.events.add('click', function(e){
             $('li[data-offer-id='+e.get('target').properties.get('key')+'][data-offer-type='+e.get('target').properties.get('collection')+']').trigger('click');
         });
+        //placemark.events.add('click', function(e){
+        //    e.preventDefault();
+        //    $this.resetCollectionPreset(collection);
+        //    //var placemark = $this.getPlacemarkFromCollection(collection, id);
+        //    placemark.options.set('preset', 'islands#redIcon');
+        //});
 
         this.collections[collection].add(placemark, id);
 

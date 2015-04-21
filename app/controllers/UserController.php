@@ -5,6 +5,8 @@
     class UserController extends BaseController
     {
 
+        protected $bodyClasses = ['enter', 'page-start'];
+
         public function getRegisterComplete()
         {
 //            if (URL::previous() != URL::route('registerGet')) {
