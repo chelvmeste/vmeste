@@ -8,3 +8,5 @@ composer.lock
 Thumbs.db
 .idea
 _ide_helper.php
+bower_components
+node_modules
