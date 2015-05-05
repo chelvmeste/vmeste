@@ -12,7 +12,9 @@
 
     </head>
 
-    <body class="{{ implode(' ', $bodyClasses) }}">
+    <body>
+
+
 
         <div id="main">
             @include('layouts.app.header')

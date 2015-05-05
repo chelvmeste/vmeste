@@ -1,6 +1,15 @@
-<div class="header">
-    <div class="all">
-        <div class="exit right">
+<header class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="logo">
+                <a href="{{ URL::route('homeGet') }}"><img src="{{ asset('assets/img/logo-min.png') }}" width="62" alt=""></a>
+                <div class="description">
+                    <span>«Вместе»</span>
+                    Все, что мы делаем, делаем вместе
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
             @if (Sentry::check())
                 <a href="{{ URL::route('profileGet', ['id' => Sentry::getUser()->getId()]) }}">{{ !empty(Sentry::getUser()->username) ? Sentry::getUser()->username : Sentry::getUser()->email }}</a>
                 <span> | </span>
@@ -13,12 +22,14 @@
                 <a href="{{ URL::route('loginGet') }}">{{ trans('global.header.login') }}</a>
             @endif
         </div>
+    </div>
+
+    <div class="all">
+        <div class="exit right">
+
+        </div>
         <div class="logo">
-            <a href="{{ URL::route('homeGet') }}"><img src="{{ asset('img/logo-min.png') }}" width="62" alt=""></a>
-            <div class="descript">
-                <span>«Вместе»</span>
-                Все, что мы делаем, делаем вместе
-            </div>
+
         </div>
         <div class="head-menu">
             <ul>
@@ -33,4 +44,5 @@
             </ul>
         </div>
     </div>
-</div>
+</header>
+
