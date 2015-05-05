@@ -115,16 +115,7 @@
         {
             $user = Sentry::getUser();
 
-            Assets::addCss(array(
-                'bootstrap-datetimepicker.min.css'
-            ));
-
             Assets::addJs(array(
-                'moment.js',
-                'moment.ru.js',
-                'bootstrap-datetimepicker.min.js',
-                'typeahead.bundle.js',
-//                'geocoder.js',
                 'user.edit-profile.js'
             ));
 

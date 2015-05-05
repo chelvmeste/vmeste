@@ -11,19 +11,8 @@
         {
             if (!Blind::isEnabled())
             {
-                Assets::addCss(array(
-                    'bootstrap-datetimepicker.min.css'
-                ));
-
                 Assets::addJs(array(
-                    'moment.js',
-                    'moment.ru.js',
-                    'bootstrap-datetimepicker.min.js',
-                    'mustache.js',
-                    'template.js',
                     '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-                    'map.js',
-                    'search.js',
                     'map.index.js'
                 ));
             }

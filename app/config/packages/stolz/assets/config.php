@@ -14,8 +14,8 @@ return array(
 	| Default for JS: 'js'
 	*/
 
-	'css_dir' => '/css',
-	'js_dir' => '/js',
+	'css_dir' => '/assets/css',
+	'js_dir' => '/assets/js',
 
 	/*
 	|--------------------------------------------------------------------------

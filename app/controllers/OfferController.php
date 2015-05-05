@@ -8,20 +8,7 @@ class OfferController extends BaseController {
      */
     public function getHelpRequestNew()
     {
-        if (!Blind::isEnabled())
-        {
-            Assets::addCss(array(
-                'bootstrap-datetimepicker.min.css'
-            ));
-
-            Assets::addJs(array(
-                'moment.js',
-                'moment.ru.js',
-                'bootstrap-datetimepicker.min.js'
-            ));
-        }
         Assets::addJs(array(
-            'typeahead.bundle.js',
             'offer.help-request.js'
         ));
 
@@ -44,20 +31,8 @@ class OfferController extends BaseController {
             return Redirect::route('helpOfferEditGet',['id'=>$offer->id]);
         }
 
-        if (!Blind::isEnabled())
-        {
-            Assets::addCss(array(
-                'bootstrap-datetimepicker.min.css'
-            ));
-            Assets::addJs(array(
-                'moment.js',
-                'moment.ru.js',
-                'bootstrap-datetimepicker.min.js',
-            ));
-        }
         Assets::addJs(array(
             'offer.help-offer.js',
-            'typeahead.bundle.js',
         ));
 
         $this->layout = View::make(Blind::isEnabled() ? 'app.offer.help-offer-new-blind' : 'app.offer.help-offer-new',array(
@@ -95,22 +70,7 @@ class OfferController extends BaseController {
             }
         }
 
-        if (!Blind::isEnabled())
-        {
-            Assets::addCss(array(
-                'bootstrap-datetimepicker.min.css'
-            ));
-
-            Assets::addJs(array(
-                'moment.js',
-                'moment.ru.js',
-                'bootstrap-datetimepicker.min.js',
-                'typeahead.bundle.js',
-                'offer.help-offer.js'
-            ));
-        }
         Assets::addJs(array(
-            'typeahead.bundle.js',
             'offer.help-offer.js'
         ));
 
@@ -144,20 +104,7 @@ class OfferController extends BaseController {
 
         $user = Sentry::findUserById($offer->user_id);
 
-        if (!Blind::isEnabled())
-        {
-            Assets::addCss(array(
-                'bootstrap-datetimepicker.min.css'
-            ));
-
-            Assets::addJs(array(
-                'moment.js',
-                'moment.ru.js',
-                'bootstrap-datetimepicker.min.js',
-            ));
-        }
         Assets::addJs(array(
-            'typeahead.bundle.js',
             'offer.help-request.js'
         ));
 
@@ -469,7 +416,6 @@ class OfferController extends BaseController {
         {
             Assets::addJs(array(
                 '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-                'map.js',
                 'offer.help-request-view.js'
             ));
         }
@@ -537,7 +483,6 @@ class OfferController extends BaseController {
         {
             Assets::addJs(array(
                 '//api-maps.yandex.ru/2.1/?lang=ru_RU',
-                'map.js',
                 'offer.help-offer-view.js'
             ));
         }

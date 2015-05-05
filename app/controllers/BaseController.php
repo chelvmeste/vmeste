@@ -25,30 +25,20 @@ class BaseController extends Controller {
         if (Blind::isEnabled())
         {
             Assets::addCss(array(
-                'bootstrap.css',
-                'nprogress.css',
-                'main.css',
+                'blind.css',
             ));
             Assets::addJs(array(
-                'jquery-1.11.1.js',
-                'bootstrap.js',
-                'nprogress.js',
+                'vendor.js',
                 'global.js',
             ));
         }
         else
         {
             Assets::addCss(array(
-                'bootstrap.css',
-                'style.css',
-                'datepickerUI.css',
-                'fonts/fonts.css',
+                'app.css',
             ));
             Assets::addJs(array(
-                'jquery-1.11.1.js',
-                'bootstrap.js',
-                'nprogress.js',
-                'selectbox.js',
+                'vendor.js',
                 'global.js',
             ));
         }

@@ -22,7 +22,15 @@ var blindLess = 'src/less/blind.less';
 var vendorJs = [
     'bower_components/jquery/dist/jquery.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
-    'src/js/vendor/**/*.js'
+    'src/js/vendor/moment.js',
+    'src/js/vendor/moment.ru.js',
+    'src/js/vendor/bootstrap-datetimepicker.min.js',
+    'src/js/vendor/nprogress.js',
+    'src/js/vendor/mustache.js',
+    'src/js/vendor/template.js',
+    'src/js/vendor/typeahead.bundle.js',
+    'src/js/vendor/map.js',
+    'src/js/vendor/search.js'
 ];
 // These files are for your app's JavaScript
 var appJS = [
@@ -86,12 +94,12 @@ gulp.task('less', function() {
 gulp.task('uglify', function() {
     // JavaScript
     return gulp.src(vendorJs)
-        .pipe(uglify({
-          beautify: true,
-          mangle: false
-        }).on('error', function(e) {
-          console.log(e);
-        }))
+        //.pipe(uglify({
+        //  beautify: true,
+        //  mangle: false
+        //}).on('error', function(e) {
+        //  console.log(e);
+        //}))
         .pipe(concat('vendor.js'))
         .pipe(gulp.dest('./public/assets/js/'));
 });
