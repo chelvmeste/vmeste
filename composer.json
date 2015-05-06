@@ -9,7 +9,7 @@
         "barryvdh/laravel-ide-helper": "1.*",
         "mrjuliuss/syntara": "1.2.*",
 		"stolz/assets": "0.0.*",
-        "jenssegers/date": "*",
+        "jenssegers/date": "2.0.21",
         "fadion/bouncy": "dev-master",
         "ruflin/elastica": "1.3.*",
 		"hotrush/tracker": "dev-master",
