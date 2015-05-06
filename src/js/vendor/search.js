@@ -108,8 +108,10 @@ var Search = function(mapObject) {
 
     this.showOffersList = function() {
         $(this.offersList).find('a').trigger('click');
-        $('.bt-active').removeClass('bt-active');
-        $('.show-offers').addClass('bt-active');
+        $('.show-requests').removeClass('active');
+        if (!$('.show-offers').hasClass('active')) {
+            $('.show-offers').addClass('active');
+        }
         this.showItems('offers');
         this.hideItems('requests');
     };
@@ -146,9 +148,9 @@ var Search = function(mapObject) {
         $(document).on('click','.search-switch', function(e) {
             e.preventDefault();
             var tmpThis = $(this);
-            if (tmpThis.hasClass('bt-active')) return false;
-            $('.bt-active').removeClass('bt-active');
-            tmpThis.addClass('bt-active');
+            if (tmpThis.hasClass('active')) return false;
+            $('.search-switch').removeClass('active');
+            tmpThis.addClass('active');
             if (tmpThis.hasClass('show-requests')) {
                 $this.hideItems('offers');
                 $this.showItems('requests');

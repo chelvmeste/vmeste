@@ -45,10 +45,12 @@ $(document).ready(function(){
 
     }
 
-    //if ($('.select').length) {
-    //
-    //    $('.select').selectbox();
-    //
-    //}
+    if ($('.js-select').length) {
+
+        $('.js-select').chosen({
+            disable_search_threshold: 10
+        });
+
+    }
 
 });

@@ -3,10 +3,10 @@
 
     @if(count($offerResponses) > 0)
 
-        <div class="appeals">
-            @foreach($offerResponses as $response)
-                <div class="appeal-message response-alert-{{ $response->id }}">
-                    <div class="left">
+        <div class="row">
+            <div class="col-lg-12">
+                @foreach($offerResponses as $response)
+                    <div class="alert alert-success response-alert-{{ $response->id }}">
                         @if ($response->offer_user_id === $currentUser->getId())
                             @if($response->offer_user_id === $response->initiator_user_id)
                                 {{-- 1 - я хочу помочь кому-то --}}
@@ -50,21 +50,14 @@
                                 ]) }}
                             @endif
                         @endif
-                        {{--<p><span class="name-on-map">Александр Граф</span> готов помочь .</p>
-                        <p>Адрес: <span class="adress">г. Челябинск Проспект Победы, 322</span></p>
-                        <p>Номер телефона <span class="phone-on-map">+2147483647</span></p>
-                        <p><a href="#">Страница в контакте</a></p>
-                        <p><a href="my-orders.html">Посмотреть заявку</a></p>--}}
+                        <div class="pull-right">
+                            <a href="#" class="btn btn-xs btn-success response-success" data-response-id="{{ $response->id }}">{{ trans('offer.response.helped') }}</a>
+                            <a href="#" class="btn btn-xs btn-danger response-cancel" data-response-id="{{ $response->id }}">{{ trans('offer.response.cancel') }}</a>
+                        </div>
                     </div>
-                    <div class="right">
-                        <button class="button button-green button-rounded response-success" data-response-id="{{ $response->id }}">{{ trans('offer.response.helped') }}</button>
-                        <button class="button button-red button-rounded response-cancel" data-response-id="{{ $response->id }}">{{ trans('offer.response.cancel') }}</button>
-                    </div>
-                    <div class="clear"></div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-
         <div class="modal fade" id="response-success-modal" tabindex="-1" role="dialog" aria-labelledby="response-success-modal-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -83,7 +76,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="response-cancel-modal" tabindex="-1" role="dialog" aria-labelledby="response-cancel-modal-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -101,11 +93,73 @@
                 </div>
             </div>
         </div>
-
     @endif
 
-    <div class="rotation">
-        <form class="form-inline" id="search-offers-form">
+    <form id="search-offers-form">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="gender">{{ trans('global.gender') }}</label>
+                    <div class="input-group full-width">
+                        <select name="gender" class="js-select offers-search-filter">
+                            <option value="any">{{ trans('global.any') }}</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="day">{{ trans('global.day') }}</label>
+                    <div class="input-group full-width">
+                        <select name="day" class="js-select offers-search-filter">
+                            <option value="any">{{ trans('global.any') }}</option>
+                            @for($i=1;$i<=7;$i++)
+                                <option value="day_{{ $i }}">{{ trans('global.days.'.$i) }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="time">{{ trans('global.time') }}</label>
+                    <div class="input-group full-width offer-time" id="offer-time">
+                        <input type="text" class="form-control offers-search-filter" name="time" id="time" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-time"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 text-center">
+                <a class="btn btn-warning active search-switch show-requests">
+                    Показать только нуждающихся
+                </a>
+            </div>
+            <div class="col-lg-6 text-center">
+                <a class="btn btn-warning search-switch show-offers">
+                    Показать только Добровольцев
+                </a>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="map" id="map"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div id="offer-info"></div>
+        </div>
+    </div>
+
+    {{--<div class="rotation">
+
             <div class="form-row text-justify">
                 <div class="form-inline third">
                     <label for="gender">{{ trans('global.gender') }}</label>
@@ -145,8 +199,8 @@
         </form>
         <div id="side-list"></div>
         <div class="map" id="map"></div>
-    </div> <!-- -end rotation -->
+    </div>
     <div class="clear"></div>
-    <div id="offer-info"></div>
+    <div id="offer-info"></div>--}}
 
 @stop

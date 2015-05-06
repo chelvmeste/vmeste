@@ -6789,9 +6789,19 @@ body {
 }
 body header {
   background: #e18d28;
-  padding: 15px 40px 15px;
+  padding: 15px 40px 0;
   box-sizing: border-box;
   min-height: 120px;
+  color: #ffffff;
+}
+body header a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-family: "Arial";
+  font-size: 1.2em;
+}
+body header a:hover {
+  color: #ffffff;
 }
 body header .logo {
   position: relative;
@@ -6813,6 +6823,35 @@ body header .logo .description {
 body header .logo .description span {
   font-size: 1.7em;
   display: block;
+}
+body header .usermenu {
+  text-align: right;
+  padding-right: 40px;
+}
+body header nav {
+  margin-top: 30px;
+}
+body header nav.navbar li.active {
+  border: 1px solid #000000;
+}
+body header nav.navbar li.active a {
+  padding: 8px;
+  text-decoration: none;
+}
+body .container.white {
+  background-color: #ffffff;
+}
+body .container .full-width {
+  width: 100%;
+}
+body footer {
+  background-color: #144354;
+  color: #ffffff;
+  font-size: 1.15em;
+  font-family: "Arial";
+}
+body footer .padding {
+  padding: 30px 40px;
 }
 #main-container {
   margin-top: 80px;

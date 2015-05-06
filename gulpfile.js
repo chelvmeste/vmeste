@@ -22,6 +22,7 @@ var blindLess = 'src/less/blind.less';
 var vendorJs = [
     'bower_components/jquery/dist/jquery.js',
     'bower_components/bootstrap/dist/js/bootstrap.js',
+    'bower_components/chosen/chosen.jquery.js',
     'src/js/vendor/moment.js',
     'src/js/vendor/moment.ru.js',
     'src/js/vendor/bootstrap-datetimepicker.min.js',

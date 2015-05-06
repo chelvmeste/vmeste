@@ -1,10 +1,7 @@
-<div class="footer">
-    <div class="all">
-        <div class="left">Проект «Вместе» <br>Все, что мы делаем, делаем вместе</div>
-        <div class="right">
-            Интернет-агентство Denfa:<br>
-            <a href="http://denfa.ru/sozdanie_sajtov.html">разработка сайтов</a>, <a href="http://denfa.ru/prodvizhenie_sajtov.html">продвижение сайтов</a>
+<footer class="container">
+    <div class="row">
+        <div class="col-lg-6 padding">
+            Проект «Вместе» <br>Все, что мы делаем, делаем вместе
         </div>
-        <div class="clear"></div>
     </div>
-</div>
+</footer>

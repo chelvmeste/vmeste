@@ -14,17 +14,13 @@
 
     <body>
 
+        @include('layouts.app.header')
 
-
-        <div id="main">
-            @include('layouts.app.header')
-            <div class="content">
-                <div class="all">
-                    @yield('content')
-                </div>
-            </div>
-            @include('layouts.app.footer')
+        <div class="container white">
+            @yield('content')
         </div>
+
+        @include('layouts.app.footer')
 
         {{--{{ Blind::getBlindSwitcher() }}--}}
 
