@@ -48,7 +48,7 @@ return array(
         'success' => 'Профиль успешно обновлен',
     ),
     'profile' => array(
-        'title' => 'Профиль пользователя :name',
+        'title' => 'Профиль',
     ),
     'available-after-contact' => 'Доступно после обращения',
 );

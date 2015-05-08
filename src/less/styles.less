@@ -95,19 +95,161 @@ body {
     }
 
     .container {
-
         &.white {
-
             background-color: #ffffff;
-
         }
-
         .full-width {
-
             width: 100%;
-
         }
+        #search-offers-form {
+            .form-group {
+                padding: 10px;
+            }
+            .padding {
+                padding-bottom: 30px;
+            }
+            .btn {
+                &.btn-warning {
+                    background-color: #000000;
+                    &.active {
+                        background-color: #e18d28;
+                    }
 
+                    &:hover {
+                        background-color: #e18d28;
+                        border: 1px solid #000000;
+
+                    }
+                }
+            }
+        }
+        .login-form {
+            margin-top: 100px;
+            margin-bottom: 100px;
+            border: 1px solid #c4c4c4;
+            padding: 0;
+            .title {
+                text-align: center;
+                background-color: #e18d28;
+                color: #ffffff;
+                padding: 10px 0;
+                font-size: 1.2em;
+            }
+            .form-group {
+                padding: 10px 0 0;
+                margin-bottom: 0;
+                label {
+                    font-family: "core_rhino_65_boldregular";
+                }
+                button[type=submit] {
+                    background: none;
+                    border: 0;
+                    text-decoration: underline;
+                    margin: 0 auto;
+                    cursor: pointer;
+                    font-family: "core_rhino_65_boldregular";
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+                &:last-child {
+                    padding-bottom: 10px;
+                }
+            }
+        }
+        .responses {
+            padding: 10px 0;
+            .alert {
+                padding: 14px;
+                font-weight: bold;
+                background: #D3D3D3;
+                -webkit-border-radius: 15px;
+                -moz-border-radius: 15px;
+                border-radius: 15px;
+                color: #000000;
+                .can-help-text {
+                    color: #ffff00;
+                }
+                a {
+                    text-decoration: underline;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+                .controls {
+                    margin-top: -50px;
+                    .btn {
+                        font-family: "Arial";
+                        font-size: 0.95em;
+                        padding: 15px;
+                        text-decoration: none;
+                        border-radius: 10px;
+                    }
+                }
+            }
+        }
+        .profile {
+            padding-left: 20px;
+            h3 {
+                a {
+                    margin-left: 20px;
+                    font-size: 16px;
+                    color: #b1b1b1;
+                    text-decoration: underline;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+            table {
+                font-size: 1.2em;
+                font-family: "Arial";
+                tr {
+                    td {
+                        &.name {
+                            font-size: 1.4em;
+                            line-height: 1em;
+                        }
+                        &:first-child {
+                            color: #b1b1b1;
+                            text-align: right;
+                        }
+                        &:last-child {
+
+                        }
+                    }
+                }
+            }
+        }
+        .edit-profile {
+            h3 {
+                a {
+                    margin-left: 20px;
+                    font-size: 16px;
+                    color: #b1b1b1;
+                    text-decoration: underline;
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+            .form-group {
+                label {
+                    text-align: right;
+                    line-height: 2.2em;
+                }
+            }
+            .btn {
+                &.btn-warning {
+                    background-color: #000000;
+                    &:hover {
+                        background-color: #e18d28;
+                        border: 1px solid #000000;
+
+                    }
+                }
+            }
+        }
     }
 
     footer {

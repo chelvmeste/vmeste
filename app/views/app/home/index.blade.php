@@ -3,7 +3,7 @@
 
     @if(count($offerResponses) > 0)
 
-        <div class="row">
+        <div class="row responses">
             <div class="col-lg-12">
                 @foreach($offerResponses as $response)
                     <div class="alert alert-success response-alert-{{ $response->id }}">
@@ -50,9 +50,9 @@
                                 ]) }}
                             @endif
                         @endif
-                        <div class="pull-right">
-                            <a href="#" class="btn btn-xs btn-success response-success" data-response-id="{{ $response->id }}">{{ trans('offer.response.helped') }}</a>
-                            <a href="#" class="btn btn-xs btn-danger response-cancel" data-response-id="{{ $response->id }}">{{ trans('offer.response.cancel') }}</a>
+                        <div class="pull-right controls">
+                            <a href="#" class="btn btn-lg btn-success response-success" data-response-id="{{ $response->id }}">{{ trans('offer.response.helped') }}</a>
+                            <a href="#" class="btn btn-lg btn-danger response-cancel" data-response-id="{{ $response->id }}">{{ trans('offer.response.cancel') }}</a>
                         </div>
                     </div>
                 @endforeach
@@ -103,8 +103,8 @@
                     <div class="input-group full-width">
                         <select name="gender" class="js-select offers-search-filter">
                             <option value="any">{{ trans('global.any') }}</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
                         </select>
                     </div>
                 </div>
@@ -135,12 +135,12 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 text-center">
+            <div class="col-lg-6 text-center padding">
                 <a class="btn btn-warning active search-switch show-requests">
                     Показать только нуждающихся
                 </a>
             </div>
-            <div class="col-lg-6 text-center">
+            <div class="col-lg-6 text-center padding">
                 <a class="btn btn-warning search-switch show-offers">
                     Показать только Добровольцев
                 </a>
