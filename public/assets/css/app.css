@@ -7377,6 +7377,12 @@ body footer {
 body footer .padding {
   padding: 30px 40px;
 }
+body ymaps table.table td {
+  padding: 3px;
+}
+body ymaps table.table .btn {
+  font-size: 10px;
+}
 #main-container {
   margin-top: 80px;
   margin-bottom: 100px;

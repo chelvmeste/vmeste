@@ -21,6 +21,15 @@ var Map = function(geoConfig) {
             maxZoom: 18
         });
 
+        // init layout
+        var layout = ymaps.templateLayoutFactory.createClass(
+            '<h3>$[properties.name]</h3>' +
+            '<p><strong>Адрес:</strong> $[properties.address]</p>' +
+            '<p>Обратиться</p>'
+        );
+
+        ymaps.layout.storage.add('vmeste#balloonLayout', layout);
+
     };
 
     this.resetCollection = function(collection) {

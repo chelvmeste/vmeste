@@ -42,7 +42,16 @@ var Search = function(mapObject) {
         }
 
         for (var i = 0; i < items.length; i++) {
-            this.mapObject.addPlacemarkToCollection(collection, i, items[i].user.address_latitude, items[i].user.address_longitude, this.selectOffer);
+            this.mapObject.addPlacemarkToCollection(
+                collection,
+                i,
+                items[i].user.address_latitude,
+                items[i].user.address_longitude,
+                {
+                    name: items[i].user.first_name + ' ' + items[i].user.last_name,
+                    address: items[i].user.address
+                }
+            );
         }
 
     };
@@ -177,8 +186,7 @@ var Search = function(mapObject) {
             placemark.options.set('preset', 'islands#redIcon');
 
             $this.checkVisibleOrCenter(placemark);
-
-            $this.loadItemInfo(offerCollectionType, offerKey);
+            $this.loadItemInfo(offerCollectionType, offerKey, placemark);
 
         });
 
@@ -226,7 +234,7 @@ var Search = function(mapObject) {
 
     };
 
-    this.loadItemInfo = function(collection, key) {
+    this.loadItemInfo = function(collection, key, placemark) {
 
         if (this.activeItemType === collection && this.activeItemKey === key) {
             console.log('Item already activated');
@@ -254,7 +262,12 @@ var Search = function(mapObject) {
             type: 'GET',
             success: function(data) {
                 if (typeof data.html !== 'undefined' && data.html !== '') {
-                    $('#offer-info').html(data.html);
+                    placemark.properties.set('balloonContentBody', data.html);
+                    placemark.properties.set('maxWidth', 600);
+                    placemark.properties.set('minWidth', 400);
+                    placemark.balloon.open();
+
+                    //$('#offer-info').html(data.html);
                 }
             }
         });

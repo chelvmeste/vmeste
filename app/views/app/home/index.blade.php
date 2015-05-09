@@ -145,6 +145,7 @@
                     Показать только Добровольцев
                 </a>
             </div>
+            <div id="side-list"></div>
         </div>
     </form>
     <div class="row">
