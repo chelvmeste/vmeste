@@ -37,10 +37,14 @@ return array(
     'remind' => array(
         'title' => 'Восстановление пароля',
         'submit' => 'Восстановить',
+        'email' => 'Ваш e-mail'
     ),
     'reset' => array(
         'title' => 'Сброс пароля',
         'submit' => 'Сохранить',
+        'email' => 'E-mail',
+        'password' => 'Пароль',
+        'password_confirmation' => 'Повторите пароль',
     ),
     'edit-profile' => array(
         'title' => 'Редактировать профиль',

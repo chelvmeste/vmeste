@@ -1,6 +1,6 @@
 <table class="table">
     <tr>
-        <td width="200"><strong>{{ trans('user.first_name') }}</strong></td>
+        <td width="200">{{ trans('user.first_name') }}</td>
         <td>
             @if(!empty($user->first_name))
                 {{ $user->first_name }} {{ $user->last_name }}
@@ -9,53 +9,53 @@
     </tr>
     @if($showContactInfo)
         <tr>
-            <td><strong>{{ trans('user.email') }}</strong></td>
+            <td>{{ trans('user.email') }}</td>
             <td>{{ $user->email }}</td>
         </tr>
         @if(!empty($user->vk_id))
             <tr>
-                <td><strong>{{ trans('user.vk_id') }}</strong></td>
+                <td>{{ trans('user.vk_id') }}</td>
                 <td><a href="http://vk.com/{{ $user->vk_id }}">{{ $user->vk_id }}</a></td>
             </tr>
         @endif
         @if(!empty($user->phone))
             <tr>
-                <td><strong>{{ trans('user.phone') }}</strong></td>
+                <td>{{ trans('user.phone') }}</td>
                 <td>+{{ $user->phone }}</td>
             </tr>
         @endif
     @else
         <tr>
-            <td><strong>{{ trans('user.email') }}</strong></td>
+            <td>{{ trans('user.email') }}</td>
             <td><i>{{ trans('user.available-after-contact') }}</i></td>
         </tr>
         @if(!empty($user->vk_id))
             <tr>
-                <td><strong>{{ trans('user.vk_id') }}</strong></td>
+                <td>{{ trans('user.vk_id') }}</td>
                 <td><i>{{ trans('user.available-after-contact') }}</i></td>
             </tr>
         @endif
         @if(!empty($user->phone))
             <tr>
-                <td><strong>{{ trans('user.phone') }}</strong></td>
+                <td>{{ trans('user.phone') }}</td>
                 <td><i>{{ trans('user.available-after-contact') }}</i></td>
             </tr>
         @endif
     @endif
     @if(in_array($user->gender,array('male','female')))
         <tr>
-            <td><strong>{{ trans('user.gender') }}</strong></td>
+            <td>{{ trans('user.gender') }}</td>
             <td>{{ trans('global.genders.'.$user->gender) }}</td>
         </tr>
     @endif
     @if($user->birthdate !== '0000-00-00')
         <tr>
-            <td><strong>{{ trans('user.birthdate') }}</strong></td>
+            <td>{{ trans('user.birthdate') }}</td>
             <td>{{ $user->birthdate }}</td>
         </tr>
     @endif
     <tr>
-        <td><strong>{{ trans('user.address') }}</strong></td>
+        <td>{{ trans('user.address') }}</td>
         <td>
             @if(!empty($user->address))
                 {{ $user->address }}
@@ -66,13 +66,13 @@
     </tr>
     @if(!empty($offer->time) && !empty($offer->date))
         <tr>
-            <td><strong>{{ trans('offer.help-request.date') }}</strong></td>
+            <td>{{ trans('offer.help-request.date') }}</td>
             <td>{{ Date::parse($offer->date.' '.$offer->time)->format('H:i d-m-Y') }}</td>
         </tr>
     @endif
     @if(!empty($offer->description))
         <tr>
-            <td><strong>{{ trans('offer.help-request.description') }}</strong></td>
+            <td>{{ trans('offer.help-request.description') }}</td>
             <td>{{ $offer->description }}</td>
         </tr>
     @endif

@@ -3,10 +3,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-6 col-md-offset-3">
 
                 <h3>{{ trans('user.remind.title') }}</h3>
-                <hr />
 
                 @if (Session::has('error'))
                     <div class="alert alert-danger">{{ Session::get('error') }}</div>
@@ -20,7 +19,9 @@
                         <label for="email">{{ trans('user.remind.email') }}:</label>
                         <input type="text" class="form-control" name="email" id="email">
                     </div>
-                    <button type="submit" class="btn btn-success">{{ trans('user.remind.submit') }}</button>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-warning">{{ trans('user.remind.submit') }}</button>
+                    </div>
                 </form>
 
             </div>

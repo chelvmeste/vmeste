@@ -113,7 +113,7 @@ class OfferController extends BaseController {
             'user' => $user,
             'offer' => $offer,
         ));
-        $this->layout->title = trans('offer.help-request.edit-title');
+        $this->layout->title = trans('offer.help-request.title');
 
     }
 
