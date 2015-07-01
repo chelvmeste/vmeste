@@ -163,7 +163,7 @@ use MrJuliuss\Syntara\Controllers\BaseController;
             );
 
             if (Request::ajax()) {
-                $html = View::make('',$datas)->render();
+                $html = View::make('admin.offers.requests-list',$datas)->render();
                 return Response::json(array('html'=>$html));
             }
 
