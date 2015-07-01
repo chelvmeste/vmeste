@@ -344,7 +344,7 @@ class OfferController extends BaseController {
     public function getHelpRequests()
     {
         $offers = Offer::where('type','=',Offer::HELP_REQUEST)->where('date','>',Date::now()->format('Y-m-d'))->with('user')->paginate(15);
-        $links = $offers->links();
+        $links = $offers->links('pagination');
         $this->layout = View::make('app.offer.help-requests', array(
             'offers' => $offers,
             'links' => $links,
@@ -358,7 +358,7 @@ class OfferController extends BaseController {
     public function getHelpOffers()
     {
         $offers = Offer::where('type','=',Offer::HELP_OFFER)->with(['user','days'])->paginate(15);
-        $links = $offers->links();
+        $links = $offers->links('pagination');
         $this->layout = View::make('app.offer.help-offers', array(
             'offers' => $offers,
             'links' => $links,

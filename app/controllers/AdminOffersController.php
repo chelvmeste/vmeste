@@ -8,7 +8,7 @@ use MrJuliuss\Syntara\Controllers\BaseController;
         {
 
             $offers = Offer::where('type','=',Offer::HELP_OFFER)->paginate(Config::get('syntara::config.item-perge-page'));
-            $links = $offers->links('pagination::slider');
+            $links = $offers->links();
 
             $datas = array(
                 'offers' => $offers,
