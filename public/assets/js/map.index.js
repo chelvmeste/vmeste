@@ -9,7 +9,7 @@ $(document).ready(function(){
         search.bindEvents();
         search.loadItems().then(function(){
             search.buildSideList();
-            search.showItems('requests');
+            search.showItems('offers');
         });
 
     });

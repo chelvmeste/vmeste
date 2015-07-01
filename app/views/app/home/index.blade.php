@@ -96,7 +96,7 @@
     @endif
 
     <form id="search-offers-form">
-        <div class="row">
+        <div class="row filters-container">
             <div class="col-lg-4">
                 <div class="form-group">
                     <label for="gender">{{ trans('global.gender') }}</label>
@@ -134,14 +134,14 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row switchers-container">
             <div class="col-lg-6 text-center padding">
-                <a class="btn btn-warning active search-switch show-requests">
-                    Показать только нуждающихся
+                <a class="btn btn-warning search-switch show-requests">
+                    Показать заявки на помощь
                 </a>
             </div>
             <div class="col-lg-6 text-center padding">
-                <a class="btn btn-warning search-switch show-offers">
+                <a class="btn btn-warning active search-switch show-offers">
                     Показать только Добровольцев
                 </a>
             </div>

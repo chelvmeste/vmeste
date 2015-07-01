@@ -61,6 +61,16 @@ var Search = function(mapObject) {
         this.mapObject.renderCollection(type, false);
         this.mapObject.setCenter();
 
+        if (type === 'offers') {
+
+            $('.filters-container').slideDown();
+
+        } else {
+
+            $('.filters-container').slideUp();
+
+        }
+
     };
 
     this.hideItems = function(type) {
@@ -77,7 +87,7 @@ var Search = function(mapObject) {
             if (typeof callback === 'function') {
                 callback();
             } else {
-                $this.showItems('requests');
+                $this.showItems('offers');
             }
         },{
             offerItem: 'home.side-list.offer-item',

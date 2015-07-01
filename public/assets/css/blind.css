@@ -6844,6 +6844,9 @@ body .container.white {
 body .container .full-width {
   width: 100%;
 }
+body .container .switchers-container {
+  margin-top: 15px;
+}
 body .container #search-offers-form .form-group {
   padding: 10px;
 }
