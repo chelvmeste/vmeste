@@ -260,6 +260,21 @@ use MrJuliuss\Syntara\Controllers\BaseController;
 
         }
 
+        public function deleteAdminRequest($id)
+        {
+
+            try {
+
+                Offer::destroy($id);
+
+                return Response::json(array('deleted' => true, 'message' => trans('admin.deleted'), 'messageType' => 'success'));
+
+            } catch (Exception $e) {
+                return Response::json(array('deleted' => false, 'message' => $e->getMessage(), 'messageType' => 'danger'));
+            }
+
+        }
+
         public function getResponses()
         {
 
