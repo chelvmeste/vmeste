@@ -42,7 +42,7 @@
                     <li{{ Route::currentRouteName() == 'helpRequestNewGet' ? ' class="active"' : '' }}><a href="{{ URL::route('helpRequestNewGet') }}">{{ trans('global.header.help-request') }}</a></li>
                     <li{{ Route::currentRouteName() == 'helpOfferNewGet' ? ' class="active"' : '' }}><a href="{{ URL::route('helpOfferNewGet') }}">{{ trans('global.header.help-offer') }}</a></li>
                     <li{{ Route::currentRouteName() == 'helpRequestsGet' ? ' class="active"' : '' }}><a href="{{ URL::route('helpRequestsGet') }}">{{ trans('global.header.help-requests') }}</a></li>
-                    <li{{ Route::currentRouteName() == 'helpOffersGet' ? ' class="active"' : '' }}><a href="{{ URL::route('helpOffersGet') }}">{{ trans('global.header.help-offers') }}</a></li>
+                    {{--<li{{ Route::currentRouteName() == 'helpOffersGet' ? ' class="active"' : '' }}><a href="{{ URL::route('helpOffersGet') }}">{{ trans('global.header.help-offers') }}</a></li>--}}
                 </ul>
             </div>
         </div>
