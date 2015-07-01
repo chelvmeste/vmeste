@@ -30,8 +30,8 @@
                 @endif
             </td>
             <td class="col-lg-1">{{ Date::parse($response->created_at)->format('Y-m-d H:i') }}</td>
-            <td class="col-lg-2"><a href="{{ URL::route('showUser', ['id' => $response->offerUser->id]) }}"{{ $response->offerUser->id == $response->initiator_user_id ? ' style="font-weight: bold;"' : '' }}>{{ $response->offerUser->first_name }} {{ $response->offerUser->last_name }}</a></td>
             <td class="col-lg-2"><a href="{{ URL::route('showUser', ['id' => $response->requestUser->id]) }}"{{ $response->requestUser->id == $response->initiator_user_id ? ' style="font-weight: bold;"' : '' }}>{{ $response->requestUser->first_name }} {{ $response->requestUser->last_name }}</a></td>
+            <td class="col-lg-2"><a href="{{ URL::route('showUser', ['id' => $response->offerUser->id]) }}"{{ $response->offerUser->id == $response->initiator_user_id ? ' style="font-weight: bold;"' : '' }}>{{ $response->offerUser->first_name }} {{ $response->offerUser->last_name }}</a></td>
             <td class="col-lg-1"><a href="{{ URL::route('showAdminRequest', ['id' => $response->request_id]) }}">{{ trans('admin.view') }}</a></td>
             <td class="col-lg-2" style="text-align: center;">
                 <a href="{{ URL::route('showAdminResponse',['id'=>$response->id]) }}">{{ trans('admin.view') }}</a>
