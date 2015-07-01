@@ -8,7 +8,7 @@ use MrJuliuss\Syntara\Controllers\BaseController;
         {
 
             $offers = Offer::where('type','=',Offer::HELP_OFFER)->paginate(Config::get('syntara::config.item-perge-page'));
-            $links = $offers->links();
+            $links = $offers->links('pagination::slider');
 
             $datas = array(
                 'offers' => $offers,
@@ -16,7 +16,7 @@ use MrJuliuss\Syntara\Controllers\BaseController;
             );
 
             if (Request::ajax()) {
-                $html = View::make('',$datas)->render();
+                $html = View::make('admin.offers.offers-list',$datas)->render();
                 return Response::json(array('html'=>$html));
             }
 
