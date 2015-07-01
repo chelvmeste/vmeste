@@ -27,6 +27,7 @@ $env = $app->detectEnvironment(array(
 
 	'vagrant' => array('packer-virtualbox-iso'),
 	'dev' => array('vm93632.local'), // staging flops server
+    'docker' => array('0c5cb6ec1f19'),
 
 ));
 

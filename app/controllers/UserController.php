@@ -66,7 +66,7 @@
                 );
 
                 // send email
-                Mail::queue(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
+                Mail::send(Config::get('syntara::mails.user-activation-view'), $data, function($message) use ($user) {
                     $message->from(Config::get('syntara::mails.email'), Config::get('syntara::mails.contact'))
                         ->subject(Config::get('syntara::mails.user-activation-object'));
                     $message->to($user->getLogin());
